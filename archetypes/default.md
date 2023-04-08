@@ -4,9 +4,7 @@ date: {{ .Date }}
 lastmod: {{ .Date }}
 draft: false
 tags:
-- 
 categories:
-- 
 ---
 
 

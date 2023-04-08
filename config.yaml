@@ -129,15 +129,10 @@ menus:
       pageref: /
       pre: home
       weight: 1
-    - identifier: archives
-      name: 归档
-      pageref: /archives
-      pre: archive
-      weight: 2
     - identifier: categories
       name: 分类
       pageref: /categories
-      pre: th
+      pre: categorie
       weight: 3
     - identifier: tags
       name: 标签
