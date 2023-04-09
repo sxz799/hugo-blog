@@ -30,26 +30,26 @@
 <i class="fa fa-external-link-alt"></i></a>
 <a href=https://odcn.top/ title=https://odcn.top/ rel="noopener external nofollow noreferrer" target=_blank class=exturl>https://odcn.top/
 <i class="fa fa-external-link-alt"></i></a></p><h1 id=lede软路由下使用>LEDE软路由下使用</h1><h2 id=第一步-lede酷软中心安装docker插件>第一步 LEDE酷软中心安装Docker插件</h2><p>这里不多解释，直接安装即可</p><h2 id=第二步-配置docker插件>第二步 配置Docker插件</h2><p>按照下图的设置即可
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190330142552.png width=600px></p><h2 id=第三步-下载相关镜像>第三步 下载相关镜像</h2><p>在注册表页搜索相关镜像即可，如下图为百度云下载
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190330143001.png width=600px></p><h2 id=第四步-创建容器>第四步 创建容器</h2><p>在镜像页选择已经下载的镜像创建即可。
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190330143146.png width=600px>
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190330142552.png width=600px></p><h2 id=第三步-下载相关镜像>第三步 下载相关镜像</h2><p>在注册表页搜索相关镜像即可，如下图为百度云下载
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190330143001.png width=600px></p><h2 id=第四步-创建容器>第四步 创建容器</h2><p>在镜像页选择已经下载的镜像创建即可。
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190330143146.png width=600px>
 在这里对容器进行相关配置，注意端口，和容器中给定的相同最好
 下面这一张图就能看明白端口和目录的设置了
 简单来说就是端口号正确且不与lede其他程序冲突就可以进入后台
 地址正确才能保证文件下载到你指定的位置
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190330151403.png width=600px>
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190330151403.png width=600px>
 然后点击创建即可</p><h2 id=进入web页面查看安装情况>进入Web页面查看安装情况</h2><p>启动成功后就可以通过下面的链接进入web页面了
 http://你的路由器ip:5299 //这里的5299就是配置容器时的端口，尽量和dockerhub的相同。如果不同应该是进不去相关页面的
 使用自己的百度账号登录即可，然后点击右上角的设置
 注意这里的目录，不要修改使用默认即可
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190330144619.png width=600px>
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190330144816.png width=600px></p><h1 id=群辉下使用-更新内容>群辉下使用 （更新内容）</h1><h2 id=第一步-群辉套件中心安装docker插件>第一步 群辉套件中心安装Docker插件</h2><p>不多解释</p><h2 id=第二步-下载镜像>第二步 下载镜像</h2><p>在注册表搜索<code>baidu</code>下载下图中的镜像
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/201903301111111.png width=600px></p><h2 id=第三步-配置镜像>第三步 配置镜像</h2><p>按照下图配置即可，配置完成后会自动启动容器
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190330222222.png width=600px>
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190330144619.png width=600px>
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190330144816.png width=600px></p><h1 id=群辉下使用-更新内容>群辉下使用 （更新内容）</h1><h2 id=第一步-群辉套件中心安装docker插件>第一步 群辉套件中心安装Docker插件</h2><p>不多解释</p><h2 id=第二步-下载镜像>第二步 下载镜像</h2><p>在注册表搜索<code>baidu</code>下载下图中的镜像
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/201903301111111.png width=600px></p><h2 id=第三步-配置镜像>第三步 配置镜像</h2><p>按照下图配置即可，配置完成后会自动启动容器
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190330222222.png width=600px>
 配置下载路径
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190330333333.png width=600px>
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190330333333.png width=600px>
 配置端口
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190330444444.png width=600px></p><h2 id=第四步-打开web管理页面>第四步 打开Web管理页面</h2><p>浏览器输入 <code>&lt;你的IP>:5299</code> 进入web页面</p><h2 id=解决百度云限速>解决百度云限速</h2><p>web的设置页面修改appid为</p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:1;-o-tab-size:1;tab-size:1><code class=language-fallback data-lang=fallback><span style=display:flex><span>265486 
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190330444444.png width=600px></p><h2 id=第四步-打开web管理页面>第四步 打开Web管理页面</h2><p>浏览器输入 <code>&lt;你的IP>:5299</code> 进入web页面</p><h2 id=解决百度云限速>解决百度云限速</h2><p>web的设置页面修改appid为</p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:1;-o-tab-size:1;tab-size:1><code class=language-fallback data-lang=fallback><span style=display:flex><span>265486 
 </span></span></code></pre></div><p>默认工作目录修改为</p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:1;-o-tab-size:1;tab-size:1><code class=language-fallback data-lang=fallback><span style=display:flex><span>/apps/baidu_shurufa 
 </span></span></code></pre></div><p>百度输入法不限速，所以修改为输入法的id 而默认工作目录就是登陆页面后所展现的目录
 把要下载的文件移动到/apps/baidu_shurufa 下载即可

@@ -12,4 +12,4 @@ categories:
 C:\ProgramData⁩\Microsoft⁩\Windows Defender⁩\Scans⁩\History⁩\Service⁩\DetectionHistory⁩
 ProgramData⁩十个隐藏目录，查看隐藏目录也很简单，鼠标点两下就可以。
 
-<img src="https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190623204037.png" width="600px" />
+<img src="https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190623204037.png" width="600px" />

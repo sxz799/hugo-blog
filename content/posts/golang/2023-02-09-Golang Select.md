@@ -49,7 +49,7 @@ golang 的 select 就是监听 IO 操作，当 IO 操作发生时，触发相应
 ## 示例
 
 只能用于信道的操作
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202302/202302091115011.png)
+![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202302/202302091115011.png)
 
 ## select的特性场景
 
@@ -230,6 +230,6 @@ func main()  {
 }
 ```
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202302/202302091132277.png)
+![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202302/202302091132277.png)
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202302/202302091132405.png)
+![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202302/202302091132405.png)

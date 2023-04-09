@@ -57,7 +57,7 @@
 </span></span><span style=display:flex><span>cap<span>：</span> <span style=color:#666>7168</span>
 </span></span><span style=display:flex><span>cap<span>：</span> <span style=color:#666>9216</span>
 </span></span><span style=display:flex><span>cap<span>：</span> <span style=color:#666>12288</span>
-</span></span></code></pre></div><p>一开始确实成指数上涨，每次double，但是512以后变不是1024，而变成了848。</p><p>看一下slice.go的更新日志 发现在2021年9月8日有一个更新记录</p><p><img src=/imgs/img-lazy-loading.gif data-src=https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202302/202302281515437.png alt></p><p>此处可以发现扩容机制发生了变化</p><h3 id=源码>源码</h3><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:1;-o-tab-size:1;tab-size:1><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#080;font-style:italic>// growslice allocates new backing store for a slice.
+</span></span></code></pre></div><p>一开始确实成指数上涨，每次double，但是512以后变不是1024，而变成了848。</p><p>看一下slice.go的更新日志 发现在2021年9月8日有一个更新记录</p><p><img src=/imgs/img-lazy-loading.gif data-src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202302/202302281515437.png alt></p><p>此处可以发现扩容机制发生了变化</p><h3 id=源码>源码</h3><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:1;-o-tab-size:1;tab-size:1><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#080;font-style:italic>// growslice allocates new backing store for a slice.
 </span></span></span><span style=display:flex><span><span style=color:#080;font-style:italic>//
 </span></span></span><span style=display:flex><span><span style=color:#080;font-style:italic>// arguments:
 </span></span></span><span style=display:flex><span><span style=color:#080;font-style:italic>//

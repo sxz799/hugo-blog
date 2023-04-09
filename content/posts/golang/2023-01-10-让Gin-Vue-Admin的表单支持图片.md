@@ -16,13 +16,13 @@ tags:
 
 如下图所示
 
-![](https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/202301/202301132327144.png)
+![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202301/202301132327144.png)
 
 ## 数据列表部分
 
 代码前后对比
 
-![](https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/202301/202301132330514.png)
+![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202301/202301132330514.png)
 
 需要导入`CustonPic`模块
 
@@ -32,7 +32,7 @@ import CustomPic from '@/components/customPic/index.vue'
 
 效果图
 
-![](https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/202301/202301132332131.png)
+![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202301/202301132332131.png)
 
 ## 表单部分
 
@@ -40,11 +40,11 @@ import CustomPic from '@/components/customPic/index.vue'
 
 页面效果
 
-![](https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/202301/202301132332345.png)
+![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202301/202301132332345.png)
 
 代码前后对比
 
-![](https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/202301/202301132334540.png)
+![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202301/202301132334540.png)
 
 需要定义和导入和修改的东西比较多
 

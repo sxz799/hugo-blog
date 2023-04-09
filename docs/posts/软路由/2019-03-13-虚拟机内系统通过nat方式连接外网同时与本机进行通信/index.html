@@ -22,18 +22,18 @@
 <span class=post-meta-item title=评论><span class=post-meta-item-icon><i class="far fa-comments"></i></span>
 <span class=post-meta-item-text>评论：</span>
 <span class=waline-comment-count data-path=/posts/%E8%BD%AF%E8%B7%AF%E7%94%B1/2019-03-13-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E7%B3%BB%E7%BB%9F%E9%80%9A%E8%BF%87nat%E6%96%B9%E5%BC%8F%E8%BF%9E%E6%8E%A5%E5%A4%96%E7%BD%91%E5%90%8C%E6%97%B6%E4%B8%8E%E6%9C%AC%E6%9C%BA%E8%BF%9B%E8%A1%8C%E9%80%9A%E4%BF%A1/><i class="fa fa-sync fa-spin"></i></span></span></div></div></header><div class=post-body itemprop=articleBody><h1 id=前言>前言</h1><p>就在今天下午上课的时候突然发现自己好久没有写blog了，可能最近学习太忙，也可能最近没啥好写的。今天上课的时候有同学问到我关于虚拟机系统连接外网的问题，所以打算写这么一篇blog，也算加深一下自己的印象吧。</p><p>自求学以来，实验课用到的虚拟机软件都是VMware，相信大部分人对这个软件也不陌生，除了这个就是win10自带的Hyper-V虚拟机了.这里就简单的写一下VMware用NAT方式连接外网。</p><h2 id=第一步-配置vmware的虚拟网络编辑器>第一步 配置VMware的虚拟网络编辑器</h2><p>① 在VMware的菜单栏中点击编辑，在弹出的菜单中选择虚拟网络编辑器，在弹出的窗口中点击更改设置，可能会提示需要管理员权限，确定即可。
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190313230606.png width=600px>
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190313230606.png width=600px>
 ② 在新弹出的界面中点击VMware8 这是VMware默认的nat模式，可以用这个默认的网络，也可以新建一个，这里没有什么区别。选中该网络后修改配置为图中的配置。下方的子网网段可自己定义。没有什么影响，只要不和上面的网络冲突即可（建议使用默认的）。然后点击图中的NAT设置，网关可以修改，建议使用默认，并记住这个网关。
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190313230623.png width=600px>
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190313230623.png width=600px>
 ③ 设置虚拟机网卡为VMware8 NAT模式，这个就很简单了，根据图中的步骤来即可。到这里VMware的设计就完成了。
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190313230929.png width=600px>
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190313230938.png width=600px></p><h2 id=第二步-修改虚拟机系统的网络连接设置>第二步 修改虚拟机系统的网络连接设置</h2><p>这一步非常简单，因为大家用的系统不一样，设置界面也不尽相同，这里以centos7系统为例，简单介绍一下。这里的IP地址不是固定的只要在同一网段内即可。但是网关地址一定是上一步中nat设置中的网关地址。完成这一步虚拟机应该就可以连接外网使用百度了。
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190313231100.png width=600px>
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190313231107.png width=600px></p><h2 id=三-建立虚拟机与宿主机的连接>三 建立虚拟机与宿主机的连接。</h2><p>此时虚拟机虽然可以连接外网，但并不能和宿主机进行通信，也就是说此时的宿主机并不能ping通虚拟机的ip。想要建立连接也很简单。只需要设置一下网络适配器中的VMware Network Adapter VMnet8 网卡的ip和子网掩码即可。
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190313231137.png width=600px>
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190313231145.png width=600px></p><p>注：如果是学校的机房，或者用过脚本优化的电脑可能开机后不会启动VMware的一些必要的服务，可以手动开启。详见下图
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190320191922.png>
-<img src=https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2019/20190320191944.png width=600px></p><p>//2019年03月20日19:25:10 更新
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190313230929.png width=600px>
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190313230938.png width=600px></p><h2 id=第二步-修改虚拟机系统的网络连接设置>第二步 修改虚拟机系统的网络连接设置</h2><p>这一步非常简单，因为大家用的系统不一样，设置界面也不尽相同，这里以centos7系统为例，简单介绍一下。这里的IP地址不是固定的只要在同一网段内即可。但是网关地址一定是上一步中nat设置中的网关地址。完成这一步虚拟机应该就可以连接外网使用百度了。
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190313231100.png width=600px>
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190313231107.png width=600px></p><h2 id=三-建立虚拟机与宿主机的连接>三 建立虚拟机与宿主机的连接。</h2><p>此时虚拟机虽然可以连接外网，但并不能和宿主机进行通信，也就是说此时的宿主机并不能ping通虚拟机的ip。想要建立连接也很简单。只需要设置一下网络适配器中的VMware Network Adapter VMnet8 网卡的ip和子网掩码即可。
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190313231137.png width=600px>
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190313231145.png width=600px></p><p>注：如果是学校的机房，或者用过脚本优化的电脑可能开机后不会启动VMware的一些必要的服务，可以手动开启。详见下图
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190320191922.png>
+<img src=https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2019/20190320191944.png width=600px></p><p>//2019年03月20日19:25:10 更新
 转载注明出处 谢谢</p></div><footer class=post-footer><div class=post-tags><a href=/tags/%e5%ad%a6%e4%b9%a0>学习</a></div><div class=addthis_inline_share_toolbox style=text-align:center></div><hr><div class=reward-container><div><i class="fa-solid fa-mug-hot"></i>请我喝杯咖啡吧 ヾ(^▽^*)))</div><button>赞赏</button><div class=post-reward><div class=post-reward-item><img src=/imgs/img-lazy-loading.gif data-src=https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202303/202303021531496.png alt="青丝蘸白雪i - 支付宝">
 <span>支付宝</span></div><div class=post-reward-item><img src=/imgs/img-lazy-loading.gif data-src=https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202303/202303021532231.png alt="青丝蘸白雪i - 微信">
 <span>微信</span></div></div></div><div class=post-copyright><img src=/imgs/cc/cc.svg width=75 height=75 align=right><ul><li class=post-copyright-title><strong>文章标题：</strong>

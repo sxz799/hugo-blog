@@ -12,13 +12,13 @@ tags:
 ## 启用Valine评论系统
 1.注册[LeanCloud](https://www.leancloud.cn/)
 2.进入控制台创建应用
-![](https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2020/20200222164722.png)
+![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2020/20200222164722.png)
 3.点击应用-设置-安全中心-Web安全域名，填入你的域名
-![](https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2020/20200222164900.png)
+![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2020/20200222164900.png)
 4.点击应用-设置-应用Keys找到AppID、AppKey
-![](https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2020/20200222165006.png)
+![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2020/20200222165006.png)
 5.找到hexo目录内主题文件夹（每个人都不同，我的是next）的_config.yml文件找到Valine，大概在633行附近，修改对应值
-![](https://raw.githubusercontent.com/sxzhi799/blog_tuchuang/main/img/2020/20200222165320.png)
+![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/2020/20200222165320.png)
 6.hexo三连就可以在文章页面看到评论系统了。
 ## 启用启用Valine评论系统
 原作者的教程很详细了，这里就不简单搬运了，记录一下我遇到的一下小问题吧。
