@@ -188,10 +188,10 @@ params:
   # 不同尺寸站点图标
   # Different size of favicon
   favicon:
-    icon: https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202303/202303021449705.jpg
-    small: https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202303/202303021449705.jpg
-    medium: https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202303/202303021449705.jpg
-    appleTouchIcon: https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202303/202303021449705.jpg
+    icon: https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202304/IMG_0681.PNG
+    small: https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202304/IMG_0681.PNG
+    medium: https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202304/IMG_0681.PNG
+    appleTouchIcon: https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202304/IMG_0681.PNG
 
   # 自定义 Logo （目前只支持 Mist 页面模式）
   # Custom Logo (Warning: Only support scheme Mist)
@@ -286,7 +286,7 @@ params:
   avatar:
     # 设置显示头像的相对路径
     # Replace the default image and set the url here.
-    url: https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202303/202303021449705.jpg
+    url: https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202304/IMG_0681.PNG
     # 开启头像的圆形显示效果
     # If true, the avatar will be displayed in circle.
     rounded: true
