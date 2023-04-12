@@ -54,11 +54,11 @@ type SysDictionaryDetail struct {
 
 文件位置: `resource/autocode_template/web/form.vue.tpl`
 
-![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202301/202301132326963.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202301/202301132326963.png)
 
 文件位置: `resource/autocode_template/web/table.vue.tpl`
 
-![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202301/202301132326364.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202301/202301132326364.png)
 
 ## 前端部分
 1. 修改字典配置页，字典值改为string

@@ -20,23 +20,23 @@ hackintool软件 [下载地址](https://github.com/headkaze/Hackintool/releases)
 ## 正式开始
 ### 第一步 打开hackintool软件并切换到显示器页
 
-![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202209/202209132317669.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202209/202209132317669.png)
 
 ### 第二步 根据显示器真实分辨率选择配置
 * 4k显示器
 
-![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202209/202209132318541.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202209/202209132318541.png)
 
 * 2k显示器
 
-![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202209/202209132319359.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202209/202209132319359.png)
 
 
 操作完成后会在桌面出现这三个文件及一个目录,我们需要的就是这一个一DisplayVender-xxxx的目录
 
-![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202209/202209132320165.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202209/202209132320165.png)
 
-![](https://cdn.jsdelivr.net/gh/sxz799/tuchuang-blog/img/202209/202209132320000.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202209/202209132320000.png)
 
 ### 第三步 将目录放到指定文件夹内重启即可
 我用的是macos12.5系统
