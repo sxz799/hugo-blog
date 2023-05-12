@@ -1,10 +1,12 @@
 ---
-title: "2023 05 12 Github拉取代码时提示kex_exchange_identification解决方案"
+title: "Github拉取代码时提示kex_exchange_identification解决方案"
 date: 2023-05-12T19:58:41+08:00
 lastmod: 2023-05-12T19:58:41+08:00
 draft: false
 tags:
+- github
 categories:
+- 技巧
 ---
 
 最近在github上拉取和推送代码时经常报`kex_exchange_identification`的错误,但是更换手机热点后就可以正常推代码,查了一下发现可能是梯子的问题，这里记录一下搜到的解决方案。
