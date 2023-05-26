@@ -43,6 +43,8 @@ categories:
 
 或者直接点击[https://github.com/hunshcn/gh-proxy/blob/master/index.js](https://github.com/hunshcn/gh-proxy/blob/master/index.js)
 
+![](https://gh.sxz799.online/https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251554200.png)
+
 ![](https://gh.sxz799.online/https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251525908.png)
 
 ![](https://gh.sxz799.online/https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251530944.png)
@@ -161,5 +163,6 @@ categories:
 https://gh.xxxyyy.com/https://raw.githubusercontent.com/githubUser/repName/main
 ```
 
-其中`gh.xxxyyy.com`替换为前文提到的低值
+`gh.xxxyyy.com`替换为前文提到的地址
+
 `githubUser/repName/main` 替换为你的github用户名及图床仓库名和分支名
