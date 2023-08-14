@@ -4,7 +4,9 @@ date: 2023-08-14T10:17:14+08:00
 lastmod: 2023-08-14T10:17:14+08:00
 draft: false
 tags:
+- golang
 categories:
+- goalng
 ---
 
 
