@@ -1,3 +1,4 @@
+{{ $limit := .Site.Params.localSearch.limit | default 1000 }}
 {{ printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\" ?>" | safeHTML }}
 <search>
   {{range where .Site.RegularPages "Kind" "page"}}
@@ -5,14 +6,14 @@
     <title>{{ .Title }}</title>
     <url>{{ .RelPermalink | relLangURL }}</url>
     <categories>
-      {{- range .Params.categories }}<category>{{ . }}</category>{{- end }}
+      {{ range .Params.categories }}<category>{{ . }}</category>{{ end }}
     </categories>
     <tags>
-      {{- range .Params.tags }}
+      {{ range .Params.tags }}
       <tag>{{ . }}</tag>
-      {{- end }}
+      {{ end }}
     </tags>
-    <content type="html"><![CDATA[{{ .Content | plainify }}]]></content>
+    <content type="html"><![CDATA[ {{ if gt .WordCount $limit }} {{ .Plain | truncate $limit }} {{ else }} {{ .Plain }} {{ end }} ]]></content>
   </entry>
   {{ end }}
 </search>

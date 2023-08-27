@@ -7,7 +7,7 @@
   <script type="text/javascript" src="{{ $pluginJS }}" defer></script>
 {{ end }}
 
-<script class="next-config" data-name="main" type="application/json">{{ .Scratch.Get "config" -}}</script>
+<script class="next-config" data-name="main" type="application/json">{{ .Scratch.Get "config" }}</script>
 
 {{/* Core scripts */}}
 {{ $config := resources.Get "js/config.js" }}
@@ -49,7 +49,7 @@
 {{ if isset .Site.Params "waline" }}
 {{ $walinejs := resources.Get "js/third-party/comments/waline.js" }}
 {{ $nextjs = $nextjs | append $walinejs }}
-{{ if or .Site.Params.waline.pageView .Site.Params.waline.comment }}
+{{ if or .Site.Params.postMeta.views.enable .Site.Params.postMeta.comments.enable }}
   {{ $counterjs := resources.Get "js/third-party/others/counter.js" }}
   {{ $nextjs = $nextjs | append $counterjs }}
   {{ end }}
@@ -82,7 +82,7 @@
 {{ end }}
 
 {{/* Other not useful scripts, eg: 51la widget, translate */}}
-{{ with .Site.Params.siteState.statistic }}
+{{ with .Site.Params.siteState.views }}
   {{ if and .enable (eq .plugin "51la") }}
     {{ $lawt := resources.Get "js/third-party/others/lawidget.js" }}
     {{ $nextjs = $nextjs | append $lawt }}

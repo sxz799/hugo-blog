@@ -5,8 +5,9 @@ PublicFile-Server
 &lt;/a>的前端相关内容。&lt;/p>
 &lt;p>突然发现在iPhone上级上传文件的时候直接打开了相机，而在安卓手机上就可以选择相机或者文件。&lt;/p>
 &lt;p>搜索后发现只需要添加&lt;code>:capture=&amp;quot;null&amp;quot;&lt;/code>即可。
-代码如下：&lt;/p></description></item><item><title>Gin+Vue前后端分离整合部署，不再需要nginx服务器</title><link>https://b.sxz799.fun/posts/%E6%8A%80%E5%B7%A7/2022-09-26-gin-vue%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E6%95%B4%E5%90%88%E9%83%A8%E7%BD%B2%E4%B8%8D%E5%86%8D%E9%9C%80%E8%A6%81nginx%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Mon, 26 Sep 2022 19:46:33 +0000</pubDate><guid>https://b.sxz799.fun/posts/%E6%8A%80%E5%B7%A7/2022-09-26-gin-vue%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E6%95%B4%E5%90%88%E9%83%A8%E7%BD%B2%E4%B8%8D%E5%86%8D%E9%9C%80%E8%A6%81nginx%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>最近在学前端，写了两个很小的项目
+代码如下：&lt;/p></description></item><item><title>Gin+Vue前后端分离整合部署，不再需要nginx服务器</title><link>https://b.sxz799.fun/posts/%E6%8A%80%E5%B7%A7/2022-09-26-gin-vue%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E6%95%B4%E5%90%88%E9%83%A8%E7%BD%B2%E4%B8%8D%E5%86%8D%E9%9C%80%E8%A6%81nginx%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Mon, 26 Sep 2022 19:46:33 +0000</pubDate><guid>https://b.sxz799.fun/posts/%E6%8A%80%E5%B7%A7/2022-09-26-gin-vue%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E6%95%B4%E5%90%88%E9%83%A8%E7%BD%B2%E4%B8%8D%E5%86%8D%E9%9C%80%E8%A6%81nginx%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;h2 id="前言">前言
+&lt;a class="header-anchor" href="#%e5%89%8d%e8%a8%80">&lt;/a>
+&lt;/h2>&lt;p>最近在学前端，写了两个很小的项目
 &lt;a href="https://github.com/sxz799/PublicFile-Server" title="PublicFile-Server" rel="noopener external nofollow noreferrer" target="_blank" class=" exturl">
 PublicFile-Server
 &lt;i class="fa fa-external-link-alt">&lt;/i>
