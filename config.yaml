@@ -55,7 +55,7 @@ markup:
     lineNumbersInTable: false
     noClasses: true
     noHl: false
-    style: emacs
+    style: github-dark
     tabWidth: 1
   tableOfContents:
     # 开始/结束标题级别：1-6 (建议从2开始)
@@ -164,7 +164,7 @@ params:
   yearFormat: "2006"
   monthFormat: "01-02"
   dateFormat: "2006-01-02"
-  timeFormat: "2006-01-02T15:04:05-07:00"
+  timeFormat: "2006-01-02 15:04:05"
 
   # 页面模式
   # Schemes
@@ -430,7 +430,7 @@ params:
     # 站点支持供应商列表
     # Vendors list who support website. 
     vendors:
-      enable: false
+      enable: true
       # 支持说明
       # Some support information description.
       title: 提供CDN/云资源支持
@@ -442,13 +442,6 @@ params:
             url: /imgs/vendors/vercel.svg
             width: 50
           link: https://vercel.com
-        - name: 又拍云
-          image: 
-            url: /imgs/vendors/upyun.png
-            width: 43
-          link: https://upyun.com
-        - name: Webify
-          link: https://webify.cloudbase.net
 
 
   # ---------------------------------------------------------------
@@ -619,7 +612,7 @@ params:
   bookmark:
     # 开启书签功能
     # If true, will display bookmark in all page.
-    enable: true
+    enable: false
     # 自定义书签显示颜色
     # Customize the color of the bookmark.
     color: "#222"

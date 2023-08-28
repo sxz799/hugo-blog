@@ -7,17 +7,17 @@ gin-vue-admin
 gin-vue-admin
 &lt;i class="fa fa-external-link-alt">&lt;/i>
 &lt;/a>开发平台，发现在配置字典时，字典值只能使用int，不能使用string，这样就会导致后期做报表开发时，查看数据库内容时容易摸不到头脑，所以准备改一下源码，使其字典值支持string！&lt;/p></description></item><item><title>Golang中函数返回值注意点</title><link>https://b.sxz799.fun/posts/golang/2022-12-09-golang%E4%B8%AD%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC%E6%B3%A8%E6%84%8F%E7%82%B9/</link><pubDate>Fri, 09 Dec 2022 16:20:32 +0000</pubDate><guid>https://b.sxz799.fun/posts/golang/2022-12-09-golang%E4%B8%AD%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC%E6%B3%A8%E6%84%8F%E7%82%B9/</guid><description>&lt;p>Go语言函数返回值又两种方法，如下代码：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:1;-o-tab-size:1;tab-size:1;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a2f;font-weight:bold">func&lt;/span> &lt;span style="color:#00a000">GoReturn1&lt;/span>() &lt;span style="color:#0b0;font-weight:bold">int&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> a &lt;span style="color:#666">:=&lt;/span> &lt;span style="color:#666">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a2f;font-weight:bold">return&lt;/span> a
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:1;-o-tab-size:1;tab-size:1;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff7b72">func&lt;/span> &lt;span style="color:#d2a8ff;font-weight:bold">GoReturn1&lt;/span>() &lt;span style="color:#ff7b72">int&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> a &lt;span style="color:#ff7b72;font-weight:bold">:=&lt;/span> &lt;span style="color:#a5d6ff">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff7b72">return&lt;/span> a
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a2f;font-weight:bold">func&lt;/span> &lt;span style="color:#00a000">GoReturn2&lt;/span>() (a &lt;span style="color:#0b0;font-weight:bold">int&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> a = &lt;span style="color:#666">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a2f;font-weight:bold">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff7b72">func&lt;/span> &lt;span style="color:#d2a8ff;font-weight:bold">GoReturn2&lt;/span>() (a &lt;span style="color:#ff7b72">int&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> a = &lt;span style="color:#a5d6ff">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff7b72">return&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a2f;font-weight:bold">func&lt;/span> &lt;span style="color:#00a000">main&lt;/span>() {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> fmt.&lt;span style="color:#00a000">Println&lt;/span>(&lt;span style="color:#b44">&amp;#34;返回值1：&amp;#34;&lt;/span>, &lt;span style="color:#00a000">GoReturn1&lt;/span>())
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> fmt.&lt;span style="color:#00a000">Println&lt;/span>(&lt;span style="color:#b44">&amp;#34;返回值2：&amp;#34;&lt;/span>, &lt;span style="color:#00a000">GoReturn2&lt;/span>())
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff7b72">func&lt;/span> &lt;span style="color:#d2a8ff;font-weight:bold">main&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> fmt.&lt;span style="color:#d2a8ff;font-weight:bold">Println&lt;/span>(&lt;span style="color:#a5d6ff">&amp;#34;返回值1：&amp;#34;&lt;/span>, &lt;span style="color:#d2a8ff;font-weight:bold">GoReturn1&lt;/span>())
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> fmt.&lt;span style="color:#d2a8ff;font-weight:bold">Println&lt;/span>(&lt;span style="color:#a5d6ff">&amp;#34;返回值2：&amp;#34;&lt;/span>, &lt;span style="color:#d2a8ff;font-weight:bold">GoReturn2&lt;/span>())
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Golang泛型学习笔记</title><link>https://b.sxz799.fun/posts/golang/2022-12-09-golang%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link><pubDate>Fri, 09 Dec 2022 10:49:28 +0000</pubDate><guid>https://b.sxz799.fun/posts/golang/2022-12-09-golang%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid><description>&lt;h2 id="什么是泛型">什么是泛型？
 &lt;a class="header-anchor" href="#%e4%bb%80%e4%b9%88%e6%98%af%e6%b3%9b%e5%9e%8b">&lt;/a>
