@@ -72,7 +72,7 @@ categories:
 ```js
 // ==UserScript==
 // @name         github-加速下载
-// @namespace    https://b.sxz799.fun/
+// @namespace    https://blog.sxz799.xyz/
 // @version      1.0
 // @description  github-加速下载
 // @author       sxz799

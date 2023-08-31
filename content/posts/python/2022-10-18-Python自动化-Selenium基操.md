@@ -50,7 +50,7 @@ browser.get(url)
 time.sleep(1)
 
 searchText = browser.find_element(By.XPATH, '//*[@id="kw"]')
-searchText.send_keys("b.sxz799.fun")
+searchText.send_keys("blog.sxz799.xyz")
 
 time.sleep(2)
 
@@ -62,7 +62,7 @@ browser.quit() #10秒后退出浏览器
 
 ```
 
-运行后的效果为打开浏览器并搜索`b.sxz799.fun`
+运行后的效果为打开浏览器并搜索`blog.sxz799.xyz`
 
 大致流程就是获取html中的元素并进行操作。
 

@@ -12,7 +12,7 @@
 # publishDir : docs
 # 站点域名，比如： https://hugo-next.eu.org
 # Website domain, eg: https://hugo-next.eu.org
-baseURL: https://b.sxz799.fun/
+baseURL: https://blog.sxz799.xyz/
 # 站点标题
 # Website title
 title: 青丝蘸白雪i
@@ -826,7 +826,7 @@ params:
     reaction: true
     reactionText: [ '点赞', '踩一下', '得意', '不屑', '尴尬', '睡觉']
     reactionTitle: "你认为这篇文章怎么样？"
-    serverURL: https://waline.sxz799.fun/
+    serverURL: https://waline.sxz799.xyz/
 
   # Artalk 评论插件
   # 更多配置信息请参考：https://artalk.js.org
