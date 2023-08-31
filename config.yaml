@@ -304,7 +304,7 @@ params:
       # 组件类型，可选值为： 51la, busuanzi
       # 使用51la时需要注册账号：https://invite.51.la/
       # Plguin value is: 51la, busuanzi
-      plugin: busuanzi
+      plugin: 51la
 
   # 社交链接地址
   # 用法： `Key: 名称 || 链接地址 || 图标`
@@ -929,7 +929,7 @@ params:
     # 更多信息请参考：https://invite.51.la/1NUfGTS1?target=V6
     # 51La Analytics
     # See: https://invite.51.la/1NUfGTS1?target=V6 
-    #laId: #<anaytics_id> 
+    laId: KAyJ2DmRa6VjDeQj
     # 百度统计
     # Baidu Analytics
     #baidu: #<anaytics_id>
@@ -939,10 +939,10 @@ params:
     # 不蒜子统计
     # Show Views / Visitors of the website / page with busuanzi.
     # For more information: http://ibruce.info/2015/04/04/busuanzi/
-    busuanzi:
-      visitorsIcon: fa fa-user
-      viewsIcon: fa fa-eye
-      postViews: true
+    #busuanzi:
+      #visitorsIcon: fa fa-user
+      #viewsIcon: fa fa-eye
+      #postViews: true
 
 
   # ---------------------------------------------------------------
