@@ -3,10 +3,10 @@
 &lt;el-table v-if=&#34;refreshTable&#34; v-loading=&#34;loading&#34; :data=&#34;deptList&#34; row-key=&#34;deptId&#34; :default-expand-all=&#34;isExpandAll&#34; :tree-props=&#34;{children: &#39;children&#39;, hasChildren: &#39;hasChildren&#39;}&#34; &gt; 开启后的配置
 &lt;el-table v-if=&#34;refreshTable&#34; v-loading=&#34;loading&#34; :data=&#34;deptList&#34; row-key=&#34;deptId&#34; lazy :load=&#34;load&#34; :default-expand-all=&#34;isExpandAll&#34; :tree-props=&#34;{children: &#39;children&#39;, hasChildren: &#39;hasChildren&#39;}&#34; &gt; 显然，lazy是开启懒加载功能 ,load是加载数据的方法
 二、添加load方法 async load(node, treeNode, resolve) { let params = {parentId: node.deptId,status:this.queryParams.status} await listDept(params).then(response =&gt; { let tData = this.handleTree(response.data, &#34;deptId&#34;); tData.forEach(t=&gt;{ t.hasChildren = true; }) node.children=tData resolve(tData) }); }, 三、添加initList方法来代替getList created() { this.initList(); }, methods: { ..... initList(){ this.loading = true; listDept(this.queryParams).then(response =&gt; { this.deptList = this.handleTree(response.data, &#34;deptId&#34;); this.deptList.forEach(d=&gt;{ d.children=null d.hasChildren = true; }) this.loading = false; }); }, ..... } 之所以会卡死就是因为初始化时渲染的节点太多，这里获取到节点并处理为树节点后将第一层的节点的children设置为null并设置配置每一个节点都有孩子节点
-四、后续问题 这样处理后就会出现一些问题，但是不影响使用
+四、修改handleQuery方法 旧的 handleQuery() { this.getList(); }, 新的 handleQuery() { this.queryParams.deptName===undefined || this.queryParams.deptName===null ? this.initList() : this.getList() }, 五、后续问题 这样处理后就会出现一些问题，但是不影响使用
 1.展开/折叠 功能失效,需要删除相关功能
 2.每一个节点都是默认有孩子节点,但实际有没有需要点开才知道
-五、用户列表优化 在若依的用户管理页面左侧是有部门树的,部门数量多的时候,这里也会出现假死的情况,可以添加配置解决问题。这里不需要配置懒加载。 优化前：
+六、用户列表优化 在若依的用户管理页面左侧是有部门树的,部门数量多的时候,这里也会出现假死的情况,可以添加配置解决问题。这里不需要配置懒加载。 优化前：
 &lt;el-tree :data=&#34;deptOptions&#34; :props=&#34;defaultProps&#34; :expand-on-click-node=&#34;false&#34; :filter-node-method=&#34;filterNode&#34; ref=&#34;tree&#34; node-key=&#34;id&#34; default-expand-all highlight-current @node-click=&#34;handleNodeClick&#34; /&gt; 优化后：
 &lt;el-tree :data=&#34;deptOptions&#34; :props=&#34;defaultProps&#34; render-after-expand :expand-on-click-node=&#34;true&#34; :filter-node-method=&#34;filterNode&#34; ref=&#34;tree&#34; node-key=&#34;id&#34; :default-expand-all=&#34;false&#34; highlight-current @node-click=&#34;handleNodeClick&#34; /&gt; 1.开启点击节点展开列表 :expand-on-click-node=&quot;true&quot; 官网说明:是否在点击节点的时候展开或者收缩节点， 默认值为 true，如果为 false，则只有点箭头图标的时候才会展开或者收缩节点。
 2.开启第一次展开某个树节点后才渲染其子节点 render-after-expand
