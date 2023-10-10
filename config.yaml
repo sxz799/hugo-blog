@@ -15,7 +15,10 @@
 # publishDir : docs
 
 
-baseURL: https://blog.sxz799.online/
+#baseURL: https://blog.sxz799.online/
+
+#relativeURLs : true
+#uglyURLs : true
 # 站点标题
 # Website title
 title: 青丝蘸白雪i
