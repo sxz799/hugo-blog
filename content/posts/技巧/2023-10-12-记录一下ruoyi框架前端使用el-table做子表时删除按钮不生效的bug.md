@@ -10,46 +10,13 @@ categories:
 - 技巧
 ---
 
-遇到一个跟奇怪的bug,ruoyi框架前端使用el-table做子表时删除按钮不生效,但是删除后再保存,删除掉的记录并不会存入数据库,所以分析应该是页面渲染的问题。而且只有在新建表单时才会这样。
+遇到一个奇怪的bug,ruoyi框架前端使用el-table做子表时删除按钮不生效,但是删除后再保存,删除掉的记录并不会存入数据库,所以分析应该是页面渲染的问题。而且只有在新建表单时才会这样。
 
 <!--more-->
 全部代码
 ```html
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="姓名" prop="name">
-        <el-input
-          v-model="queryParams.name"
-          placeholder="请输入姓名"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="年龄" prop="age">
-        <el-input
-          v-model="queryParams.age"
-          placeholder="请输入年龄"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="性别" prop="sex">
-        <el-select v-model="queryParams.sex" placeholder="请选择性别" clearable>
-          <el-option
-            v-for="dict in dict.type.sys_user_sex"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-      </el-form-item>
-    </el-form>
-
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
@@ -252,7 +219,6 @@ export default {
     },
     // 表单重置
     reset() {
-      console.log(this.form.bookList)
       this.form = {
         id: null,
         name: null,
@@ -260,7 +226,6 @@ export default {
         sex: null,
       };
       this.form.bookList=[];
-      console.log(this.form.bookList)
       this.resetForm("form");
     },
     /** 搜索按钮操作 */
@@ -291,6 +256,7 @@ export default {
       const id = row.id || this.ids
       getStudent(id).then(response => {
         this.form = response.data;
+        console.log(this.form.bookList)
         // this.bookList = response.data.bookList;
         this.open = true;
         this.title = "修改学生";
@@ -366,7 +332,6 @@ export default {
 
 ```
 
-
 User: 我会给你两份代码 帮我解释这两个代码的不同之处 如果你明白了 就回复请发送第一份代码
 
 GPT: 当然，我可以帮你解释两份代码的不同之处。请发送第一份代码，然后我会分析并解释其不同之处。
@@ -425,7 +390,7 @@ form: {
 ```
 GPT: 理解了，你的代码中定义了一个 form 对象，其中包含一个名为 bookList 的空数组。然后，你之前提供的两份代码都是用于重置这个 form 对象的一部分。在这种情况下，第一份和第二份代码都是等效的，因为它们都将 bookList 数组重置为空数组，只是实现方式略有不同。你可以选择使用其中任何一份代码来完成这个任务，取决于你的代码风格和偏好。
 
-User: 为什么第二种代码会导致数组缺失 `ob: Observer` 属性
+User: 为什么第二种代码会导致数组缺失 `__ob__: Observer` 属性
 
 GPT:
 
