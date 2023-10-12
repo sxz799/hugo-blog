@@ -1,6 +1,6 @@
 #rm -rf docs/ # 删除旧的文件
-rm -rf public/ # 删除旧的文件
-hugo --gc #编译出新文件
+#rm -rf public/ # 删除旧的文件
+#hugo --gc #编译出新文件
 
 #echo 'blog.sxz799.xyz' > public/CNAME ## 如果配置的域名就加上这个
 
