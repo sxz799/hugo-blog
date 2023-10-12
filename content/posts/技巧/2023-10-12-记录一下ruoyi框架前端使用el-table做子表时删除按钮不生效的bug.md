@@ -1,10 +1,13 @@
 ---
-title: "记录一下ruoyi框架前端使用el-table做子表时删除按钮不生效的bug"
+title: "记录一下ruoyi框架前端子表时删除按钮不生效的bug"
 date: 2023-10-12T22:00:07+08:00
 lastmod: 2023-10-12T22:00:07+08:00
 draft: false
 tags:
+- vue
+- ruoyi
 categories:
+- 技巧
 ---
 
 遇到一个跟奇怪的bug,ruoyi框架前端使用el-table做子表时删除按钮不生效,但是删除后再保存,删除掉的记录并不会存入数据库,所以分析应该是页面渲染的问题。而且只有在新建表单时才会这样。
