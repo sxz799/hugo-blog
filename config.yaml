@@ -29,7 +29,7 @@ languageCode: zh-CN
 hasCJKLanguage: true
 # 每页显示文章数量
 # Display items per page
-paginate: 6
+paginate: 10
 # 开启支持表情符号
 # Enable Emoji support
 enableEmoji: true
@@ -505,10 +505,10 @@ params:
     enable: true
     # 是否开启捐赠方式的动画效果
     # If true, the donate type title will with animation.
-    animation: true
+    animation: false
     # 捐赠信息的描述，支持 HTML 语法
     # Comment for donate and suppport HTML syntax
-    comment: '<i class="fa-solid fa-mug-hot"></i>请我喝杯咖啡吧 ヾ(^▽^*)))'
+    comment: '<i class="fa-solid fa-mug-hot"></i>酱香拿铁来一杯？ ヾ(^▽^*)))'
     # 捐赠方式
     # 用例： `名称:图像地址`
     # Donate type
