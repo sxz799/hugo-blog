@@ -461,5 +461,53 @@ uploadImg() {
 通过上面的代码我们发现在获取用户信息的头像时,还是拼接了VUE_APP_BASE_API,去掉之后就正常了！
 
 
+## 再次优化
+
+我们按照上面的修改方式，数据库里会存储minio文件服务器的地址，这样如果文件服务器的IP发生了变化，就要修改数据库。过程就会很繁琐，所以可以优化一下，让数据库里只存文件名
+
+### 后端部分
+文件位置：`com/ruoyi/common/utils/file/FileUploadUtils.java`
+
+```java
+    private static final String uploadMinino(String bucketName, MultipartFile file, String[] allowedExtension)
+            throws FileSizeLimitExceededException, IOException, FileNameLengthLimitExceededException,
+            InvalidExtensionException
+    {
+        int fileNamelength = file.getOriginalFilename().length();
+        if (fileNamelength > FileUploadUtils.DEFAULT_FILE_NAME_LENGTH)
+        {
+            throw new FileNameLengthLimitExceededException(FileUploadUtils.DEFAULT_FILE_NAME_LENGTH);
+        }
+        assertAllowed(file, allowedExtension);
+        try
+        {
+            String fileName = extractFilename(file);
+            String pathFileName = MinioUtil.uploadFile(bucketName, fileName, file);
+//          return pathFileName; //注释这里
+            return fileName; //直接返回文件名,这样数据库里就只存文件名
+        }
+        catch (Exception e)
+        {
+            throw new IOException(e.getMessage(), e);
+        }
+    }
+
+```
+
+### 前端部分
+
+文件位置：`.env`
+
+```
+VUE_APP_MINIO_URL = 'http://127.0.0.1:9000/ruoyi/'  //添加文件服务器地址及桶名称
+```
+
+其他要改的地方  
+之前url将baseUrl从`process.env.VUE_APP_BASE_API`修改为`""`  
+现在需要将`process.env.VUE_APP_BASE_API`修改为`process.env.VUE_APP_MINIO_URL`  
+
+
+
+
 
 
