@@ -12,6 +12,8 @@ categories:
 
 google在前段时间发布了gemini大模型，目前中号的gemini-pro已经免费开放使用,只需要申请api即可。但是目前在国内还是有一定的使用门槛的，所以写这篇日志来记录下如果流程使用gemini模型。
 
+[项目地址](https://github.com/sxz799/gemini2chatgpt)
+
 <!--more-->
 
 ## 前提条件
