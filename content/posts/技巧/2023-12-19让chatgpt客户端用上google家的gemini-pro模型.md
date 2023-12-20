@@ -10,7 +10,7 @@ categories:
 - 技巧
 ---
 
-google在前段时间发布了gemini大模型，目前中号的gemini-pro已经免费开放使用,只需要申请api即可。但是目前在国内还是有一定的使用门槛的，所以写这篇日志来记录下如果流程使用gemini模型。
+google在前段时间发布了gemini大模型，目前中号的gemini-pro已经免费开放使用,只需要申请api即可。但是目前在国内还是有一定的使用门槛的，所以写这篇日志来记录下如何流程使用gemini模型。
 
 [项目地址](https://github.com/sxz799/gemini2chatgpt)
 
@@ -22,7 +22,7 @@ google在前段时间发布了gemini大模型，目前中号的gemini-pro已经�
 2. 科学上网环境(准备阶段使用)
 3. github账号(非必要,如果有的话，可以给我点个star)
 
-## 第一步、申请gemini模型API
+## 第一步 申请gemini模型API
 
 [申请地址:https://ai.google.dev/?hl=zh-cn](https://ai.google.dev/?hl=zh-cn)
 
@@ -31,12 +31,12 @@ google在前段时间发布了gemini大模型，目前中号的gemini-pro已经�
 点击后需要你登录谷歌账号，就不在截图展示了
 
 进入Google AI Studio后 点击 `Get Api key`  
-再点击 `Create API key in new project`
+再点击 `Create API key in new project` ,复制保存生成的API key 备用
 ![](https://gh.sxz799.online/https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/12/19/20231219111414.png)
 
-复制保存生成的API key 备用
 
-## 第二步、使用Render构建API转换接口
+
+## 第二步 使用Render构建API转换接口
 
 [Render:https://dashboard.render.com/](https://dashboard.render.com/)
 
@@ -64,17 +64,23 @@ google在前段时间发布了gemini大模型，目前中号的gemini-pro已经�
 ![](https://gh.sxz799.online/https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/12/19/20231219113633.png)
 
 耐心等待几分钟，让项目部署起来。等出现了Live标志项目就部署好了，这时复制左上角的网址，这个就是gemini的接口地址了。
-打开后会出现部署成功的提示。
+打开连接后出现部署成功就说明成功了。
 
 ![](https://gh.sxz799.online/https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/12/19/20231219113608.png)
 
 
-## 第三部、在支持chatgpt的应用中使用
+## 第三步 在支持chatgpt的应用中使用
 
 在chat-next-web中使用
 
 ![](https://gh.sxz799.online/https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/12/19/20231219122819.png)
 
+![](https://gh.sxz799.online/https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/12/20/20231220143710.png)
+
+
+## 备注
+
+由于Render免费容器,在没有访问请求的时候会自动暂停,所以你需要一个定时任务来唤醒render.频率设置在5分钟一次即可。
 
 
 
