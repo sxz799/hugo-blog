@@ -1,5 +1,5 @@
 ---
-title: "About Me"
+title: "简历"
 description: "About Me。"
 date: 2022-06-09T20:12:52+08:00
 lastmod: 2022-06-09T20:12:52+08:00
@@ -22,9 +22,9 @@ url: about.html
 
 ### 掌握技能
 - 编程语言: Golang、Java
-- Web开发: Vue 、Gin 、Mybatis
+- Web开发: Vue 、Gin
 - 数据库管理: MySQL 、Oracle 、Redis
-- 版本控制: Git 、CI/CD [Github Action]
+- 版本控制: Git 
 
 ### 工作经历
 **银座集团，济南，开发工程师，2022.3-Now**
@@ -41,6 +41,12 @@ url: about.html
 **项目名称: [物业平台系统]**
 - 项目背景: 集团各区域门店及总部的物业相关业务数字化管理
 
+**项目名称: surveyX
+开源项目，使用gin和vue实现的问卷调查系统。
+
+### 教育经历
+
+- 曲阜师范大学
 
 ### 关于我
 
