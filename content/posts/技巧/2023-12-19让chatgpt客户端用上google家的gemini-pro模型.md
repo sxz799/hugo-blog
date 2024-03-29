@@ -38,6 +38,8 @@ google在前段时间发布了gemini大模型，目前中号的gemini-pro已经�
 
 ## 第二步 使用Render构建API转换接口
 
+### 旧方案(已收费)
+
 [Render:https://dashboard.render.com/](https://dashboard.render.com/)
 
 使用google账号或者github账号登录(也可以用邮箱登录),登录后进入控制台
@@ -68,6 +70,10 @@ google在前段时间发布了gemini大模型，目前中号的gemini-pro已经�
 
 ![](https://gh.sxz799.online/https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/12/19/20231219113608.png)
 
+### 新方案
+
+render账号绑定github后fork[项目](https://github.com/sxz799/gemini2chatgpt)  
+创建web Service时从仓库中选择，这样就又出现免费选项了
 
 ## 第三步 在支持chatgpt的应用中使用
 
