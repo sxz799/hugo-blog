@@ -11,11 +11,11 @@ categories:
 
 ## 前言
 
-最近在学前端，写了两个很小的项目
-[PublicFile-Server](https://github.com/sxz799/PublicFile-Server)、[PublicClipboard-Server-NoDB](https://github.com/sxz799/PublicClipboard-Server-NoDB)
+最近在学前端，写了个很小的项目
+[fileshare-go](https://github.com/sxz799/fileshare-go)
 <!--more-->
-两个项目都是前后端分离,分别用到了antdesignvue和elementUI。
-两个都是单页面项目，如果用前后端分离去部署的话实在是麻烦。
+前后端分离,分别用到了antdesignvue和elementUI。
+单页面项目，如果用前后端分离去部署的话实在是麻烦。
 
 Gin框架自带了静态文件服务,所以只需要简单修改代码即可实现前后端整合，当然开发的时候前后端仍然是分离的。
 

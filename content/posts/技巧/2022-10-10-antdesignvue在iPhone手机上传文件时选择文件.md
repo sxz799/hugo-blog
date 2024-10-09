@@ -12,7 +12,7 @@ categories:
 
 ---
 
-还是这个项目[PublicFile-Server](https://github.com/sxz799/PublicFile-Server)的前端相关内容。
+还是这个项目[fileshare-go](https://github.com/sxz799/fileshare-go)的前端相关内容。
 
 突然发现在iPhone上级上传文件的时候直接打开了相机，而在安卓手机上就可以选择相机或者文件。
 
