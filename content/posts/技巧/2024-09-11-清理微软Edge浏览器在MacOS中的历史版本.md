@@ -16,11 +16,11 @@ categories:
 
 # 1
 ```
-/Applications/Microsoft Edge.app/Contents/Frameworks/Microsoft Edge Framework.framework/Versions
+open "/Applications/Microsoft Edge.app/Contents/Frameworks/Microsoft Edge Framework.framework/Versions"
 ```
 
 # 2 
 ```
-/Users/${username}/Library/Application Support/Microsoft/EdgeUpdater/apps/msedge-stable
-/Users/${username}/Library/Application Support/Microsoft/EdgeUpdater/apps/msedge-updater
+open "/Users/$(whoami)/Library/Application Support/Microsoft/EdgeUpdater/apps/msedge-stable"
+open "/Users/$(whoami)/Library/Application Support/Microsoft/EdgeUpdater/apps/msedge-updater"
 ```
