@@ -13,10 +13,10 @@ categories:
 
 最近在学前端，写了个很小的项目
 [fileshare-go](https://github.com/sxz799/fileshare-go)
-<!--more-->
+
 前后端分离,分别用到了antdesignvue和elementUI。
 单页面项目，如果用前后端分离去部署的话实在是麻烦。
-
+<!--more-->
 Gin框架自带了静态文件服务,所以只需要简单修改代码即可实现前后端整合，当然开发的时候前后端仍然是分离的。
 
 ## 修改前端
