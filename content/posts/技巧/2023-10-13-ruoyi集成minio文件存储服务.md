@@ -301,7 +301,7 @@ public AjaxResult uploadFileMinio(MultipartFile file) throws Exception
 
 全局替换`common/upload`为`common/uploadMinio`
 
-![](https://gh.sxz799.online/https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202310/202310132356622.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202310/202310132356622.png)
 
 
 上传问题进行测试,文件成功存储在minio服务器内!
