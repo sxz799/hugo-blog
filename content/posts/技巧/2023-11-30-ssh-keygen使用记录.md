@@ -21,3 +21,14 @@ cat ~/.ssh/id_rsa.pub
 ```
 
 
+如果出现错误提示`kex_exchange_identification: Connection closed by remote`  
+解决方案:
+~/.ssh/config 文件（没有就新增）
+
+```
+Host github.com
+    HostName ssh.github.com
+    User git
+    Port 443
+
+```
