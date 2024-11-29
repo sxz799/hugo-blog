@@ -28,6 +28,7 @@ cat ~/.ssh/id_rsa.pub
 ```
 Host github.com
     HostName ssh.github.com
+    # ProxyCommand nc -X 5 -x 127.0.0.1:7890 %h %p ## 配置使用socks5代理连接
     User git
     Port 443
 
