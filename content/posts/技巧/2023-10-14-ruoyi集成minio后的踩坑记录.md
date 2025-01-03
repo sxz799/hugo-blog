@@ -21,13 +21,13 @@ categories:
 
 上传图片后文件确实存到了minio里但是预览界面不显示图片，保存表单后在el-table中却能正常显示。  
 ### 问题分析
-上传图片后数据库里存放的是文件的url 如`http://localhost:9000/ruoyi/2023/10/14/4343_20231014003014A006.png`
+上传图片后数据库里存放的是文件的url 如`http://localhost:9000/ruoyi/2023/10/14/4343_2023/1014003014A006.png`
 
 在ruoyi生成的代码中 el-table中图片用的是封装好的 `image-preview`组件
 ```
 <image-preview :src="scope.row.pic" :width="50" :height="50"/>
 ```
-scope.row.pic的内容就是数据库里存的`http://localhost:9000/ruoyi/2023/10/14/4343_20231014003014A006.png`所以可以正常显示
+scope.row.pic的内容就是数据库里存的`http://localhost:9000/ruoyi/2023/10/14/4343_2023/1014003014A006.png`所以可以正常显示
 
 但是在表单中上传文件用的组件是封装好的`image-upload`
 ```
@@ -304,7 +304,7 @@ watch: {
 ```
 
 我们看一下elementui的文档
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202310/202310140052839.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/10/2023/10140052839.png)
 
 这个file-list存的应该是图片的实际url,而这个组件默认是存储在服务器本地所以封装后给我们拼接了baseUrl
 而这个baseUrl
@@ -319,7 +319,7 @@ data() {
 ```
 通过开发者工具我们也能看到图片的请求地址如下  
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202310/202310140056386.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/10/2023/10140056386.png)
 
 这样我们就只需要去掉前面拼接的url地址即可  
 
@@ -335,7 +335,7 @@ data() {
 
 修改后我们再看下效果
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202310/202310140100621.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/10/2023/10140100621.png)
 
 而且预览也是没问题的,问题完美解决!
 

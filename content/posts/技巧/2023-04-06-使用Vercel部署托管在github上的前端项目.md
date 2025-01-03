@@ -25,19 +25,19 @@ categories:
 
 ### 导入github上的前端项目
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202304/202304061645020.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/04/2023/04061645020.png)
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202304/202304061646153.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/04/2023/04061646153.png)
 
 导入很简单，点几下鼠标就可以。
 
 导入完成后页面大概这个样子，可以直接点击预览图进入
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202304/202304061647953.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/04/2023/04061647953.png)
 
 ### 配置域名
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202304/202304061650162.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/04/2023/04061650162.png)
 
 根据提示操作即可，刚导入的项目，绿框那里应该是有一个默认的域名的。
 

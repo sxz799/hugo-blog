@@ -513,8 +513,8 @@ params:
     # Donate type
     # Usage: `name:image url`
     reward:
-      wechatpay: https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202303/202303021532231.png
-      alipay: https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202303/202303021531496.png
+      wechatpay: https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/03/2023/03021532231.png
+      alipay: https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/03/2023/03021531496.png
       #paypal: /images/paypal.png
       #bitcoin: /images/bitcoin.png
 

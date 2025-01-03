@@ -24,43 +24,43 @@ categories:
 ## 部署加速服务
 
 ### 一、使用cloudflare接管域名解析服务。
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251517951.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05251517951.png)
 由于域名服务商的设置方式不同，这里就不详细介绍了，百度搜一下，教程很多的。
 
 ### 二、添加Cloudflare Worker服务
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251521546.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05251521546.png)
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251522337.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05251522337.png)
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251523218.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05251523218.png)
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251524096.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05251524096.png)
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251525908.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05251525908.png)
 
 进到作者github项目内[https://github.com/hunshcn/gh-proxy](https://github.com/hunshcn/gh-proxy)找到index.js文件
 
 或者直接点击[https://github.com/hunshcn/gh-proxy/blob/master/index.js](https://github.com/hunshcn/gh-proxy/blob/master/index.js)
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251554200.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05251554200.png)
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251525908.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05251525908.png)
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251530944.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05251530944.png)
 
 ### 三、配置自定义域名
 
 由于`workers.dev`国内环境无法访问，需要配置自定义域名
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251532003.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05251532003.png)
 
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251535054.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05251535054.png)
 
 此时打开https://gh.xxxyyy.com应该就是能看如下画面了
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251537558.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05251537558.png)
 
 
 
@@ -145,9 +145,9 @@ categories:
 只需要替换脚本中的proxy_url为你的加速地址即可
 
 成功加速后 github页面就变成下面的样子了
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251543704.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05251543704.png)
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251546128.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05251546128.png)
 
 
 ### 二、加速PicGo图床
@@ -156,7 +156,7 @@ categories:
 
 设置方式
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305251548163.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05251548163.png)
 
 自定义域名那里填写如下内容即可
 ```

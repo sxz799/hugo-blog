@@ -16,7 +16,7 @@ categories:
 
 ### 在github仓库的Action页面创建workflow
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305101403088.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05101403088.png)
 
 可以在这里根据你项目类型选择一个现有的模板进行创建(这里创建后会在项目根目录创建一个`.github`隐藏目录，目录内有一个`workflows`文件夹,文件夹里面就是一个yml格式的CI配置文件，所以记得在本地 git pull一下把这个目录拉到本地)
 
@@ -91,9 +91,9 @@ jobs:
 
 ### 下载自动编译后打包的文件
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305101418953.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05101418953.png)
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202305/202305101418243.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/05/2023/05101418243.png)
 
 
 

@@ -20,7 +20,7 @@ innodb_buffer_pool_size = 2147483648
 ```
 ### 数据页
 数据页：MySQL中抽象出来的数据单位
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202204/202204181315275.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2022/04/2022/04181315275.png)
 
 接着我们要了解下一个概念，对于每个缓存页，他实际上都会有一个描述信息，这个描述信息大体可以认为是用来描述这个缓存页的
 
@@ -30,7 +30,7 @@ innodb_buffer_pool_size = 2147483648
 
 所以此时我们看下面的图，Buffer Pool实际看起来大概长这个样子。
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202204/202204181316668.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2022/04/2022/04181316668.png)
 
 而且这里我们要注意一点，Buffer Pool中的描述数据大概相当于缓存页大小的**5**%左右，也就是每个描述数据大概是800个字节左右的大小，然后假设你设置的buffer pool大小是128MB，实际上Buffer Pool真正的最终大小会超出一些，可能有个130多MB的样子，因为他里面还要存放每个缓存页的描述数据。
 
@@ -52,7 +52,7 @@ innodb_buffer_pool_size = 2147483648
 
 刚开始数据库启动的时候，可能所有的缓存页都是空闲的，因为此时可能是一个空的数据库，一条数据都没有，所以此时所有缓存页的描述数据块，都会被放入这个free链表中
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202204/202204181332540.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2022/04/2022/04181332540.png)
 
 这个free链表，他本身其实就是由Buffer Pool里的描述数据块组成的，你可以认为是每个描述数据块里都有两个指针，一个是free_pre，一个是free_next，分别指向自己的上一个free链表的节点，以及下一个free链表的节点。
 
@@ -78,7 +78,7 @@ innodb_buffer_pool_size = 2147483648
 
 当你要使用一个数据页的时候，通过“表空间号+数据页号”作为key去这个哈希表里查一下，如果没有就读取数据页，如果已经有了，就说明数据页已经被缓存了。
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202204/202204181337199.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2022/04/2022/04181337199.png)
 
 ### **脏数据页到底为什么会脏？**
 
@@ -104,7 +104,7 @@ innodb_buffer_pool_size = 2147483648
 
 所以flush链表的结构如下图所示，跟free链表几乎是一样的。
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202204/202204181436270.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2022/04/2022/04181436270.png)
 
 ### **如果Buffer Pool中的缓存页不够了怎么办？**
 
@@ -152,4 +152,4 @@ innodb_buffer_pool_size = 2147483648
 
 然后假设某个缓存页的描述数据块本来在LRU链表的尾部，后续你只要查询或者修改了这个缓存页的数据，也要把这个缓存页挪动到LRU链表的头部去，也就是说最近被访问过的缓存页，一定在LRU链表的头部
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/202204/202204181446434.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2022/04/2022/04181446434.png)
