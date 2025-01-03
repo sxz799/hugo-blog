@@ -304,7 +304,7 @@ watch: {
 ```
 
 我们看一下elementui的文档
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/10/2023/10140052839.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/10/202310140052839.png)
 
 这个file-list存的应该是图片的实际url,而这个组件默认是存储在服务器本地所以封装后给我们拼接了baseUrl
 而这个baseUrl
@@ -319,7 +319,7 @@ data() {
 ```
 通过开发者工具我们也能看到图片的请求地址如下  
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/10/2023/10140056386.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/10/202310140056386.png)
 
 这样我们就只需要去掉前面拼接的url地址即可  
 
@@ -335,7 +335,7 @@ data() {
 
 修改后我们再看下效果
 
-![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/10/2023/10140100621.png)
+![](https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/10/202310140100621.png)
 
 而且预览也是没问题的,问题完美解决!
 
