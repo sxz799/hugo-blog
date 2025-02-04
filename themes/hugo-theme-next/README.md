@@ -10,7 +10,7 @@
 
 > All page designs & configuration compatibility with Hexo NexT, it's very easy migrate your site from Hexo to Hugo and enjoy yourself.
 
-[![Gitter](https://img.shields.io/gitter/room/hugo-next/hugo-them-next?logo=gitter&style=flat-square&label=Gitter)](https://gitter.im/hugo-next/community) [![Build Hugo Version](https://img.shields.io/badge/Hugo-%3E=0.89.0-red?style=flat-square&logo=hugo&color=%23FF4088&&label=Hugo%20Extended)](https://github.com/gohugoio/hugo/releases/latest) [![GitHub deployments](https://img.shields.io/github/deployments/hugo-next/hugo-next.github.io/github-pages?style=flat-square&logo=GitHub&label=Github%20Pages)](https://github.com/hugo-next/hugo-theme-next)  [![Contributors](https://img.shields.io/github/contributors/hugo-next/hugo-theme-next?style=flat-square&color=%235E0D73&logo=contributorcovenant&label=Contributors)](https://github.com/hugo-next/hugo-theme-next/graphs/contributors) [![Latest Release](https://img.shields.io/github/v/release/hugo-next/hugo-theme-next?include_prereleases&style=flat-square&color=%23DD2C00&logo=semanticrelease&label=Latest%20Release)](https://github.com/hugo-next/hugo-theme-next/releases)  [![Repos Size](https://img.shields.io/github/repo-size/hugo-next/hugo-theme-next?style=flat-square&color=%23FFBF3B&logo=Files&label=Repo%20Size)](https://github.com/hugo-next/hugo-theme-next/find/main) [![GitHub](https://img.shields.io/github/license/hugo-next/hugo-theme-next?logo=webauthn&style=flat-square&label=License)](https://github.com/hugo-next/hugo-theme-next/blob/main/LICENSE)
+[![Gitter](https://img.shields.io/gitter/room/hugo-next/hugo-them-next?logo=gitter&style=flat-square&label=Gitter)](https://app.gitter.im/#/room/#hugo-next_community:gitter.im) [![Build Hugo Version](https://img.shields.io/badge/Hugo-%3E=0.134.0-red?style=flat-square&logo=hugo&color=%23FF4088&&label=Hugo%20Extended)](https://github.com/gohugoio/hugo/releases/latest) [![GitHub deployments](https://img.shields.io/github/deployments/hugo-next/hugo-next.github.io/github-pages?style=flat-square&logo=GitHub&label=Github%20Pages)](https://github.com/hugo-next/hugo-theme-next)  [![Contributors](https://img.shields.io/github/contributors/hugo-next/hugo-theme-next?style=flat-square&color=%235E0D73&logo=contributorcovenant&label=Contributors)](https://github.com/hugo-next/hugo-theme-next/graphs/contributors) [![Latest Release](https://img.shields.io/github/v/release/hugo-next/hugo-theme-next?include_prereleases&style=flat-square&color=%23DD2C00&logo=semanticrelease&label=Latest%20Release)](https://github.com/hugo-next/hugo-theme-next/releases)  [![Repos Size](https://img.shields.io/github/repo-size/hugo-next/hugo-theme-next?style=flat-square&color=%23FFBF3B&logo=Files&label=Repo%20Size)](https://github.com/hugo-next/hugo-theme-next/find/main) [![GitHub](https://img.shields.io/github/license/hugo-next/hugo-theme-next?logo=webauthn&style=flat-square&label=License)](https://github.com/hugo-next/hugo-theme-next/blob/main/LICENSE)
 
 ![Screenshot](images/screenshot.png)
 
@@ -35,6 +35,18 @@
 
 Before use `Hugo NexT` theme, please make sure installed `Git` & `Hugo Extened` software in your PC.
 
+### 📦 Install Hugo
+
+If you want to quickly preview the actual effect of the theme, you can directly clone the repository code of the current theme and run the example site:
+
+```shell
+$ git clone --single-branch -b main https://github.com/hugo-next/hugo-theme-next.git hugo-theme-next
+$ cd hugo-theme-next/exampleSite/
+$ sh startup.sh
+```
+
+Open a computer browser and enter `http://127.0.0.1:1414/`, then you can access and view it.
+
 ### 📰 Use Template
 
 If there your first time build blog site, Recommended use template of `Github` which can easily create your site code. Click & visit this repository: [hugo-theme-next-starter](https://github.com/hugo-next/hugo-theme-next-starter), then click the green button which name call `Use this template` upper right corner on the page. Just like below image:
@@ -48,26 +60,26 @@ After do that click the green button which name call `Create repository from tem
 If you had a blog site, then use `submodule` to lead into the theme, see below commands:
 
 ```shell
-$ cd hugo-next-exmaple
+$ cd hugo-next-example
 $ git submodule add https://github.com/hugo-next/hugo-theme-next.git themes/hugo-theme-next
-$ cp themes/hugo-theme-next/exampleSite/config.yaml .
-$ mv config.toml config.toml.backup
+$ cp themes/hugo-theme-next/exampleSite/hugo.yaml .
+$ mv hugo.toml hugo.toml.backup
 ```
 
 Or use `Hugo module` to lead into the theme, see below commands:
 
 ```shell
-$ cd hugo-next-exmaple
-$ hugo mod init hugo-next-exmaple
-$ wget -O config.yaml https://github.com/hugo-next/hugo-theme-next/raw/main/exampleSite/config.yaml
-$ sed -i 's/hugo-theme-next/github.com\/hugo-next\/hugo-theme-next\/v4/' config.yaml
-$ mv config.toml config.toml.backup
+$ cd hugo-next-example
+$ hugo mod init hugo-next-example
+$ wget -O hugo.yaml https://github.com/hugo-next/hugo-theme-next/raw/main/exampleSite/hugo.yaml
+$ sed -i 's/hugo-theme-next/github.com\/hugo-next\/hugo-theme-next\/v4/' hugo.yaml
+$ mv hugo.toml hugo.toml.backup
 ```
 
 ### 💻 Preview on Local
 
 ```shell
-$ cd hugo-next-exmaple
+$ cd hugo-next-example
 $ hugo server
 ```
 
@@ -81,14 +93,14 @@ Done that input adrress http://127.0.0.1:1313/ on browser will see the effect & 
 Execute command as below in your site directory when the theme upgrade.
 
 ```shell
-$ cd hugo-next-exmaple
+$ cd hugo-next-example
 $ git submodule update --remote
 ```
 
 Execute command as below if you are using `Hugo module`:
 
 ```shell
-$ cd hugo-next-exmaple
+$ cd hugo-next-example
 $ hugo mod get -u
 ```
 
@@ -175,6 +187,10 @@ Hope could submmit your site information in this file [flinks.yaml](https://gith
 ## 👨‍👩‍👧‍👦 Join us
 
 All features development progress and new request in [Hugo NexT V4 Roadmap](https://github.com/hugo-next/hugo-theme-next/issues/9), welcome to join us and compelete it together.
+
+[![Contributors](https://contrib.rocks/image?repo=hugo-next/hugo-theme-next)](https://github.com/hugo-next/hugo-theme-next/graphs/contributors)
+
+[![HugoNexT Stars](https://starchart.cc/hugo-next/hugo-theme-next.svg?variant=adaptive)](https://github.com/hugo-next/hugo-theme-next/stargazers)
 
 ## 📜 License
 

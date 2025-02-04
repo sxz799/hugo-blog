@@ -10,7 +10,7 @@
 
 > 本主题的所有页面设计和配置项都与原来 `Hexo` 引擎的 `NexT` 主题保持了良好的兼容性，可以非常平滑的从 `Hexo` 迁移至 `Hugo` 引擎，欢迎大家使用并反馈。
 
-[![Gitter](https://img.shields.io/gitter/room/hugo-next/hugo-them-next?logo=gitter&style=flat-square&label=Gitter)](https://gitter.im/hugo-next/community) [![Build Hugo Version](https://img.shields.io/badge/Hugo-%3E=0.89.0-red?style=flat-square&logo=hugo&color=%23FF4088&&label=Hugo%20Extended)](https://github.com/gohugoio/hugo/releases/latest) [![GitHub deployments](https://img.shields.io/github/deployments/hugo-next/hugo-next.github.io/github-pages?style=flat-square&logo=GitHub&label=Github%20Pages)](https://github.com/hugo-next/hugo-theme-next)  [![Contributors](https://img.shields.io/github/contributors/hugo-next/hugo-theme-next?style=flat-square&color=%235E0D73&logo=contributorcovenant&label=Contributors)](https://github.com/hugo-next/hugo-theme-next/graphs/contributors) [![Latest Release](https://img.shields.io/github/v/release/hugo-next/hugo-theme-next?include_prereleases&style=flat-square&color=%23DD2C00&logo=semanticrelease&label=Latest%20Release)](https://github.com/hugo-next/hugo-theme-next/releases)  [![Repos Size](https://img.shields.io/github/repo-size/hugo-next/hugo-theme-next?style=flat-square&color=%23FFBF3B&logo=Files&label=Repo%20Size)](https://github.com/hugo-next/hugo-theme-next/find/main) [![GitHub](https://img.shields.io/github/license/hugo-next/hugo-theme-next?logo=webauthn&style=flat-square&label=License)](https://github.com/hugo-next/hugo-theme-next/blob/main/LICENSE)
+[![Gitter](https://img.shields.io/gitter/room/hugo-next/hugo-them-next?logo=gitter&style=flat-square&label=Gitter)](https://app.gitter.im/#/room/#hugo-next_community:gitter.im) [![Build Hugo Version](https://img.shields.io/badge/Hugo-%3E=0.134.0-red?style=flat-square&logo=hugo&color=%23FF4088&&label=Hugo%20Extended)](https://github.com/gohugoio/hugo/releases/latest) [![GitHub deployments](https://img.shields.io/github/deployments/hugo-next/hugo-next.github.io/github-pages?style=flat-square&logo=GitHub&label=Github%20Pages)](https://github.com/hugo-next/hugo-theme-next)  [![Contributors](https://img.shields.io/github/contributors/hugo-next/hugo-theme-next?style=flat-square&color=%235E0D73&logo=contributorcovenant&label=Contributors)](https://github.com/hugo-next/hugo-theme-next/graphs/contributors) [![Latest Release](https://img.shields.io/github/v/release/hugo-next/hugo-theme-next?include_prereleases&style=flat-square&color=%23DD2C00&logo=semanticrelease&label=Latest%20Release)](https://github.com/hugo-next/hugo-theme-next/releases)  [![Repos Size](https://img.shields.io/github/repo-size/hugo-next/hugo-theme-next?style=flat-square&color=%23FFBF3B&logo=Files&label=Repo%20Size)](https://github.com/hugo-next/hugo-theme-next/find/main) [![GitHub](https://img.shields.io/github/license/hugo-next/hugo-theme-next?logo=webauthn&style=flat-square&label=License)](https://github.com/hugo-next/hugo-theme-next/blob/main/LICENSE)
 
 ![截图](images/screenshot.png)
 
@@ -35,6 +35,18 @@
 
 在使用 `Hugo NexT` 主题之前，请确认你的电脑上已经安装 `Git` 和 `Hugo Extened` 两款软件。
 
+### 📦 快速预览
+
+如想快速预览主题实际效果，可直接克隆当前主题的仓库代码，然后运行示例站点：
+
+```shell
+$ git clone --single-branch -b main https://github.com/hugo-next/hugo-theme-next.git hugo-theme-next
+$ cd hugo-theme-next/exampleSite/
+$ sh startup.sh
+```
+
+打开电脑浏览器输入`http://127.0.0.1:1414/`即可访问查看。
+
 ### 📰 使用模板
 
 如果你是初次建站的话，可以使用 `Github` 的模板功能，一键生成你的站点仓库代码。访问 [hugo-theme-next-starter](https://github.com/hugo-next/hugo-theme-next-starter) 点击右上角的 `Use this template` 绿色按钮然后填写代码仓库的相关信息，参考如下：
@@ -48,26 +60,26 @@
 如果你已经有站点，可通过 `submodule` 模式引用本主题，参考如下命令：
 
 ```shell
-$ cd hugo-next-exmaple
+$ cd hugo-next-example
 $ git submodule add https://github.com/hugo-next/hugo-theme-next.git themes/hugo-theme-next
-$ cp themes/hugo-theme-next/exampleSite/config.yaml .
-$ mv config.toml config.toml.backup
+$ cp themes/hugo-theme-next/exampleSite/hugo.yaml .
+$ mv hugo.toml hugo.toml.backup
 ```
 
 或通过 `Hugo module` 模式引用本主题，参考如下命令：
 
 ```shell
-$ cd hugo-next-exmaple
-$ hugo mod init hugo-next-exmaple
-$ wget -O config.yaml https://github.com/hugo-next/hugo-theme-next/raw/main/exampleSite/config.yaml
-$ sed -i 's/hugo-theme-next/github.com\/hugo-next\/hugo-theme-next\/v4/' config.yaml
-$ mv config.toml config.toml.backup
+$ cd hugo-next-example
+$ hugo mod init hugo-next-example
+$ wget -O hugo.yaml https://github.com/hugo-next/hugo-theme-next/raw/main/exampleSite/hugo.yaml
+$ sed -i 's/hugo-theme-next/github.com\/hugo-next\/hugo-theme-next\/v4/' hugo.yaml
+$ mv hugo.toml hugo.toml.backup
 ```
 
 ### 💻 本地预览
 
 ```shell
-$ cd hugo-next-exmaple
+$ cd hugo-next-example
 $ hugo server
 ```
 
@@ -81,14 +93,14 @@ $ hugo server
 后续更新主题只需要在你的站点目录中，执行如下命令：
 
 ```shell
-$ cd hugo-next-exmaple
+$ cd hugo-next-example
 $ git submodule update --remote
 ```
 
 如使用 `Hugo module`，执行如下命令：
 
 ```shell
-$ cd hugo-next-exmaple
+$ cd hugo-next-example
 $ hugo mod get -u
 ```
 
@@ -184,6 +196,10 @@ tags:
 ## 👨‍👩‍👧‍👦 欢迎加入
 
 关于本主题的开发进度和后续的发展路线图，可访问 [Hugo NexT V4 Roadmap](https://github.com/hugo-next/hugo-theme-next/issues/9) 查看详情，也欢迎大家参与一起来完善。
+
+[![Contributors](https://contrib.rocks/image?repo=hugo-next/hugo-theme-next)](https://github.com/hugo-next/hugo-theme-next/graphs/contributors)
+
+[![HugoNexT Stars](https://starchart.cc/hugo-next/hugo-theme-next.svg?variant=adaptive)](https://github.com/hugo-next/hugo-theme-next/stargazers)
 
 ## 📜 许可证
 

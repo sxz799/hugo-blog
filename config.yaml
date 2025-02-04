@@ -481,8 +481,8 @@ params:
     # 是否开启页面访问数显示
     views:
       enable: true
-      # 页面访问统计插件，支持busuanzi, waline, leancloud
-      # Page views counter plugin, support: busuanzi, waline, leancloud
+      # 页面访问统计插件，支持busuanzi, waline, waline3
+      # Page views counter plugin, support: busuanzi, waline, waline3
       plugin: busuanzi
 
   # 文章底部的设置
@@ -827,7 +827,21 @@ params:
     reaction: true
     reactionText: [ '点赞', '踩一下', '得意', '不屑', '尴尬', '睡觉']
     reactionTitle: "你认为这篇文章怎么样？"
-    serverURL: https://waline-1-p3610079.deta.app/
+    serverURL: #<your waline server url>
+  # Waline(2) 与 Waline3 无法兼容只能是二选一
+  # Waline3 采用的是ES模块开发，需要更高版本的浏览器才能支持，如考虑兼容性建议可优先选用Waline2
+  # waline3:
+  #   placeholder: "请文明发言哟 ヾ(≧▽≦*)o"
+  #   sofa: "快来发表你的意见吧 (≧∀≦)ゞ"
+  #   emoji: false
+  #   search: true
+  #   imgUploader: false
+  #   wordLimit: 200
+  #   requiredMeta: ['nick', 'mail']
+  #   reaction: true
+  #   reactionText: [ '点赞', '踩一下', '得意', '不屑', '尴尬', '睡觉']
+  #   reactionTitle: "你认为这篇文章怎么样？"
+  #   serverURL: #<your waline server url>
 
   # Artalk 评论插件
   # 更多配置信息请参考：https://artalk.js.org
@@ -960,6 +974,9 @@ params:
     indexName: #<algolia index name>
     hits:
       perPage: 10
+    # 索引生成内容长度字数限制
+    # Index generation content length word count limit.
+    limit: 1000
 
   # 本地搜索
   # Local Search
@@ -983,6 +1000,9 @@ params:
     # 页面加载时是否要重新载入索引文件
     # Preload the search data when the page loads.
     preload: false
+    # 索引生成内容长度字数限制
+    # Index generation content length word count limit.
+    limit: 1000
 
 
   # ---------------------------------------------------------------
@@ -1039,15 +1059,6 @@ params:
     enable: false
     # Default height
     height: 500px
-
-  # Mermaid tag
-  mermaid:
-    enable: false
-    # Available themes: default | dark | forest | neutral
-    theme:
-      light: default
-      dark: dark
-
 
   # ---------------------------------------------------------------
   # 动画效果设置
@@ -1108,11 +1119,3 @@ params:
     # For example:
     # custom_cdn_url: https://cdn.jsdelivr.net/npm/${npm_name}@${version}/${minified}
     # custom_cdn_url: https://cdnjs.cloudflare.com/ajax/libs/${cdnjs_name}/${version}/${cdnjs_file}
-
-  # TODO
-  # Assets
-  # Accelerate delivery of static files using a CDN
-  # The js option is only valid when vendors.internal is local.
-  css: css
-  js: js
-  images: imgs
