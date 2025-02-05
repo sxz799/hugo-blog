@@ -9,14 +9,13 @@
 # Hugo 引擎的基础配置
 # Basic configure for Hugo engine 
 # ---------------------------------------------------------------
-# publishDir : docs
+
 # 站点域名，比如： https://hugo-next.eu.org
 # Website domain, eg: https://hugo-next.eu.org
-baseURL: https://blog.sxz799.cyou
-
+baseURL: /
 # 站点标题
 # Website title
-title: 青丝蘸白雪i
+title: Hugo NexT
 # 主题名称
 # Theme name
 theme: hugo-theme-next
@@ -32,14 +31,88 @@ languages:
     languageDirection: ltr
     languageName: "简体中文"
     weight: 1    
+  en-us:
+    languageCode: en-US
+    languageDirection: ltr
+    languageName: English
+    weight: 2
+    menus:
+      main:
+        - identifier: home
+          name: Home
+          pageRef: /
+          pre: home
+          weight: 1
+        - identifier: about
+          name: About
+          pageRef: /about.html
+          pre: user
+          weight: 2
+        - identifier: flinks
+          name: Friend's Links
+          pageRef: /flinks.html
+          pre: thumbs-up
+          weight: 3
+        - identifier: example
+          name: Example
+          pre: angles-down
+          weight: 4
+        - identifier: syntax
+          name: Syntax Highlighting
+          pageRef: /post/09-syntax-highlighting
+          weight: 1   
+          parent: example
+        - identifier: math
+          name: Math Formula
+          pageRef: /post/10-math-formula
+          weight: 2   
+          parent: example
+          parent: example
+        - identifier: flow-charts
+          name: Flow Charts
+          pageRef: /post/11-mermaid-charts
+          weight: 3
+          parent: example
+        - identifier: archives
+          name: Archives
+          pageRef: /archives
+          pre: archive
+          weight: 5
+        - identifier: commonweal
+          name: Commonweal404
+          pageRef: /404.html
+          pre: heartbeat
+          weight: 6
+    params:
+      yearFormat: "2006"
+      monthFormat: "01/02"
+      dateFormat: "2006/01/02"
+      timeFormat: "2006/01/02 15:04:05 -07:00"
 
+      author: NexT Theme
+      subtitle: Build for Hugo Theme
+      description: Keep it simple, keep it powerful.
+      keywords: Hugo,NexT,theme,simple,powerful
+
+      linksSets:
+        title: Links
+      
+      footer:
+        beian:
+          enable: false
+      
+      postFooter:
+        endLineTip: "~ End Line ~"
+      
+      rewardSets:
+        comment: '<i class="fa-solid fa-mug-hot"></i>  How about you buy me a coffee?ヾ(^▽^*)))'
 
 # 是否包含中文，日语，韩文
 # Whether contains Chinese, Japanese and Korean
 hasCJKLanguage: true
 # 每页显示文章数量
 # Display items per page
-pagination: 
+pagination:
   pagerSize: 10
 # 开启支持表情符号
 # Enable Emoji support
@@ -130,29 +203,49 @@ menus:
   main:
     - identifier: home
       name: 首页
-      pageref: /
+      pageRef: /
       pre: home
       weight: 1
-    - identifier: archives
-      name: 归档
-      pageref: /archives
-      pre: archive
-      weight: 2
-    - identifier: categories
-      name: 分类
-      pageref: /categories
-      pre: th
-      weight: 3
-    - identifier: tags
-      name: 标签
-      pageref: /tags
-      pre: tag
-      weight: 4
     - identifier: about
       name: 关于
-      pageref: /about.html
+      pageRef: /about
       pre: user
+      weight: 2
+    - identifier: flinks
+      name: 友情链接
+      pageRef: /flinks
+      pre: thumbs-up
+      weight: 3
+    - identifier: example
+      name: 语法示例
+      pre: angles-down
+      weight: 4
+    - identifier: syntax
+      name: 语法高亮
+      pageRef: /post/09-syntax-highlighting
+      weight: 1
+      parent: example
+    
+    - identifier: math
+      name: 数学公式
+      pageRef: /post/10-math-formula
+      weight: 2 
+      parent: example
+    - identifier: flow-charts
+      name: 流程图
+      url: /post/11-mermaid-charts
+      weight: 3
+      parent: example
+    - identifier: archives
+      name: 归档
+      pageRef: /archives
+      pre: archive
       weight: 5
+    - identifier: commonweal
+      name: 公益 404
+      pageRef: /404.html
+      pre: heartbeat
+      weight: 6
 
 #-----------------------------------------
 # Hugo NexT 主题参数配置
@@ -162,13 +255,13 @@ params:
   # 需要显示文章的部分，即content目录下的文件夹名称
   # Sections for show in home & archive page 
   # and it's forlder name which under content
-  mainSections: ["posts"]
+  mainSections: ["post"]
   # 年，月，日及时间的格式化样式
   # Format style for year,month,date & time
   yearFormat: "2006"
   monthFormat: "01-02"
   dateFormat: "2006-01-02"
-  timeFormat: "2006-01-02 15:04:05"
+  timeFormat: "2006-01-02 15:04:05 -07:00"
 
   # 页面模式
   # Schemes
@@ -184,18 +277,18 @@ params:
 
   # 站点基本信息
   # Site Information Settings
-  author: 青丝蘸白雪i
-  subtitle: 
-  description: 好记性不如烂笔头...
-  keywords: go,vue,blog
+  author: NexT 主题
+  subtitle: 为 Hugo 打造的主题
+  description: 保持简单的易用性和强大的功能。
+  keywords: Hugo,NexT,主题,简单,强大
 
   # 不同尺寸站点图标
   # Different size of favicon
   favicon:
-    icon: https://avatars.githubusercontent.com/u/122615952?s=400&u=56cff26ea3cc4e5d4fc20641962cb066ea3c3c48&v=4
-    small: https://avatars.githubusercontent.com/u/122615952?s=400&u=56cff26ea3cc4e5d4fc20641962cb066ea3c3c48&v=4
-    medium: https://avatars.githubusercontent.com/u/122615952?s=400&u=56cff26ea3cc4e5d4fc20641962cb066ea3c3c48&v=4
-    appleTouchIcon: https://avatars.githubusercontent.com/u/122615952?s=400&u=56cff26ea3cc4e5d4fc20641962cb066ea3c3c48&v=4
+    icon: /imgs/icons/favicon.ico
+    small: /imgs/icons/favicon_16x16_next.png
+    medium: /imgs/icons/favicon_32_32_next.png
+    appleTouchIcon: /imgs/icons/apple_touch_icon_next.png
 
   # 自定义 Logo （目前只支持 Mist 页面模式）
   # Custom Logo (Warning: Only support scheme Mist)
@@ -203,10 +296,10 @@ params:
 
   # 用户自定义文件配置
   # Define custom file paths.
-  # customFilePath:
-  #   sidebar: custom_sidebar.html
-  #   footer: custom_footer.html
-  #   style: /css/custom_style.css
+  customFilePath:
+    sidebar: custom_sidebar.html
+    footer: custom_footer.html
+    style: /css/custom_style.css
 
   # 知识共享国际许可 4.0
   # 更多信息： https://creativecommons.org/about/cclicenses/
@@ -290,7 +383,7 @@ params:
   avatar:
     # 设置显示头像的相对路径
     # Replace the default image and set the url here.
-    url: https://avatars.githubusercontent.com/u/122615952?s=400&u=56cff26ea3cc4e5d4fc20641962cb066ea3c3c48&v=4
+    url: /imgs/hugo_next_avatar.png
     # 开启头像的圆形显示效果
     # If true, the avatar will be displayed in circle.
     rounded: true
@@ -308,7 +401,7 @@ params:
       # 组件类型，可选值为： 51la, busuanzi
       # 使用51la时需要注册账号：https://invite.51.la/
       # Plguin value is: 51la, busuanzi
-      plugin: 51la
+      plugin: busuanzi
 
   # 社交链接地址
   # 用法： `Key: 名称 || 链接地址 || 图标`
@@ -318,8 +411,9 @@ params:
   # Key is the link label order.
   # Value before `||` delimiter is the target permalink, value after `||` delimiter is the name of Font Awesome icon.
   socials: 
-    social0: Github || https://github.com/sxz799 || fab fa-github
+    social0: Github || https://github.com/elkan1788 || fab fa-github
     #social1: E-Mail || mailto:yourname@gmail.com || fa fa-envelope
+    social2: 知乎 || https://www.zhihu.com/people/lisenhui || fa fa-book
     #Google: https://plus.google.com/yourname || fab fa-google
     #Twitter: https://twitter.com/yourname || fab fa-twitter
     #FB Page: https://www.facebook.com/yourname || fab fa-facebook
@@ -361,7 +455,7 @@ params:
   # Usage: `Key: name || permalink`
   links: 
     link0: Hugo-NexT || https://gitee.com/hugo-next/hugo-theme-next
-
+    link1: 凡梦星尘空间站 || https://lisenhui.cn
 
   # 文章目录显示
   # Table of Contents in the Sidebar
@@ -370,7 +464,7 @@ params:
     enable: true
     # 自动设置列表的数字
     # Automatically add list number to toc.
-    number: false
+    number: true
     # 开启自动换行显示
     # If true, all words will placed on next lines 
     # if header width longer then sidebar width.
@@ -392,7 +486,7 @@ params:
     # 站点开始年份，默认为当下时间的年份
     # Specify the year when the site was setup. 
     # If not defined, current year will be used.
-    since: 2018
+    since: 2010
 
     # 年份和版权信息之间的图标
     # Icon between year and copyright info.
@@ -419,13 +513,13 @@ params:
     # Beian ICP and gongan information for Chinese users. 
     # See: https://beian.miit.gov.cn, http://www.beian.gov.cn
     beian:
-      enable: false
+      enable: true
       # ICP 备案的具体信息
-      icp: 
+      icp: 粤ICP备 18047355-1 号
       # 公安网备的省份简称
-      provinceAbbr: 
+      provinceAbbr: 沪
       # 公安网备案号
-      gonganNum: 
+      gonganNum: 31011402009770
 
     # 站点支持供应商列表
     # Vendors list who support website. 
@@ -442,6 +536,16 @@ params:
             url: /imgs/vendors/vercel.svg
             width: 50
           link: https://vercel.com
+        - name: 又拍云
+          image: 
+            url: /imgs/vendors/upyun.png
+            width: 43
+          link: https://upyun.com
+        - name: Github
+          link: https://github.com
+          image:
+            url: /imgs/vendors/github.svg
+            width: 14
 
 
   # ---------------------------------------------------------------
@@ -522,7 +626,7 @@ params:
     # 通过线条将文章和捐赠等信息隔开，并在线条上添加提示信息
     # Use line to separate post and reward etc other information
     # and add tip title on line.
-    endLineTip: ""
+    endLineTip: "~ 我可是有底线的哟 ~"
     # 是否使用小图标，默认使用 # 符号表示标签
     # Use icon instead of the symbol # to indicate the tag
     tagIcon: true
@@ -545,8 +649,8 @@ params:
     # Donate type
     # Usage: `name:image url`
     reward:
-      wechatpay: https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/03/202303021532231.png
-      alipay: https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/03/202303021531496.png
+      wechatpay: /imgs/wechat-pay.png
+      alipay: /imgs/ali-pay.png
       #paypal: /images/paypal.png
       #bitcoin: /images/bitcoin.png
 
@@ -557,14 +661,14 @@ params:
   followMe:
     #channel0: Twitter || https://twitter.com/username || fab fa-twitter
     #channel1: Telegram || https://t.me/channel_name || fab fa-telegram
-    #channel2: WeChat || /images/wechat_channel.jpg || fab fa-weixin
-    #channel3: RSS || /atom.xml || fa fa-rss
+    channel2: WeChat || /images/wechat_channel.jpg || fab fa-weixin
+    channel3: RSS || /atom.xml || fa fa-rss
 
   # 文章的在线编辑
   # Post edit
   # Easily browse and edit blog source code online.
   postEdit:
-    enable: false
+    enable: true
     url: https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/
 
 
@@ -644,7 +748,7 @@ params:
   bookmark:
     # 开启书签功能
     # If true, will display bookmark in all page.
-    enable: false
+    enable: true
     # 自定义书签显示颜色
     # Customize the color of the bookmark.
     color: "#222"
@@ -660,7 +764,7 @@ params:
   githubBanner:
     # 是否开启显示
     # If true, will display banner.
-    enable: false
+    enable: true
     # 你的 Github 仓库地址
     # Your repository url on Github.
     permalink: https://github.com/hugo-next
@@ -739,7 +843,7 @@ params:
   # 谷歌站点验证
   # Google Webmaster tools verification.
   # See: https://developers.google.com/search
-  googleSiteVerification: ZFkBt5b-PGKYFpgp0LN2wCQdqQCVTfU5BrCQH-6DcDg
+  googleSiteVerification: #<verify_code>
 
   # 微软 Bing 站验证
   # Bing Webmaster tools verification.
@@ -754,7 +858,7 @@ params:
   # 百度站点验证
   # Baidu Webmaster tools verification.
   # See: https://ziyuan.baidu.com/site
-  baiduSiteVerification: codeva-Lf1NXIXeez
+  baiduSiteVerification: #<verify_code>
 
 
   # ---------------------------------------------------------------
@@ -766,7 +870,7 @@ params:
   # 注意这里全局配置，意味着所有页面都会加载数学公式脚本
   # Math Formulas Render Support, options: mathjax, katex
   # Warning: It's global settings then will load scripts in every page.
-  math: mathjax
+  #math: mathjax
 
   # TODO
   # FancyBox is a tool that offers a nice and elegant way 
@@ -815,32 +919,32 @@ params:
   comments:
     # 开启评论组件
     # If true, will show comment component in post end.
-    enable: true   
+    enable: false   
     # 设置默认使用的评论插件
     # 可选值：livere | waline | utterances | artalk | giscus
     # Choose a comment system to be displayed by default.
     # Available values: livere | waline | utterances | artalk | giscus 
-    active: waline
+    active: giscus
     # 让用户自己选择使用评论插件留言
     # 如果设置为 false，将采用 active 参数的那个插件
     # Setting `true` means remembering the comment system selected by 
     # the visitor, otherwise use the `active` setting comment system.
-    storage: false
+    storage: true
     # TODO
     # Lazyload all comment systems.
     # lazyload: false
     # 设置你要显示的2个评论插件，`weight` 数字越小越靠前
-    # `name` 参数名可选值：livere | waline | utterances | artalk | giscus
+    # `name` 参数名可选值：livere | waline | waline3 | utterances | artalk | giscus
     # Modify texts or order for any naves, here are some examples.
     nav:
       - name: waline
         title: Waline
         color: "#27ae60"
         weight: 1
-      # - name: giscus
-      #   title: Giscus
-      #   color: "#886ce4"
-      #   weight: 2
+      - name: giscus
+        title: Giscus
+        color: "#886ce4"
+        weight: 2
 
   # Waline 评论插件
   # 更多配置信息请参考：https://waline.js.org/
@@ -849,7 +953,7 @@ params:
   waline:
     placeholder: "请文明发言哟 ヾ(≧▽≦*)o"
     sofa: "快来发表你的意见吧 (≧∀≦)ゞ"
-    emoji: true
+    emoji: false
     imgUploader: false
     wordLimit: 200
     requiredMeta: ['nick', 'mail']
@@ -913,7 +1017,7 @@ params:
   giscus:
     # Github 仓库地址，格式：用户名/仓库名称
     # Github repository owner and name
-    repo: #sxz799/hugoBlogDiscussions
+    repo: username/repo-name
     # Giscus 生成的仓库 Id
     # Generate repository Id from Giscus
     repoId: #<repo-id>
@@ -981,7 +1085,7 @@ params:
     # 更多信息请参考：https://invite.51.la/1NUfGTS1?target=V6
     # 51La Analytics
     # See: https://invite.51.la/1NUfGTS1?target=V6 
-    laId: KAyJ2DmRa6VjDeQj
+    #laId: #<anaytics_id> 
     # 百度统计
     # Baidu Analytics
     #baidu: #<anaytics_id>
@@ -991,11 +1095,9 @@ params:
     # 不蒜子统计
     # Show Views / Visitors of the website / page with busuanzi.
     # For more information: http://ibruce.info/2015/04/04/busuanzi/
-    #busuanzi:
-      #visitorsIcon: fa fa-user
-      #viewsIcon: fa fa-eye
-      #postViews: true
-
+    busuanzi:
+      visitorsIcon: fa fa-user
+      viewsIcon: fa fa-eye
 
   # ---------------------------------------------------------------
   # 内容搜索服务
@@ -1057,7 +1159,7 @@ params:
   # Gitter Support
   # For more information: https://gitter.im
   gitter:
-    enable: false
+    enable: true
     room: hugo-next/community
 
 
@@ -1075,7 +1177,7 @@ params:
     #  - flat      flat callout style with background, like on Mozilla or StackOverflow.
     #  - disabled  disable all CSS styles import of note tag.
     style: simple
-    icons: false
+    icons: true
     # Offset lighter of background in % for modern and flat styles (modern: -12 | 12; flat: -18 | 6).
     # Offset also applied to label tag variables. This option can work with disabled note tag.
     lightBgOffset: 0
