@@ -958,7 +958,7 @@ params:
 
   # 文章分享功能
   share:
-    enable: true
+    enable: false
     # 更多信息与配置，请参考：https://sharethis.com
     # For more information and configuration, please refer to:https://sharethis.com
     # sharethis:
