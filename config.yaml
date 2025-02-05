@@ -856,7 +856,7 @@ params:
     reaction: true
     reactionText: [ '点赞', '踩一下', '得意', '不屑', '尴尬', '睡觉']
     reactionTitle: "你认为这篇文章怎么样？"
-    serverURL: #<your waline server url>
+    serverURL: https://waline-1-p3610079.deta.app/
   # Waline(2) 与 Waline3 无法兼容只能是二选一
   # Waline3 采用的是ES模块开发，需要更高版本的浏览器才能支持，如考虑兼容性建议可优先选用Waline2
   # waline3:
