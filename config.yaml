@@ -568,7 +568,7 @@ params:
   codeblock:    
     # 支持样式类型： default | flat | mac
     # Available values: default | flat | mac
-    style: default
+    style: mac
     # 在代码块上添加拷贝按钮
     # Add copy button on codeblock
     copyBtn: true

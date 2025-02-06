@@ -268,7 +268,6 @@ export default {
 重点在下面这部分代码
 
 ```js
-
 <el-upload
       <!-- 无关紧要的代码  -->
       :file-list="fileList"
