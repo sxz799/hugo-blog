@@ -24,6 +24,14 @@ theme: hugo-theme-next
 # Default laguage & code for website
 defaultContentLanguage: zh-cn
 languageCode: zh-CN
+# 多语言配置
+# Multi-language settings
+languages:
+  zh-cn:
+    languageCode: zh-CN
+    languageDirection: ltr
+    languageName: "简体中文"
+    weight: 1    
 # 是否包含中文，日语，韩文
 # Whether contains Chinese, Japanese and Korean
 hasCJKLanguage: true
@@ -40,31 +48,21 @@ markup:
   goldmark:
     renderer:
       unsafe: true
+  # 高亮代码的样式
+  # Highlight style of code
   highlight:
-    # # 高亮代码的样式名称，可选：monokai | emacs | api | dracula | friendly
-    # # 更多的样式：https://xyproto.github.io/splash/docs/all.html
-    # # Highlight style: monokai | emacs | api | dracula | friendly
-    # # More: https://xyproto.github.io/splash/docs/all.html 
-    # style: "monokai"
     anchorLineNos: true
     codeFences: true
     guessSyntax: true
-    hl_Lines: ""
-    hl_inline: false
-    lineAnchors: ""
-    lineNoStart: 1
-    lineNos: false
-    lineNumbersInTable: false
-    noClasses: true
-    noHl: false
-    style: github-dark
-    tabWidth: 1
+    lineNos: true
+    lineNumbersInTable: true
+    noClasses: false
   tableOfContents:
     # 开始/结束标题级别：1-6 (建议从2开始)
     # Heading title level of start or end: 1-6
     # Recommand start at 2
     startLevel: 2
-    endLevel: 6
+    endLevel: 4
 
 # 站点文章导航文件
 # Site map of all articles
@@ -111,7 +109,8 @@ minify:
 # 菜单配置说明
 # identifier ： 唯一标识不可重复
 # name       ： 菜单显示名称
-# pageref    ： 本站点链接地址，与 URL 选其一
+# pageRef    ： 文章在content目录下的相对路径, 更多信息请
+#               参考：https://gohugo.io/content-management/menus/#properties-site-configuration
 # url        ： 站点外部链接地址，以 http 或者 https 开头
 # pre        ： 菜单小图标
 # weight     ： 显示顺序，字数越小越靠前
@@ -119,7 +118,8 @@ minify:
 # Menus Settings
 # identifier : Unique ID cannot be repeated
 # name       : Menu name
-# pageref    : Link of webiste and not appeare same time with url
+# pageRef    : This article in content to director,more information
+#              ref:https://gohugo.io/content-management/menus/#properties-site-configuration
 # url        : Exteneral link out of website and start with http or https
 # pre        : Icon of menu
 # weight     : Order number and smaller is top
@@ -173,11 +173,12 @@ params:
   #scheme: Muse
   #scheme: Mist
   #scheme: Pisces
+  #scheme: Gemini
   scheme: Gemini
 
   # 开启暗模式
   # Dark Mode
-  darkmode: false
+  darkmode: true
 
 
   # 站点基本信息
@@ -216,13 +217,20 @@ params:
     license: by-nc-sa
     # 可选配置： big | small
     # Available values: big | small
-    size: small
+    size: big
     # 侧边栏显示
     # Show in sidebar
     sidebar: true
     # 文章底部显示
     # Show in post footer
     post: true
+    # 是否为 AI 撰写
+    # Is AI write or not
+    byai: false
+    # NotByAI icon 颜色，可选配置 black | white
+    # NotByAI icon color. Available values: black | white
+    notByAiIconColor: "white"
+
 
   # OG SEO 配置
   # Open graph settings
@@ -261,7 +269,7 @@ params:
     # Manual define the sidebar width. If commented, will be default for:
     # Muse | Mist: 320
     # Pisces | Gemini: 240
-    width: 256
+    width: 240
 
     # 侧边栏的显示方式，可选值：
     #  - post    默认在文章页面展开显示
@@ -464,6 +472,7 @@ params:
   # 开启文章头部元素显示
   # Post meta display settings
   postMeta:
+    # 是否开启各元素的文字显示 
     itemText: true
     created: true
     updated:
@@ -475,15 +484,46 @@ params:
     # 是否开启评论数显示
     comments: 
       enable: true
-      # 评论统计插件，暂只支持waline
-      # Comment counter plugin, only support waline
+      # 评论统计插件，暂只支持waline | waline3 | twikoo
+      # Comment counter plugin, only support waline | waline3 | twikoo
       plugin: waline
     # 是否开启页面访问数显示
     views:
       enable: true
-      # 页面访问统计插件，支持busuanzi, waline, leancloud
-      # Page views counter plugin, support: busuanzi, waline, leancloud
+      # 页面访问统计插件，支持busuanzi, waline, waline3, twikoo (其中 twikoo 仅支持文章页显示)
+      # Page views counter plugin, support: busuanzi, waline, waline3, twikoo (twikoo only support in post page)
       plugin: busuanzi
+    # 是否开启过期提示
+    # Expired tip
+    expired: false
+    # 是否开启摘要显示
+    # Enable summary
+    summary: true
+
+  # 文章内容中的提示信息设置
+  # Alert settings in post content
+  postAlerts:
+    info:
+      icon: "circle-info"
+      color: "#4A90E2"
+    note:
+      icon: "bell"
+      color: "#17A2B8"
+    help:
+      icon: "circle-question"
+      color: "#967ADC"
+    error:
+      icon: "circle-xmark"
+      color: "#DC3545"
+    warning:
+      icon: "triangle-exclamation"
+      color: "#F39C12"
+    success:
+      icon: "circle-check"
+      color: "#32CD32"
+    important:
+      icon: "circle-plus"
+      color: "#007BFF"
 
   # 文章底部的设置
   # Post footer settings
@@ -572,6 +612,9 @@ params:
     # 在代码块上添加拷贝按钮
     # Add copy button on codeblock
     copyBtn: true
+    # 代码块的默认显示行高
+    # Default max height of codeblock.
+    maxHeight: 200
 
   # 返回顶部设置
   # Backtop settings
@@ -581,7 +624,7 @@ params:
     enable: true
     # 在侧边栏显示返回顶部按钮
     # Back to top in sidebar.
-    sidebar: false
+    sidebar: true
     # 在返回按钮上显示进度
     # Scroll percent label in b2t button.
     scrollpercent: true
@@ -828,6 +871,20 @@ params:
     reactionText: [ '点赞', '踩一下', '得意', '不屑', '尴尬', '睡觉']
     reactionTitle: "你认为这篇文章怎么样？"
     serverURL: https://waline-hugo-tau.vercel.app/
+  # Waline(2) 与 Waline3 无法兼容只能是二选一
+  # Waline3 采用的是ES模块开发，需要更高版本的浏览器才能支持，如考虑兼容性建议可优先选用Waline2
+  # waline3:
+  #   placeholder: "请文明发言哟 ヾ(≧▽≦*)o"
+  #   sofa: "快来发表你的意见吧 (≧∀≦)ゞ"
+  #   emoji: false
+  #   search: true
+  #   imgUploader: false
+  #   wordLimit: 200
+  #   requiredMeta: ['nick', 'mail']
+  #   reaction: true
+  #   reactionText: [ '点赞', '踩一下', '得意', '不屑', '尴尬', '睡觉']
+  #   reactionTitle: "你认为这篇文章怎么样？"
+  #   serverURL: #<your waline server url>
 
   # Artalk 评论插件
   # 更多配置信息请参考：https://artalk.js.org
@@ -870,7 +927,7 @@ params:
   giscus:
     # Github 仓库地址，格式：用户名/仓库名称
     # Github repository owner and name
-    repo: #sxz799/hugoBlogDiscussions
+    repo: username/repo-name
     # Giscus 生成的仓库 Id
     # Generate repository Id from Giscus
     repoId: #<repo-id>
@@ -898,6 +955,18 @@ params:
     # Available values: light | light_high_contrast | light_protanopia | light_tritanopia | dark | dark_high_contrast | dark_protanopia | dark_tritanopia | dark_dimmed | transparent_dark | preferred_color_scheme
     theme: preferred_color_scheme
 
+  # twikoo 评论插件
+  # 更多配置信息请参考：https://twikoo.js.org
+  # Twikoo comments system
+  # For more information: https://twikoo.js.org
+  twikoo:
+    # 必填项，腾讯云环境填 envId；其他填写自己的后端地址
+    # Required, fill in envId for Tencent Cloud environment; fill in your own backend address for others
+    envid: 'http://192.168.31.50:8080'
+    # 环境地域，默认为 ap-shanghai，腾讯云环境填 ap-shanghai 或 ap-guangzhou；其他可以不填写
+    # Region, default is ap-shanghai, fill in ap-shanghai or ap-guangzhou for Tencent Cloud environment; others can be left blank
+    region: 'ap-guangzhou'
+
 
   # ---------------------------------------------------------------
   # 文章小组件和分享服务设置
@@ -913,11 +982,19 @@ params:
     id:     # <app_id>
     color:  "#fc6423"
 
-  # AddThis文章分享功能
-  # 更多信息及配置请参考：https://www.addthis.com
-  # AddThis Share. 
-  # See: https://www.addthis.com
-  addThisId: #<Your addthis> 
+  # 文章分享功能
+  share:
+    enable: false
+    # 更多信息与配置，请参考：https://sharethis.com
+    # For more information and configuration, please refer to:https://sharethis.com
+    # sharethis:
+    #   id: #<sharethis_id> 
+    # 简单的在线分享，没有统计数据功能，更多信息可参考：https://www.addtoany.com/
+    # Simple online sharing without statistical data function. 
+    # For more information, please refer to: https://www.addtoany.com/
+    addtoany:    
+      locale: zh-CN
+      num_services: 8 
 
 
   # ---------------------------------------------------------------
@@ -937,6 +1014,9 @@ params:
     # 谷歌统计
     # Google Analytics
     #google: #<anaytics_id>
+    # 谷歌统计
+    # Cloudflare Analytics
+    #cloudflare: #<cloudflare_id>
     # 不蒜子统计
     # Show Views / Visitors of the website / page with busuanzi.
     # For more information: http://ibruce.info/2015/04/04/busuanzi/
@@ -960,6 +1040,9 @@ params:
     indexName: #<algolia index name>
     hits:
       perPage: 10
+    # 索引生成内容长度字数限制
+    # Index generation content length word count limit.
+    limit: 1000
 
   # 本地搜索
   # Local Search
@@ -983,6 +1066,9 @@ params:
     # 页面加载时是否要重新载入索引文件
     # Preload the search data when the page loads.
     preload: false
+    # 索引生成内容长度字数限制
+    # Index generation content length word count limit.
+    limit: 1000
 
 
   # ---------------------------------------------------------------
@@ -1018,7 +1104,7 @@ params:
     #  - flat      flat callout style with background, like on Mozilla or StackOverflow.
     #  - disabled  disable all CSS styles import of note tag.
     style: simple
-    icons: false
+    icons: true
     # Offset lighter of background in % for modern and flat styles (modern: -12 | 12; flat: -18 | 6).
     # Offset also applied to label tag variables. This option can work with disabled note tag.
     lightBgOffset: 0
@@ -1040,15 +1126,6 @@ params:
     # Default height
     height: 500px
 
-  # Mermaid tag
-  mermaid:
-    enable: false
-    # Available themes: default | dark | forest | neutral
-    theme:
-      light: default
-      dark: dark
-
-
   # ---------------------------------------------------------------
   # 动画效果设置
   # Animation Settings
@@ -1061,11 +1138,10 @@ params:
     enable: true
     async: true
     transition:
-      # All available transition variants: https://theme-next.js.org/animate/
       postBlock: fadeIn
       postHeader: fadeInDown
       postBody: fadeInDown
-      collHeader: fadeInLeft
+      collHeader: slideInRight
       # 侧边样效果 只有在 Pisces | Gemini 模式下才支持
       # Only for Pisces | Gemini.
       sidebar: fadeInUp
@@ -1108,11 +1184,3 @@ params:
     # For example:
     # custom_cdn_url: https://cdn.jsdelivr.net/npm/${npm_name}@${version}/${minified}
     # custom_cdn_url: https://cdnjs.cloudflare.com/ajax/libs/${cdnjs_name}/${version}/${cdnjs_file}
-
-  # TODO
-  # Assets
-  # Accelerate delivery of static files using a CDN
-  # The js option is only valid when vendors.internal is local.
-  css: css
-  js: js
-  images: imgs

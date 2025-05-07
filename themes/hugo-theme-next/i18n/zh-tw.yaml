@@ -71,13 +71,20 @@ PostMeta:
   tags: 標籤
   more: 閱讀全文
   edit: 編輯
-
-Reward:
-  title: 讚賞
-  wechatpay: 微信
-  alipay: 支付寶
-  paypal: Paypal
-  bitcoin: 比特幣
+  expired:
+    title: "温馨提醒"
+    info: "🕰️ 嗨，这篇文章已是#前的陳年佳釀，資訊可能需要更新，閱讀前請檢查最佳賞味期限。"
+    warn: "🚀 請注意啦！這篇文章来自#以前，可能已經跟不上時代的腳步了。閱讀時請自備時光機，小心穿越哦！"
+  summary: 
+      title: 總結摘要
+PostAlert:
+  info     : "信息 "
+  note     : "注意"
+  help     : "幫助"
+  error    : "錯誤"
+  warning  : "警告"
+  success  : "成功"
+  important: "重要"
 
 PostCopyRight:
   title: 文章標題
@@ -88,13 +95,20 @@ PostCopyRight:
     link: 原文鏈接
   license:
     title: 版權聲明
-    content: "本博客所有文章除特別聲明外，均採用 <i class=\"fab fa-fw fa-creative-commons\"></i>%s 許可協議。轉載請註明出處！"
+    content: "本作品採用 <i class=\"fab fa-fw fa-creative-commons\"></i>%s 授權協議。轉載請註明出處！"
 
 PostFollowMe:
   other: 歡迎關注我的其它發布渠道
 
 PostCommentTitle:
   other: 評論交流
+
+Reward:
+  title: 讚賞
+  wechatpay: 微信
+  alipay: 支付寶
+  paypal: Paypal
+  bitcoin: 比特幣
 
 SiteInfoItems:
   title: "網站資訊"
