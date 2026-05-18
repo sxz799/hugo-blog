@@ -15,6 +15,10 @@ categories:
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ```
 
+```
+ssh-keygen -t rsa -b 4096 -C "sxzhi799@gmail.com"
+```
+
 一路回车即可
 ```
 cat ~/.ssh/id_rsa.pub
@@ -23,6 +27,7 @@ cat ~/.ssh/id_rsa.pub
 
 如果出现错误提示`kex_exchange_identification: Connection closed by remote`  
 解决方案:
+编辑
 ~/.ssh/config 文件（没有就新增）
 
 ```
