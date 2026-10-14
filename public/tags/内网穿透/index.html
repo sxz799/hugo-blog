@@ -1,212 +1,0 @@
-<!DOCTYPE html>
-<html lang="en" dir="auto" data-theme="auto">
-
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>内网穿透 | 青丝蘸白雪i</title>
-<meta name="keywords" content="">
-<meta name="description" content="">
-<meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/index.xml" title="rss">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-    </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script>
-</head>
-<body class="list" id="top">
-    <header class="header">
-    <nav class="header-nav">
-        <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="青丝蘸白雪i (Alt + H)">青丝蘸白雪i</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu" class="menu">
-        </ul>
-    </nav>
-</header>
-<main class="main"> 
-<header class="page-header">
-  <h1>
-    内网穿透
-  </h1>
-</header>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">FRP内网穿透访问家中的NAS和路由器后台
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>前言 自从入手了蜗牛星际以后，一直在折腾，先是安装了软路由，现在换成了PVE下虚拟LEDE软路由和黑群晖。可以远程访问的NAS才是一个完整的NAS,由于在宿舍大家一块用一条网线，虽然有公网地址，但联通公司不给改桥接，后来想想也挺麻烦的，而且宿舍的网线也只有4芯，即使路由器拨号也无法多播，就放弃DDNS了。于是开始研究内网穿透。
-为什么要用FRP 1.没钱购买花生壳的付费服务，免费的局限性太大 2.学习一些新的东西
-对FRP的理解 感觉frp和远程代理很像，支持的底层协议也很丰富，配置相对简单，而且不需要安装。通过命令行方式启动，有一点Linux基础的用户就可以完美驾驭。 作者github主页 根据作者的介绍，frp的基础功能是实现远程tcp访问和ssh链接。而用的更多的确实http协议带来的远程web链接，访问家中的NAS和路由器后台。
-下载以及配置 直接在github页面下载即可(注意服务的与客户端的版本尽量相同) 配置过程 下载frp： wget https://github.com/fatedier/frp/releases/download/v0.26.0/frp_0.26.0_linux_amd64.tar.gz 解压： tar -zxvf frp_0.26.0_linux_amd64.tar.gz 进入解压后的文件夹： cd frp_0.26.0_linux_amd64.tar.gz 编辑服务端配置文件： vi frps.ini 输入i进入编辑模式 i
-根据文章后面的内容进行具体配置 编辑完成后按一下键盘左上角esc键退出编辑 输入:wq保存并退出 启动frp服务端并保持后台运行 （第一次测试时不需要&amp;符号即可前台运行，ctrl&#43;c即可退出） nohup ./frps -c ./frps.ini &amp;
-客户端和服务端类似，不过将frps更换为frpc （这里的s就是server服务端，c就是client客户端） 下载frp： wget https://github.com/fatedier/frp/releases/download/v0.26.0/frp_0.26.0_linux_amd64.tar.gz 解压： tar -zxvf frp_0.26.0_linux_amd64.tar.gz 进入解压后的文件夹： cd frp_0.26.0_linux_amd64.tar.gz 编辑客户端配置文件： vi frpc.ini// 输入i进入编辑模式 i
-根据文章后面的内容进行具体配置 编辑完成后按一下键盘左上角esc键退出编辑,保存并退出 :wq 记得按esc退出编辑状态 启动frp服务端并保持后台运行 nohup ./frpc -c ./frpc.ini &amp;
-服务端配置文件 [common] #服务器ipbind_addr = 0.0.0.0 #frp端口 bind_port = 7000#口令配置token = xxx ##frp协议和端口配置 （根据自己的需要保留即可）bind_udp_port = 7001kcp_bind_port = 7002vhost_http_port = 80 vhost_https_port = 443##frp的统计信息，可以浏览器输入http://服务器ip:7500查看，账号密码为admin，可以在下面配置中修改dashboard_addr = 0.0.0.0dashboard_port = 7500dashboard_user = admindashboard_pwd = admin ##frp日志配置 log_file = ./frps.loglog_level = infolog_max_days = 3 客户端配置文件 [common]####IP也可以是域名 server_addr = x.x.x.x frp服务器端口server_port = 7000#口令配置，要和服务端一致token = xxx ##frp日志配置 （根据自己的需要保留或者删除）log_file = ./frpc.loglog_level = infolog_max_days = 3#[]里面的内容自定义，建议用作标示[lede] type = httplocal_ip = 192.168.123.1 local_port = 80	custom_domains = xxx.youdomain.com	[nas]type = http local_ip = 192.168.123.102 local_port = 5000 custom_domains = yyy.youdomain.com [pve]type = httpslocal_ip = 192.168.123.100local_port = 8006custom_domains = zzz.youdomain.com#这里我的客户端配置，三个域名分别对应三个不同的web页面#custom_domains是自己的域名 FRP整体配置还是比较简单的，只要了解了其原理就能轻松使用。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2019-04-11 16:39:01 +0000 UTC'>April 11, 2019</span></footer>
-  <a class="entry-link" aria-label="post link to FRP内网穿透访问家中的NAS和路由器后台" href="http://localhost:1313/posts/%E8%BD%AF%E8%B7%AF%E7%94%B1/2019-04-11--frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E8%AE%BF%E9%97%AE%E5%AE%B6%E4%B8%AD%E7%9A%84nas%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8%E5%90%8E%E5%8F%B0/"></a>
-</article>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">青丝蘸白雪i</a></span> · 
-
-    
-    
-    <span>
-        Powered by
-        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
-    </svg>
-</a>
-
-<script>
-    let menu = document.getElementById('menu');
-    if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var toplink = document.getElementById("top-link");
-    window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
-        } else {
-            toplink.classList.add("hidden");
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            html.dataset.theme = 'dark';
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
-</html>

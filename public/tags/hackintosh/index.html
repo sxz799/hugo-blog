@@ -1,250 +1,0 @@
-<!DOCTYPE html>
-<html lang="en" dir="auto" data-theme="auto">
-
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>Hackintosh | 青丝蘸白雪i</title>
-<meta name="keywords" content="">
-<meta name="description" content="">
-<meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/tags/hackintosh/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/tags/hackintosh/index.xml" title="rss">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/tags/hackintosh/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-    </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script>
-</head>
-<body class="list" id="top">
-    <header class="header">
-    <nav class="header-nav">
-        <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="青丝蘸白雪i (Alt + H)">青丝蘸白雪i</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu" class="menu">
-        </ul>
-    </nav>
-</header>
-<main class="main"> 
-<header class="page-header">
-  <h1>
-    Hackintosh
-  </h1>
-</header>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">华硕ZX50JX4200黑苹果DSDT/SSDT修补总结(持续更新)
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>提取 建议制作Ubuntu的U盘启动提取
-反编译 使用iasl 联合反编译 将提取的原始 dsdt和ssdt文件重命名为xxx.aml（xxx为原始文件名）
-一键改名命令 for i in *;do mv &#34;$i&#34; &#34;$i.aml&#34;;done
-反编译命令 iasl -da -dl *.aml 删除所有aml文件，只保留dsl文件 rm *.aml
-改错 不同设备或不同版本的bios可能提取的到文件反编译后错误不同，这里只总结了我遇到的错误
-dsdt文件错误修复 1.PARSEOP_ZERO错误 使用Rehubman补丁源的“Fix PARSEOP_ZERO Error” 2.提示‘}‘错误 删除对应行的行Arg0 然后就没有错误了 但提示警告，不用理会
-SSDT2错误修复 package (0x06){0x80000000, 0x80000000, 0x80000000, 0x80000000, 0x80000000, 0x80000000} 这种错误使用派奇的补丁源的”SSDT_Package(){0x80000000}_Eror_Fix“修复 补丁地址
-派奇 http://raw.github.com/Yuki-Judai/dxxs-DSDT-Patch/master SSDT3错误修复 cpupm变频文件 删除该dsl 使用脚本生成并代替该文件 脚本GitHub地址 https://github.com/Piker-Alpha/ssdtPRGen.sh
-SSDT9错误修复 PARSEOP_NAMESEG错误 使用[gfx0]Cleanup/Fix Errors(SSDT)修复
-打补丁 除补充说明外，默认补丁源在RehubMan的笔记本补丁源
-改名补丁(理论上需要所有的文件都要改名) 1.GFX0-&gt;IGPU 需要的文件（DSDT、SSDT5、SSDT6、SSDT9） 2.B0D3-&gt;HDAU 需要的文件（SSDT、SSDT5) 3._DSM-&gt;XDSM
-显卡补丁 位于ssdt5 “[igpu]Haswell HD4400/HD4600/HD5000“
-DSDT通用补丁 1.屏蔽独显 Disable fromm _REG(DSDT) Disable/Enable on _WAK/_PTS(DSDT)
-...</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2019-10-19 01:10:02 +0000 UTC'>October 19, 2019</span></footer>
-  <a class="entry-link" aria-label="post link to 华硕ZX50JX4200黑苹果DSDT/SSDT修补总结(持续更新)" href="http://localhost:1313/posts/hackintosh/2019-10-19-%E9%BB%91%E8%8B%B9%E6%9E%9C%E4%B9%8B%E5%8D%8E%E7%A1%95zx50jx4200%E9%BB%91%E8%8B%B9%E6%9E%9Cdsdt-ssdt%E4%BF%AE%E8%A1%A5%E6%80%BB%E7%BB%93/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">黑苹果之华硕笔记本键盘灯和Fn快捷键
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>驱动华硕笔记本的键盘灯和快捷键需要两步
-第一步：修改DSDT Haswell机型 打开反编译好的DSDT,搜索“Device (ATKD)”，在其定义下加入以下代码（包含关系）：
-Name (BOFF, Zero)Method (SKBL, 1, NotSerialized){If (Or (LEqual (Arg0, 0xED), LEqual (Arg0, 0xFD))){If (And (LEqual (Arg0, 0xED), LEqual (BOFF, 0xEA))){Store (Zero, Local0)Store (Arg0, BOFF)}Else{If (And (LEqual (Arg0, 0xFD), LEqual (BOFF, 0xFA))){Store (Zero, Local0)Store (Arg0, BOFF)}Else{Return (BOFF)}}}Else{If (Or (LEqual (Arg0, 0xEA), LEqual (Arg0, 0xFA))){Store (KBLV, Local0)Store (Arg0, BOFF)}Else{Store (Arg0, Local0)Store (Arg0, KBLV)}}Store (DerefOf (Index (PWKB, Local0)), Local1)^^PCI0.LPCB.EC0.WRAM (0x04B1, Local1) // Haswell/Ivy^^PCI0.LPCB.EC0.WRAM (0x044B, Local1) // Sandy/IvyReturn (Local0)}Method (GKBL, 1, NotSerialized){If (LEqual (Arg0, 0xFF)){Return (BOFF)}Return (KBLV)} Skylake机型 打开反编译好的DSDT,搜索“Method (SCDG, 1, NotSerialized)”，在这个method下方加入以下代码（注并列关系）：
-...</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2019-10-18 21:27:32 +0000 UTC'>October 18, 2019</span></footer>
-  <a class="entry-link" aria-label="post link to 黑苹果之华硕笔记本键盘灯和Fn快捷键" href="http://localhost:1313/posts/hackintosh/2019-10-18-%E9%BB%91%E8%8B%B9%E6%9E%9C%E4%B9%8B%E5%8D%8E%E7%A1%95%E7%AC%94%E8%AE%B0%E6%9C%AC%E9%94%AE%E7%9B%98%E7%81%AF%E5%92%8Cfn%E5%BF%AB%E6%8D%B7%E9%94%AE/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">黑苹果之仿冒白苹果鼠标
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>仿冒好处 如果你的鼠标有侧键，可以启用部分侧键的功能
-需要工具 1.PlistEdit 2.Clover Configurator
-正式过程 1.查看关于本机-硬件-USB 查找鼠标对应的产品ID(idProduct)和厂商ID(idVendor),记录下来并转为10进制 2.新建一个1.plist。 3.将下面内容复制到1.plist。并修改记录的10进制填入下面文本对应的地方（每个值对应2个地方,第22、24行和239、241行）。保存后鼠标右键点击1.plist，打开方式选择PlistEdit &lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt; &lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt; &lt;plist version=&#34;1.0&#34;&gt; &lt;dict&gt; &lt;key&gt;IOKitPersonalities&lt;/key&gt; &lt;dict&gt; &lt;key&gt;WiredMouse-1&lt;/key&gt; &lt;dict&gt; &lt;key&gt;CFBundleIdentifier&lt;/key&gt; &lt;string&gt;com.apple.driver.AppleUSBHIDMouse&lt;/string&gt; &lt;key&gt;HIDDefaultBehavior&lt;/key&gt; &lt;string&gt;Mouse&lt;/string&gt; &lt;key&gt;IOClass&lt;/key&gt; &lt;string&gt;AppleHIDMouse&lt;/string&gt; &lt;key&gt;IOProviderClass&lt;/key&gt; &lt;string&gt;IOUSBInterface&lt;/string&gt; &lt;key&gt;bConfigurationValue&lt;/key&gt; &lt;integer&gt;1&lt;/integer&gt; &lt;key&gt;bInterfaceNumber&lt;/key&gt; &lt;integer&gt;0&lt;/integer&gt; &lt;key&gt;idProduct&lt;/key&gt; &lt;integer&gt;100&lt;/integer&gt; &lt;key&gt;idVendor&lt;/key&gt; &lt;integer&gt;7847&lt;/integer&gt; &lt;/dict&gt; &lt;key&gt;WiredMouseAccel-1&lt;/key&gt; &lt;dict&gt; &lt;key&gt;AppleHIDMouseVersion&lt;/key&gt; &lt;integer&gt;256&lt;/integer&gt; &lt;key&gt;CFBundleIdentifier&lt;/key&gt; &lt;string&gt;com.apple.iokit.IOHIDFamily&lt;/string&gt; &lt;key&gt;HIDAccelCurves&lt;/key&gt; &lt;array&gt; &lt;dict&gt; &lt;key&gt;HIDAccelGainLinear&lt;/key&gt; &lt;integer&gt;65536&lt;/integer&gt; &lt;key&gt;HIDAccelIndex&lt;/key&gt; &lt;integer&gt;0&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedLinear&lt;/key&gt; &lt;integer&gt;524288&lt;/integer&gt; &lt;/dict&gt; &lt;dict&gt; &lt;key&gt;HIDAccelGainCubic&lt;/key&gt; &lt;integer&gt;5243&lt;/integer&gt; &lt;key&gt;HIDAccelGainLinear&lt;/key&gt; &lt;integer&gt;70124&lt;/integer&gt; &lt;key&gt;HIDAccelGainParabolic&lt;/key&gt; &lt;integer&gt;26214&lt;/integer&gt; &lt;key&gt;HIDAccelIndex&lt;/key&gt; &lt;integer&gt;8192&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedLinear&lt;/key&gt; &lt;integer&gt;537395&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedParabolicRoot&lt;/key&gt; &lt;integer&gt;1245184&lt;/integer&gt; &lt;/dict&gt; &lt;dict&gt; &lt;key&gt;HIDAccelGainCubic&lt;/key&gt; &lt;integer&gt;6554&lt;/integer&gt; &lt;key&gt;HIDAccelGainLinear&lt;/key&gt; &lt;integer&gt;74711&lt;/integer&gt; &lt;key&gt;HIDAccelGainParabolic&lt;/key&gt; &lt;integer&gt;36045&lt;/integer&gt; &lt;key&gt;HIDAccelIndex&lt;/key&gt; &lt;integer&gt;32768&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedLinear&lt;/key&gt; &lt;integer&gt;543949&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedParabolicRoot&lt;/key&gt; &lt;integer&gt;1179648&lt;/integer&gt; &lt;/dict&gt; &lt;dict&gt; &lt;key&gt;HIDAccelGainCubic&lt;/key&gt; &lt;integer&gt;7864&lt;/integer&gt; &lt;key&gt;HIDAccelGainLinear&lt;/key&gt; &lt;integer&gt;79299&lt;/integer&gt; &lt;key&gt;HIDAccelGainParabolic&lt;/key&gt; &lt;integer&gt;46531&lt;/integer&gt; &lt;key&gt;HIDAccelIndex&lt;/key&gt; &lt;integer&gt;45056&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedLinear&lt;/key&gt; &lt;integer&gt;550502&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedParabolicRoot&lt;/key&gt; &lt;integer&gt;1114112&lt;/integer&gt; &lt;/dict&gt; &lt;dict&gt; &lt;key&gt;HIDAccelGainCubic&lt;/key&gt; &lt;integer&gt;9830&lt;/integer&gt; &lt;key&gt;HIDAccelGainLinear&lt;/key&gt; &lt;integer&gt;83886&lt;/integer&gt; &lt;key&gt;HIDAccelGainParabolic&lt;/key&gt; &lt;integer&gt;57672&lt;/integer&gt; &lt;key&gt;HIDAccelIndex&lt;/key&gt; &lt;integer&gt;57344&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedLinear&lt;/key&gt; &lt;integer&gt;557056&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedParabolicRoot&lt;/key&gt; &lt;integer&gt;1048576&lt;/integer&gt; &lt;/dict&gt; &lt;dict&gt; &lt;key&gt;HIDAccelGainCubic&lt;/key&gt; &lt;integer&gt;11796&lt;/integer&gt; &lt;key&gt;HIDAccelGainLinear&lt;/key&gt; &lt;integer&gt;88474&lt;/integer&gt; &lt;key&gt;HIDAccelGainParabolic&lt;/key&gt; &lt;integer&gt;69468&lt;/integer&gt; &lt;key&gt;HIDAccelIndex&lt;/key&gt; &lt;integer&gt;65536&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedLinear&lt;/key&gt; &lt;integer&gt;563610&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedParabolicRoot&lt;/key&gt; &lt;integer&gt;983040&lt;/integer&gt; &lt;/dict&gt; &lt;dict&gt; &lt;key&gt;HIDAccelGainCubic&lt;/key&gt; &lt;integer&gt;14418&lt;/integer&gt; &lt;key&gt;HIDAccelGainLinear&lt;/key&gt; &lt;integer&gt;93061&lt;/integer&gt; &lt;key&gt;HIDAccelGainParabolic&lt;/key&gt; &lt;integer&gt;81920&lt;/integer&gt; &lt;key&gt;HIDAccelIndex&lt;/key&gt; &lt;integer&gt;98304&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedLinear&lt;/key&gt; &lt;integer&gt;570163&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedParabolicRoot&lt;/key&gt; &lt;integer&gt;917504&lt;/integer&gt; &lt;/dict&gt; &lt;dict&gt; &lt;key&gt;HIDAccelGainCubic&lt;/key&gt; &lt;integer&gt;17695&lt;/integer&gt; &lt;key&gt;HIDAccelGainLinear&lt;/key&gt; &lt;integer&gt;97649&lt;/integer&gt; &lt;key&gt;HIDAccelGainParabolic&lt;/key&gt; &lt;integer&gt;95027&lt;/integer&gt; &lt;key&gt;HIDAccelIndex&lt;/key&gt; &lt;integer&gt;131072&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedLinear&lt;/key&gt; &lt;integer&gt;576717&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedParabolicRoot&lt;/key&gt; &lt;integer&gt;851968&lt;/integer&gt; &lt;/dict&gt; &lt;dict&gt; &lt;key&gt;HIDAccelGainCubic&lt;/key&gt; &lt;integer&gt;21627&lt;/integer&gt; &lt;key&gt;HIDAccelGainLinear&lt;/key&gt; &lt;integer&gt;102236&lt;/integer&gt; &lt;key&gt;HIDAccelGainParabolic&lt;/key&gt; &lt;integer&gt;108790&lt;/integer&gt; &lt;key&gt;HIDAccelIndex&lt;/key&gt; &lt;integer&gt;163840&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedLinear&lt;/key&gt; &lt;integer&gt;583270&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedParabolicRoot&lt;/key&gt; &lt;integer&gt;786432&lt;/integer&gt; &lt;/dict&gt; &lt;dict&gt; &lt;key&gt;HIDAccelGainCubic&lt;/key&gt; &lt;integer&gt;26214&lt;/integer&gt; &lt;key&gt;HIDAccelGainLinear&lt;/key&gt; &lt;integer&gt;104858&lt;/integer&gt; &lt;key&gt;HIDAccelGainParabolic&lt;/key&gt; &lt;integer&gt;123208&lt;/integer&gt; &lt;key&gt;HIDAccelIndex&lt;/key&gt; &lt;integer&gt;196608&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedLinear&lt;/key&gt; &lt;integer&gt;589824&lt;/integer&gt; &lt;key&gt;HIDAccelTangentSpeedParabolicRoot&lt;/key&gt; &lt;integer&gt;786432&lt;/integer&gt; &lt;/dict&gt; &lt;/array&gt; &lt;key&gt;HIDDisallowRemappingOfPrimaryClick&lt;/key&gt; &lt;true/&gt; &lt;key&gt;HIDScrollAccelerationTable&lt;/key&gt; &lt;data&gt; AACAAFVTQioACAAAAAAAAQABAAAAAKAAAAAgAAARAACAAAABITgA APd3AAMEhQABkREABbM1AAIzMwAIjM8AAxmaAA0&#43;ggAECIkAExyh AAT3dwAZ0VcABiIiACKz/AAHm7kAL60rAAkL5ABAlHUACubxAFm3 6AAMzfUAcQCiAA8nmwCKvFgAEdQ&#43;AKNZoQAUyDoAwOAEABfUJwDY opEAG0&#43;XAPCMwAAAUAAAEQAAgAAAAkgLAADu7wAFB4kAAWZmAAg2 &#43;QACGZoADROXAALERAARml4AA5ERABciqAAEqqsAH4SMAAXVVQAp EtwAB1gvADlNsAAI&#43;gEASsYnAArm8QBkfA4ADM31AH6QEgAPJ5sA m2JOABHUPgC2878AFQGcANyUtgAYFoAA&#43;RU7ABtPlwENanAAAIAA ABEAAHd3AAP8iwAA5mYAB2dLAAFMzQALY9UAAczNAA&#43;pRQACgAAA Fez7AANVVQAceZUABMzNACjcjQAGREQANfVWAAd3dwBC3IcACPd3 AFP6RgAK5vEAcIrxAAzN9QCNwBQADyebAK4HtAAR1D4AzOgJABUO wgD2msAAGCOmARWVwAAbT5cBLb7kAACwAAARAACIiQAHrbYAAPd3 AA0&#43;ggABd3cAExyhAAIIiQAZUJYAAszNACGyegADzM0AKxXgAATu 7wA1pbIABhERAEDhMAAHme8AUcnXAAkQqwBjyIMACs/hAIEhmgAM zfUAnsKmAA8nmwDC6egAEgcEAOyw1QAVDsIBExtGABg8dQE2zfoA GwY&#43;AUv0OgAA4AAAEQAAgAAACyXBAAD6sQAXwo4AAXgJACAlVgAC HyoAKTsFAALwEwAztn8AA/ixAD&#43;XxgAFAVAAShNBAAYztgBV9IgA B1gvAGM7mgAI3d4AdvcJAAqzMwCV8gkADOQyALnh/gAPJ5sA2k2o ABHUPgEBCNoAFP1bASmGugAYJnkBUgSeABrppwFjp94AAQAAABEA ACqrAA2aKgAAbu8AG1SSAADd3gApDvoAAYiJADUF/QAClmEAQF4p AAOLXgBMUmQABKSmAFkyBgAF0BUAZSZBAAcx9AB2nuYACK&#43;5AIkC 8QAKszMAp/BcAAzkMgDQMFAADyebAPR/7wAR1D4BH&#43;D0ABT9WwFN OrwAGCZ5AXqUiAAa6acBjlWcAAGzMwARAAAqqwAPPAYAAG7vAB6c KQAA3d4ALfxLAAGIiQA7Yt4AApZhAEgXigADi14AVXsAAASkpgBj 5hsABdAVAHFJkQAHMfQAhNrtAAivuQCZc&#43;8ACrMzALwXcQAM5DIA 6SvfAA8nmwER1vgAEdQ&#43;AUJslgAU/VsBdTeKABgmeQGoAoQAGumn Ab4icg== &lt;/data&gt; &lt;key&gt;HIDScrollAccelerationTableX&lt;/key&gt; &lt;data&gt; AACAAFVTQioACAAAAAAAAQABAAAAAQAAAAAgAAARAACAAAACGcMA AQAAAAQq2wABd3cAB4BXAAIzMwAPfbMAAyqrABki6QAEEREAIeel AAUZmgAqYY4ABmZmADX7bgAHzM0AQ3pJAAlVVQBUNk8ACwAAAGel TQAM3d4AfcwjAA8zMwCaeMkAEd3eALqW3AAU5mYA23dyABfd3gD5 ZcEAGyIiARiOHAAAUAAADwAAgAAABDOHAAEAAAAKdCgAAgAAABkc CQADREQAKISDAASiIgA1EogABhERAER7AgAHzM0AVivaAAkZmgBm JmwACqIiAHqxuQAMZmYAkYVkAA73dwCw6G8AEZERANDdkgAVCIkA &#43;D3nABgREQEXoPIAGxmaATakNgAAgAAADwAAgAAACBo6AAEIiQAU eswAAfd3ACNrCwADEREAM3TgAARMzQBC06EABcREAFQznQAHZmYA Zj6tAAk7vAB8TDEACxERAJRa8AANGZoArxX9AA87vADKfB4AEhER AO/oZAAVGZoBFVSqABgiIgE1aFIAGxmaAVS6UAAAsAAADwAAgAAA EDR1AAEIiQAeVxsAAczNAC2CqQAC1VUAPvS/AAP3dwBRKQMABYAA AGZl/AAHVVUAfel&#43;AAk7vACW8VsACvd3AKzwggAM93cAyD7nAA9E RADl09UAEgiJAQyC5AAVEREBMzH0ABgIiQFTDWoAGxmaAXLQagAA 4AAADwAAgAAAGAHcAAEIiQAoNlEAAaqrADghJgACmZoAS9nEAAOz MwBhFr4ABTMzAHlcbQAG5mYAkyZ4AAiZmgCsLlQACoiJAMd8ugAM oiIA5RGoAA8REQEEKvAAEgAAASxeWgAVEREBUYkQABgzMwF0bTwA GxERAZDmhAABAAAADwAAgAAAIBwXAAEAAAA0Nz8AAZmaAEVwCwAC d3cAWkTbAAN3dwBvGasABPd3AIxrGwAGmZoAqPcIAAhu7wDHDfwA CkREAOLUZwAMZmYBAzviAA8ZmgEqlPoAEgiJAVUEHAAVGZoBfSK2 ABg7vAGke84AGwAAAcKK/AABszMAEAAAgAAAKB1XAAEAAABALvIA AXd3AFK8yQACEREAZBh0AAMZmgB/3fAABHd3AJ0zfQAFmZoAtISe AAbERADMlkwACCIiAObpowAJ1VUBBD8wAAwiIgErW&#43;wADqqrAU92 cgARszMBfJeaABT3eAGpuMAAF&#43;7vAdDVfAAbAAAB9C90 &lt;/data&gt; &lt;key&gt;HIDScrollResolution&lt;/key&gt; &lt;integer&gt;2818048&lt;/integer&gt; &lt;key&gt;HIDScrollResolutionX&lt;/key&gt; &lt;integer&gt;2818048&lt;/integer&gt; &lt;key&gt;IOClass&lt;/key&gt; &lt;string&gt;IOHIDEventDriver&lt;/string&gt; &lt;key&gt;IOHIDScrollReportRate&lt;/key&gt; &lt;integer&gt;8192000&lt;/integer&gt; &lt;key&gt;IOProviderClass&lt;/key&gt; &lt;string&gt;IOHIDInterface&lt;/string&gt; &lt;key&gt;ProductID&lt;/key&gt; &lt;integer&gt;100&lt;/integer&gt; &lt;key&gt;VendorID&lt;/key&gt; &lt;integer&gt;7847&lt;/integer&gt; &lt;/dict&gt; &lt;/dict&gt; &lt;/dict&gt; &lt;/plist&gt; 4.如下图所示，复制WiredMouse-1和WiredMouseAccel-1 5.如下图所示，用PlistEdit打开FakeSMC.kext，找到IOKitPersonalities，然后看下图提示 6.插入后应该是下图的样子 7.保存放入clover/kexts/other替换-重建缓存-重启即可 成功效果图 </p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2019-10-17 17:11:09 +0000 UTC'>October 17, 2019</span></footer>
-  <a class="entry-link" aria-label="post link to 黑苹果之仿冒白苹果鼠标" href="http://localhost:1313/posts/hackintosh/2019-10-17-%E9%BB%91%E8%8B%B9%E6%9E%9C%E4%B9%8B%E4%BB%BF%E5%86%92%E7%99%BD%E8%8B%B9%E6%9E%9C%E9%BC%A0%E6%A0%87/"></a>
-</article>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">青丝蘸白雪i</a></span> · 
-
-    
-    
-    <span>
-        Powered by
-        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
-    </svg>
-</a>
-
-<script>
-    let menu = document.getElementById('menu');
-    if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var toplink = document.getElementById("top-link");
-    window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
-        } else {
-            toplink.classList.add("hidden");
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            html.dataset.theme = 'dark';
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
-</html>
