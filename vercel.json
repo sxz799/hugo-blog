@@ -1,8 +1,4 @@
 {
-  "build": {
-    "command": "hugo --gc --minify",
-    "outputDirectory": "public"
-  },
   "git": {
     "enableSubmodules": true
   }
