@@ -1,4 +1,4 @@
-baseURL: https://blog.sxz799.cyou/
+baseURL: "https://blog.sxz799.cyou/"
 locale: zh-cn
 title: 青丝蘸白雪i
 theme: PaperMod
