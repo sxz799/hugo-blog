@@ -1,5 +1,5 @@
 baseURL: "https://blog.sxz799.cyou/"
-locale: zh-cn
+locale: zh
 title: 青丝蘸白雪i
 theme: PaperMod
 params:
@@ -26,6 +26,19 @@ params:
   homeInfoParams:
     Title: 青丝蘸白雪i
     Content: Blog
+
+languages:
+  zh:
+    languageName: "中文"
+    weight: 1
+    taxonomies:
+      category: 分类
+      tag: 标签
+    menu:
+      main:
+        - name: Search
+          url: search/
+          weight: 2
 
 outputs:
   home:
