@@ -2,3 +2,33 @@ baseURL: "https://blog.sxz799.cyou/"
 locale: zh-cn
 title: 青丝蘸白雪i
 theme: PaperMod
+params:
+  env: production
+  title: 青丝蘸白雪i
+  description: "青丝蘸白雪i de Blog"
+  author: sxz799
+  DateFormat: "January 2, 2006"
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowWordCount: true
+  ShowRssButtonInSectionTermList: true
+  UseHugoToc: true
+  disableSpecial1stPost: false
+  disableScrollToTop: false
+  comments: false
+  hidemeta: false
+  hideSummary: false
+  showtoc: false
+  tocopen: false
+  homeInfoParams:
+    Title: 青丝蘸白雪i
+    Content: Blog
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON # necessary for search
