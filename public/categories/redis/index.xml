@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Redis on 青丝蘸白雪i</title>
+    <link>http://localhost:1313/categories/redis/</link>
+    <description>Recent content in Redis on 青丝蘸白雪i</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 19 Feb 2023 10:50:23 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/redis/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Redis基础</title>
+      <link>http://localhost:1313/posts/redis/redis%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Sun, 19 Feb 2023 10:50:23 +0800</pubDate>
+      <guid>http://localhost:1313/posts/redis/redis%E5%9F%BA%E7%A1%80/</guid>
+      <description>&lt;h3 id=&#34;redis是什么&#34;&gt;Redis是什么？&lt;/h3&gt;
+&lt;p&gt;Redis是一个使用 C 语言编写的，高性能&lt;strong&gt;非关系型的键值对数据库&lt;/strong&gt;。与传统数据库不同的是，Redis 的数据是存在&lt;strong&gt;内存&lt;/strong&gt;中的，所以读写速度非常快，被广泛应用于&lt;strong&gt;缓存&lt;/strong&gt;方向。Redis可以将数据写入磁盘中，保证了数据的安全不丢失，而且Redis的操作是&lt;strong&gt;原子性&lt;/strong&gt;的。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis进阶</title>
+      <link>http://localhost:1313/posts/redis/redis%E8%BF%9B%E9%98%B6/</link>
+      <pubDate>Sun, 19 Feb 2023 10:50:23 +0800</pubDate>
+      <guid>http://localhost:1313/posts/redis/redis%E8%BF%9B%E9%98%B6/</guid>
+      <description>&lt;h3 id=&#34;redis是什么&#34;&gt;Redis是什么？&lt;/h3&gt;
+&lt;p&gt;Redis是一个使用 C 语言编写的，高性能&lt;strong&gt;非关系型的键值对数据库&lt;/strong&gt;。与传统数据库不同的是，Redis 的数据是存在&lt;strong&gt;内存&lt;/strong&gt;中的，所以读写速度非常快，被广泛应用于&lt;strong&gt;缓存&lt;/strong&gt;方向。Redis可以将数据写入磁盘中，保证了数据的安全不丢失，而且Redis的操作是&lt;strong&gt;原子性&lt;/strong&gt;的。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Go语言字符串和结构体之间转换 | 青丝蘸白雪i</title>
+<meta name="keywords" content="go">
+<meta name="description" content="在web应用调用 API 的时候，需要把 API 返回的 JSON 字符串转换为 struct 结构体，便于操作。那么一个 JSON 字符串是如何转换为 struct 结构体的呢？这就需要用到反射的知识，今天学习基于字符串和结构体之间的转换，一步步地揭开 Go 语言运行时反射的面纱。">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-27-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93%E4%B9%8B%E9%97%B4%E8%BD%AC%E6%8D%A2/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-27-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93%E4%B9%8B%E9%97%B4%E8%BD%AC%E6%8D%A2/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="青丝蘸白雪i (Alt + H)">青丝蘸白雪i</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Go语言字符串和结构体之间转换
+    </h1>
+    <div class="post-meta">
+
+<span title='2022-08-27 22:58:07 +0000 UTC'>August 27, 2022</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><p>在web应用调用 API 的时候，需要把 API 返回的 JSON 字符串转换为 struct 结构体，便于操作。那么一个 JSON 字符串是如何转换为 struct 结构体的呢？这就需要用到反射的知识，今天学习基于字符串和结构体之间的转换，一步步地揭开 Go 语言运行时反射的面纱。</p>
+<h2 id="反射是什么">反射是什么？<a hidden class="anchor" aria-hidden="true" href="#反射是什么">#</a></h2>
+<p>和 Java 语言一样，Go 语言也有运行时反射，这为我们<strong>提供了一种可以在运行时操作任意类型对象的能力</strong>。比如查看一个接口变量的具体类型、看看一个结构体有多少字段、修改某个字段的值等。</p>
+<p>Go 语言是静态编译类语言，比如在定义一个变量的时候，已经知道了它是什么类型，那么为什么还需要反射呢？这是因为有些事情只有在运行时才知道。比如你定义了一个函数，它有一个<strong>interface</strong>{}类型的参数，这也就意味着调用者可以传递任何类型的参数给这个函数。在这种情况下，如果你想知道调用传递的是什么类型的参数，就需要用到反射。如果你想知道一个结构体有哪些字段和方法，也需要反射。
+以常用的函数 fmt.Println 为例，如下所示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">//src/fmt/print.go</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span> <span style="color:#f92672">...</span><span style="color:#66d9ef">interface</span>{}) (<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Stdout</span>, <span style="color:#a6e22e">a</span><span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>fmt.Println 的源代码有一个可变参数，类型为 interface{}，这意味着你可以传递零个或者多个任意类型参数给它，都能被正确打印。</p>
+<h2 id="reflectvalue-和-reflecttype">reflect.Value 和 reflect.Type<a hidden class="anchor" aria-hidden="true" href="#reflectvalue-和-reflecttype">#</a></h2>
+<p>在 Go 语言的反射定义中，任何接口都由两部分组成：接口的具体类型，以及具体类型对应的值。比如 var i int = 3，因为 interface{} 可以表示任何类型，所以变量 i 可以转为 interface{}。你可以把变量 i 当成一个接口，那么这个变量在 Go 反射中的表示就是 &lt;Value,Type&gt;。其中 Value 为变量的值，即 3，而 Type 为变量的类型，即 int。</p>
+<blockquote>
+<p>小提示：interface{} 是空接口，可以表示任何类型，也就是说你可以把任何类型转换为空接口，它通常用于反射、类型断言，以减少重复代码，简化编程。</p>
+</blockquote>
+<p>在 Go 反射中，标准库为我们提供了两种类型 reflect.Value 和 reflect.Type 来分别表示变量的值和类型，并且提供了两个函数 reflect.ValueOf 和 reflect.TypeOf 分别获取任意对象的 reflect.Value 和 reflect.Type。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">iv</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">ValueOf</span>(<span style="color:#a6e22e">i</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">it</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">TypeOf</span>(<span style="color:#a6e22e">i</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;value : &#34;</span>, <span style="color:#a6e22e">iv</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;type : &#34;</span>, <span style="color:#a6e22e">it</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">运行结果</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">value</span> :  <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> :  <span style="color:#66d9ef">int</span>
+</span></span></code></pre></div><p>代码定义了一个 int 类型的变量 i，它的值为 3，然后通过 reflect.ValueOf 和 reflect.TypeOf 函数就可以获得变量 i 对应的 reflect.Value 和 reflect.Type。通过 fmt.Println 函数打印后，可以看到结果，这也可以证明 reflect.Value 表示的是变量的值，reflect.Type 表示的是变量的类型。</p>
+<h3 id="reflectvalue">reflect.Value<a hidden class="anchor" aria-hidden="true" href="#reflectvalue">#</a></h3>
+<p>在 Go 语言中，reflect.Value 被定义为一个 struct 结构体，它的定义如下面的代码所示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// src/reflect/value.go</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Value</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">typ</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">rtype</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">ptr</span> <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">flag</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>reflect.Value 结构体的字段都是私有的，也就是说，我们只能使用 reflect.Value 的方法。现在看看它有哪些常用方法，如下所示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">//针对具体类型的系列方法</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//以下是用于获取对应的值</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Bool</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Bytes</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Complex</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Float</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Int</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">String</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Uint</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CanSet</span> <span style="color:#75715e">//是否可以修改对应的值</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">以下是用于修改对应的值</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Set</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">SetBool</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">SetBytes</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">SetComplex</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">SetFloat</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">SetInt</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">SetString</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Elem</span> <span style="color:#75715e">//获取指针指向的值，一般用于修改对应的值</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//以下Field系列方法用于获取struct类型中的字段</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Field</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">FieldByIndex</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">FieldByName</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">FieldByNameFunc</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Interface</span> <span style="color:#75715e">//获取对应的原始类型</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">IsNil</span> <span style="color:#75715e">//值是否为nil</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">IsZero</span> <span style="color:#75715e">//值是否是零值</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Kind</span> <span style="color:#75715e">//获取对应的类型类别，比如Array、Slice、Map等</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//获取对应的方法</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Method</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">MethodByName</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">NumField</span> <span style="color:#75715e">//获取struct类型中字段的数量</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">NumMethod</span><span style="color:#75715e">//类型上方法集的数量</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Type</span><span style="color:#75715e">//获取对应的reflect.Type</span>
+</span></span></code></pre></div><p>看着比较多，其实就三类：</p>
+<ul>
+<li>一类用于获取和修改对应的值；</li>
+<li>一类和 struct 类型的字段有关，用于获取对应的字段；</li>
+<li>一类和类型上的方法集有关，用于获取对应的方法。</li>
+</ul>
+<h4 id="获取原始类型">获取原始类型<a hidden class="anchor" aria-hidden="true" href="#获取原始类型">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">i</span><span style="color:#f92672">:=</span><span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">iv</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">ValueOf</span>(<span style="color:#a6e22e">i</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">i1</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">iv</span>.<span style="color:#a6e22e">Interface</span>().(<span style="color:#66d9ef">int</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">i1</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">运行结果</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span>
+</span></span></code></pre></div><h4 id="修改对应的值">修改对应的值<a hidden class="anchor" aria-hidden="true" href="#修改对应的值">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">i</span><span style="color:#f92672">:=</span><span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">ipv</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">ValueOf</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">i</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">ipv</span>.<span style="color:#a6e22e">Elem</span>().<span style="color:#a6e22e">SetInt</span>(<span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">i</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">运行结果</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">4</span>
+</span></span></code></pre></div><p>这样就通过反射修改了一个变量。因为 reflect.ValueOf 函数返回的是一份值的拷贝，所以我们要传入变量的指针才可以。 因为传递的是一个指针，所以需要调用 Elem 方法找到这个指针指向的值，这样才能修改。 最后我们就可以使用 SetInt 方法修改值了。</p>
+<p>要修改一个变量的值，有几个关键点：传递指针（可寻址），通过 Elem 方法获取指向的值，才可以保证值可以被修改，reflect.Value 为我们提供了 CanSet 方法判断是否可以修改该变量。</p>
+<p>那么如何修改 struct 结构体字段的值呢？参考变量的修改方式，可总结出以下步骤：</p>
+<ol>
+<li>
+<p>传递一个 struct 结构体的指针，获取对应的 reflect.Value；</p>
+</li>
+<li>
+<p>通过 Elem 方法获取指针指向的值；</p>
+</li>
+<li>
+<p>通过 Field 方法获取要修改的字段；</p>
+</li>
+<li>
+<p>通过 Set 系列方法修改成对应的值。</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>{<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;张三&#34;</span>, <span style="color:#a6e22e">Age</span>: <span style="color:#ae81ff">20</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ppv</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">ValueOf</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ppv</span>.<span style="color:#a6e22e">Elem</span>().<span style="color:#a6e22e">Field</span>(<span style="color:#ae81ff">0</span>).<span style="color:#a6e22e">SetString</span>(<span style="color:#e6db74">&#34;李四&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ppv</span>.<span style="color:#a6e22e">Elem</span>().<span style="color:#a6e22e">FieldByName</span>(<span style="color:#e6db74">&#34;Name&#34;</span>).<span style="color:#a6e22e">SetString</span>(<span style="color:#e6db74">&#34;王五&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">person</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Age</span>  <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">运行结果</span>
+</span></span><span style="display:flex;"><span>{<span style="color:#a6e22e">李四</span> <span style="color:#ae81ff">20</span>}
+</span></span><span style="display:flex;"><span>{<span style="color:#a6e22e">王五</span> <span style="color:#ae81ff">20</span>}
+</span></span></code></pre></div><p>最后再来总结一下通过反射修改一个值的规则。</p>
+<p>可被寻址，通俗地讲就是要向 reflect.ValueOf 函数传递一个指针作为参数。</p>
+<ol>
+<li>
+<p>如果要修改 struct 结构体字段值的话，该字段需要是可导出的，而不是私有的，也就是该字段的首字母为大写。</p>
+</li>
+<li>
+<p>记得使用 Elem 方法获得指针指向的值，这样才能调用 Set 系列方法进行修改。</p>
+</li>
+<li>
+<p>记住以上规则，你就可以在程序运行时通过反射修改一个变量或字段的值。</p>
+</li>
+</ol>
+<h4 id="获取对应的底层类型">获取对应的底层类型<a hidden class="anchor" aria-hidden="true" href="#获取对应的底层类型">#</a></h4>
+<p>底层类型是什么意思呢？其实对应的主要是基础类型，比如接口、结构体、指针&hellip;&hellip;因为我们可以通过 type 关键字声明很多新的类型。比如在上面的例子中，变量 p 的实际类型是 person，但是 person 对应的底层类型是 struct 这个结构体类型，而 &amp;p 对应的则是指针类型。我们来通过下面的代码进行验证：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">p</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">person</span>{<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;张三&#34;</span>,<span style="color:#a6e22e">Age</span>: <span style="color:#ae81ff">20</span>}
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">ppv</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">ValueOf</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">ppv</span>.<span style="color:#a6e22e">Kind</span>())
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">pv</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">ValueOf</span>(<span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">pv</span>.<span style="color:#a6e22e">Kind</span>())
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">运行结果</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ptr</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span>
+</span></span></code></pre></div><p>Kind 方法返回一个 Kind 类型的值，它是一个常量，有以下可供使用的值：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// src/reflect/type.go</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Kind</span> <span style="color:#66d9ef">uint</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> (
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Invalid</span> <span style="color:#a6e22e">Kind</span> = <span style="color:#66d9ef">iota</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Bool</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Int</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Int8</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Int16</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Int32</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Int64</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Uint</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Uint8</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Uint16</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Uint32</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Uint64</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Uintptr</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Float32</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Float64</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Complex64</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Complex128</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Array</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Chan</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Func</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Interface</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Map</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Ptr</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Slice</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">String</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Struct</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">UnsafePointer</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>从以上源代码定义的 Kind 常量列表可以看到，已经包含了 Go 语言的所有底层类型。</p>
+<h3 id="reflecttype">reflect.Type<a hidden class="anchor" aria-hidden="true" href="#reflecttype">#</a></h3>
+<p>reflect.Value 可以用于与值有关的操作中，而如果是和变量类型本身有关的操作，则最好使用 reflect.Type，比如要获取结构体对应的字段名称或方法。</p>
+<p>要反射获取一个变量的 reflect.Type，可以通过函数 reflect.TypeOf。</p>
+<h4 id="接口定义">接口定义<a hidden class="anchor" aria-hidden="true" href="#接口定义">#</a></h4>
+<p>和 reflect.Value 不同，reflect.Type 是一个接口，而不是一个结构体，所以也只能使用它的方法。</p>
+<p>以下是我列出来的 reflect.Type 接口常用的方法。从这个列表来看，大部分都和 reflect.Value 的方法功能相同。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Type</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Implements</span>(<span style="color:#a6e22e">u</span> <span style="color:#a6e22e">Type</span>) <span style="color:#66d9ef">bool</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">AssignableTo</span>(<span style="color:#a6e22e">u</span> <span style="color:#a6e22e">Type</span>) <span style="color:#66d9ef">bool</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ConvertibleTo</span>(<span style="color:#a6e22e">u</span> <span style="color:#a6e22e">Type</span>) <span style="color:#66d9ef">bool</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Comparable</span>() <span style="color:#66d9ef">bool</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//以下这些方法和Value结构体的功能相同</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Kind</span>() <span style="color:#a6e22e">Kind</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Method</span>(<span style="color:#66d9ef">int</span>) <span style="color:#a6e22e">Method</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">MethodByName</span>(<span style="color:#66d9ef">string</span>) (<span style="color:#a6e22e">Method</span>, <span style="color:#66d9ef">bool</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">NumMethod</span>() <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Elem</span>() <span style="color:#a6e22e">Type</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Field</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">int</span>) <span style="color:#a6e22e">StructField</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">FieldByIndex</span>(<span style="color:#a6e22e">index</span> []<span style="color:#66d9ef">int</span>) <span style="color:#a6e22e">StructField</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">FieldByName</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) (<span style="color:#a6e22e">StructField</span>, <span style="color:#66d9ef">bool</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">FieldByNameFunc</span>(<span style="color:#a6e22e">match</span> <span style="color:#66d9ef">func</span>(<span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">bool</span>) (<span style="color:#a6e22e">StructField</span>, <span style="color:#66d9ef">bool</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">NumField</span>() <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>其中几个特有的方法如下：</p>
+<ol>
+<li>
+<p>Implements 方法用于判断是否实现了接口 u；</p>
+</li>
+<li>
+<p>AssignableTo 方法用于判断是否可以赋值给类型 u，其实就是是否可以使用 =，即赋值运算符；</p>
+</li>
+<li>
+<p>ConvertibleTo 方法用于判断是否可以转换成类型 u，其实就是是否可以进行类型转换；</p>
+</li>
+<li>
+<p>Comparable 方法用于判断该类型是否是可比较的，其实就是是否可以使用关系运算符进行比较。</p>
+</li>
+</ol>
+<h4 id="遍历结构体的字段和方法">遍历结构体的字段和方法<a hidden class="anchor" aria-hidden="true" href="#遍历结构体的字段和方法">#</a></h4>
+<p>先给person类型添加一个String方法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">person</span>) <span style="color:#a6e22e">String</span>() <span style="color:#66d9ef">string</span>{
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;Name is %s,Age is %d&#34;</span>,<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Name</span>,<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Age</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>新增一个 String 方法，返回对应的字符串信息，这样 person 这个 struct 结构体也实现了 fmt.Stringer 接口。
+可以通过 NumField 方法获取结构体字段的数量，然后使用 for 循环，通过 Field 方法就可以遍历结构体的字段，并打印出字段名称。同理，遍历结构体的方法也是同样的思路，代码也类似，如下所示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">p</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">person</span>{<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;张三&#34;</span>,<span style="color:#a6e22e">Age</span>: <span style="color:#ae81ff">20</span>}
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">pt</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">TypeOf</span>(<span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">//遍历person的字段</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">:=</span><span style="color:#ae81ff">0</span>;<span style="color:#a6e22e">i</span>&lt;<span style="color:#a6e22e">pt</span>.<span style="color:#a6e22e">NumField</span>();<span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>{
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;字段：&#34;</span>,<span style="color:#a6e22e">pt</span>.<span style="color:#a6e22e">Field</span>(<span style="color:#a6e22e">i</span>).<span style="color:#a6e22e">Name</span>)
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">//遍历person的方法</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">:=</span><span style="color:#ae81ff">0</span>;<span style="color:#a6e22e">i</span>&lt;<span style="color:#a6e22e">pt</span>.<span style="color:#a6e22e">NumMethod</span>();<span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>{
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;方法：&#34;</span>,<span style="color:#a6e22e">pt</span>.<span style="color:#a6e22e">Method</span>(<span style="color:#a6e22e">i</span>).<span style="color:#a6e22e">Name</span>)
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">运行结果</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">字段</span><span style="color:#960050;background-color:#1e0010">：</span> <span style="color:#a6e22e">Name</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">字段</span><span style="color:#960050;background-color:#1e0010">：</span> <span style="color:#a6e22e">Age</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">方法</span><span style="color:#960050;background-color:#1e0010">：</span> <span style="color:#a6e22e">String</span>
+</span></span></code></pre></div><blockquote>
+<p>小技巧：你可以通过 FieldByName 方法获取指定的字段，也可以通过 MethodByName 方法获取指定的方法，这在需要获取某个特定的字段或者方法时非常高效，而不是使用遍历。</p>
+</blockquote>
+<h4 id="是否实现某接口">是否实现某接口<a hidden class="anchor" aria-hidden="true" href="#是否实现某接口">#</a></h4>
+<p>通过 reflect.Type 还可以判断是否实现了某接口。我还是以 person 结构体为例，判断它是否实现了接口 fmt.Stringer 和 io.Writer，如下面的代码所示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">p</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">person</span>{<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;张三&#34;</span>,<span style="color:#a6e22e">Age</span>: <span style="color:#ae81ff">20</span>}
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">pt</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">TypeOf</span>(<span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">stringerType</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">TypeOf</span>((<span style="color:#f92672">*</span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Stringer</span>)(<span style="color:#66d9ef">nil</span>)).<span style="color:#a6e22e">Elem</span>()
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">writerType</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">TypeOf</span>((<span style="color:#f92672">*</span><span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">Writer</span>)(<span style="color:#66d9ef">nil</span>)).<span style="color:#a6e22e">Elem</span>()
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;是否实现了fmt.Stringer：&#34;</span>,<span style="color:#a6e22e">pt</span>.<span style="color:#a6e22e">Implements</span>(<span style="color:#a6e22e">stringerType</span>))
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;是否实现了io.Writer：&#34;</span>,<span style="color:#a6e22e">pt</span>.<span style="color:#a6e22e">Implements</span>(<span style="color:#a6e22e">writerType</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">运行结果</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">是否实现了fmt</span>.<span style="color:#a6e22e">Stringer</span><span style="color:#960050;background-color:#1e0010">：</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">是否实现了io</span>.<span style="color:#a6e22e">Writer</span><span style="color:#960050;background-color:#1e0010">：</span> <span style="color:#66d9ef">false</span>
+</span></span></code></pre></div><blockquote>
+<p>小提示：尽可能通过类型断言的方式判断是否实现了某接口，而不是通过反射。</p>
+</blockquote>
+<h3 id="字符串和结构体互转">字符串和结构体互转<a hidden class="anchor" aria-hidden="true" href="#字符串和结构体互转">#</a></h3>
+<p>Go 语言的标准库有一个 json 包，通过它可以把 JSON 字符串转为一个 struct 结构体，也可以把一个 struct 结构体转为一个 json 字符串。如下面的代码所示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>{<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;张三&#34;</span>, <span style="color:#a6e22e">Age</span>: <span style="color:#ae81ff">20</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//struct to json</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">jsonB</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(string(<span style="color:#a6e22e">jsonB</span>))
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//json to struct</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">respJSON</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;{\&#34;Name\&#34;:\&#34;李四\&#34;,\&#34;Age\&#34;:40}&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>([]byte(<span style="color:#a6e22e">respJSON</span>), <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">运行结果</span>
+</span></span><span style="display:flex;"><span>{<span style="color:#e6db74">&#34;Name&#34;</span>:<span style="color:#e6db74">&#34;张三&#34;</span>,<span style="color:#e6db74">&#34;Age&#34;</span>:<span style="color:#ae81ff">20</span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Name</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">李四</span>,<span style="color:#a6e22e">Age</span> <span style="color:#a6e22e">is</span> <span style="color:#ae81ff">40</span>
+</span></span></code></pre></div><p>仔细观察以上打印出的 JSON 字符串，发现 JSON 字符串的 Key 和 struct 结构体的字段名称一样，比如示例中的 Name 和 Age。那么是否可以改变它们呢？比如改成小写的 name 和 age，并且字段的名称还是大写的 Name 和 Age。当然可以，要达到这个目的就需要用到 struct tag 的功能了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">//修改结构体的定义</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">person</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Age</span> <span style="color:#66d9ef">int</span> <span style="color:#e6db74">`json:&#34;age&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>修改后上面的代码</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>{<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;张三&#34;</span>, <span style="color:#a6e22e">Age</span>: <span style="color:#ae81ff">20</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//struct to json</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">jsonB</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(string(<span style="color:#a6e22e">jsonB</span>))
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//json to struct</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">respJSON</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;{\&#34;name\&#34;:\&#34;李四\&#34;,\&#34;Age\&#34;:40}&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>([]byte(<span style="color:#a6e22e">respJSON</span>), <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">运行结果</span>
+</span></span><span style="display:flex;"><span>{<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;张三&#34;</span>,<span style="color:#e6db74">&#34;age&#34;</span>:<span style="color:#ae81ff">20</span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Name</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">李四</span>,<span style="color:#a6e22e">Age</span> <span style="color:#a6e22e">is</span> <span style="color:#ae81ff">40</span>
+</span></span></code></pre></div><p>可以发现输入json已经变成了小写，而且在json转结构体时,字段名和tag都是可以用的.</p>
+<p>struct tag 是整个 JSON 和 struct 互转的关键，这个 tag 就像是我们为 struct 字段起的别名，那么 json 包是如何获得这个 tag 的呢？这就需要反射了。我们来看下面的代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">:=</span><span style="color:#ae81ff">0</span>;<span style="color:#a6e22e">i</span>&lt;<span style="color:#a6e22e">pt</span>.<span style="color:#a6e22e">NumField</span>();<span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>{
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">sf</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">pt</span>.<span style="color:#a6e22e">Field</span>(<span style="color:#a6e22e">i</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;字段%s上,json tag为%s\n&#34;</span>,<span style="color:#a6e22e">sf</span>.<span style="color:#a6e22e">Name</span>,<span style="color:#a6e22e">sf</span>.<span style="color:#a6e22e">Tag</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#e6db74">&#34;json&#34;</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>要想获得字段上的 tag，就要先反射获得对应的字段，我们可以通过 Field 方法做到。该方法返回一个 StructField 结构体，它有一个字段是 Tag，存有字段的所有 tag。示例中要获得 Key 为 json 的 tag，所以只需要调用 sf.Tag.Get(&ldquo;json&rdquo;) 即可。</p>
+<p>结构体的字段可以有多个 tag，用于不同的场景，比如 json 转换、bson 转换、orm 解析等。如果有多个 tag，要使用空格分隔。采用不同的 Key 可以获得不同的 tag，如下面的代码所示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">person</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34; bson:&#34;b_name&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Age</span>  <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;age&#34; bson:&#34;b_name&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">person</span>) <span style="color:#a6e22e">String</span>() <span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;Name is %s,Age is %d&#34;</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Name</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Age</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>{<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;张三&#34;</span>, <span style="color:#a6e22e">Age</span>: <span style="color:#ae81ff">20</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//struct to json</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">pt</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">TypeOf</span>(<span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//遍历person字段中key为json、bson的tag</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">pt</span>.<span style="color:#a6e22e">NumField</span>(); <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">sf</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">pt</span>.<span style="color:#a6e22e">Field</span>(<span style="color:#a6e22e">i</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;字段%s上,json tag为%s\n&#34;</span>, <span style="color:#a6e22e">sf</span>.<span style="color:#a6e22e">Name</span>, <span style="color:#a6e22e">sf</span>.<span style="color:#a6e22e">Tag</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#e6db74">&#34;json&#34;</span>))
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;字段%s上,bson tag为%s\n&#34;</span>, <span style="color:#a6e22e">sf</span>.<span style="color:#a6e22e">Name</span>, <span style="color:#a6e22e">sf</span>.<span style="color:#a6e22e">Tag</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#e6db74">&#34;bson&#34;</span>))
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">运行结果</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">字段Name上</span>,<span style="color:#a6e22e">json</span> <span style="color:#a6e22e">tag为name</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">字段Name上</span>,<span style="color:#a6e22e">bson</span> <span style="color:#a6e22e">tag为b_name</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">字段Age上</span>,<span style="color:#a6e22e">json</span> <span style="color:#a6e22e">tag为age</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">字段Age上</span>,<span style="color:#a6e22e">bson</span> <span style="color:#a6e22e">tag为b_name</span>
+</span></span></code></pre></div><h4 id="实现-struct-转-json">实现 Struct 转 JSON<a hidden class="anchor" aria-hidden="true" href="#实现-struct-转-json">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">p</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">person</span>{<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;张三&#34;</span>,<span style="color:#a6e22e">Age</span>: <span style="color:#ae81ff">20</span>}
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">pv</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">ValueOf</span>(<span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">pt</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">TypeOf</span>(<span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">//自己实现的struct to json</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">jsonBuilder</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">Builder</span>{}
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">jsonBuilder</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#e6db74">&#34;{&#34;</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">num</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">pt</span>.<span style="color:#a6e22e">NumField</span>()
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">:=</span><span style="color:#ae81ff">0</span>;<span style="color:#a6e22e">i</span>&lt;<span style="color:#a6e22e">num</span>;<span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>{
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">jsonTag</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">pt</span>.<span style="color:#a6e22e">Field</span>(<span style="color:#a6e22e">i</span>).<span style="color:#a6e22e">Tag</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#e6db74">&#34;json&#34;</span>) <span style="color:#75715e">//获取json tag</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">jsonBuilder</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#e6db74">&#34;\&#34;&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">jsonTag</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">jsonBuilder</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#e6db74">&#34;:&#34;</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">//获取字段的值</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">jsonBuilder</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;\&#34;%v\&#34;&#34;</span>,<span style="color:#a6e22e">pv</span>.<span style="color:#a6e22e">Field</span>(<span style="color:#a6e22e">i</span>)))
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span>&lt;<span style="color:#a6e22e">num</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>{
+</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">jsonBuilder</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#e6db74">&#34;,&#34;</span>)
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">jsonBuilder</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#e6db74">&#34;}&#34;</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">jsonBuilder</span>.<span style="color:#a6e22e">String</span>())<span style="color:#75715e">//打印json字符串</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>json 字符串的转换只是 struct tag 的一个应用场景，你完全可以把 struct tag 当成结构体中字段的元数据配置，使用它来做想做的任何事情，比如 orm 映射、xml 转换、生成 swagger 文档等。</p>
+<h2 id="反射定律">反射定律<a hidden class="anchor" aria-hidden="true" href="#反射定律">#</a></h2>
+<p>反射是计算机语言中程序检视其自身结构的一种方法，它属于元编程的一种形式。反射灵活、强大，但也存在不安全。它可以绕过编译器的很多静态检查，如果过多使用便会造成混乱。为了帮助开发者更好地理解反射，Go 语言的作者在博客上总结了反射的三大定律。</p>
+<ul>
+<li>
+<p>任何接口值 interface{} 都可以反射出反射对象，也就是 reflect.Value 和 reflect.Type，通过函数 reflect.ValueOf 和 reflect.TypeOf 获得。</p>
+</li>
+<li>
+<p>反射对象也可以还原为 interface{} 变量，也就是第 1 条定律的可逆性，通过 reflect.Value 结构体的 Interface 方法获得。</p>
+</li>
+<li>
+<p>要修改反射的对象，该值必须可设置，也就是可寻址，参考修改变量的值的内容理解。</p>
+</li>
+</ul>
+<blockquote>
+<p>小提示：任何类型的变量都可以转换为空接口 intferface{}，所以第 1 条定律中函数 reflect.ValueOf 和 reflect.TypeOf 的参数就是 interface{}，表示可以把任何类型的变量转换为反射对象。在第 2 条定律中，reflect.Value 结构体的 Interface 方法返回的值也是 interface{}，表示可以把反射对象还原为对应的类型变量。</p>
+</blockquote>
+<h2 id="总结">总结<a hidden class="anchor" aria-hidden="true" href="#总结">#</a></h2>
+<p>在反射中，reflect.Value 对应的是变量的值，如果你需要进行和变量的值有关的操作，应该优先使用 reflect.Value，比如获取变量的值、修改变量的值等。reflect.Type 对应的是变量的类型，如果你需要进行和变量的类型本身有关的操作，应该优先使用 reflect.Type，比如获取结构体内的字段、类型拥有的方法集等。</p>
+<blockquote>
+<p>反射虽然很强大，可以简化编程、减少重复代码，但是过度使用会让你的代码变得复杂混乱。所以除非非常必要，否则尽可能少地使用它们。</p>
+</blockquote>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/go/">Go</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">青丝蘸白雪i</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

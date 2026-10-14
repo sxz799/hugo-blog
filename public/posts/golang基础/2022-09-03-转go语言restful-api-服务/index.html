@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Go语言RESTfulAPI服务 | 青丝蘸白雪i</title>
+<meta name="keywords" content="go">
+<meta name="description" content="使用G语言编写 RESTful API 和 RPC 服务。在实际开发项目中，编写的这些服务可以被其他服务使用，这样就组成了微服务的架构；也可以被前端调用，这样就可以前后端分离。">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-09-03-%E8%BD%ACgo%E8%AF%AD%E8%A8%80restful-api-%E6%9C%8D%E5%8A%A1/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-09-03-%E8%BD%ACgo%E8%AF%AD%E8%A8%80restful-api-%E6%9C%8D%E5%8A%A1/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="青丝蘸白雪i (Alt + H)">青丝蘸白雪i</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Go语言RESTfulAPI服务
+    </h1>
+    <div class="post-meta">
+
+<span title='2022-09-03 15:28:43 +0000 UTC'>September 3, 2022</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><p>使用G语言编写 RESTful API 和 RPC 服务。在实际开发项目中，编写的这些服务可以被其他服务使用，这样就组成了微服务的架构；也可以被前端调用，这样就可以前后端分离。</p>
+<h2 id="什么是-restful-api">什么是 RESTful API<a hidden class="anchor" aria-hidden="true" href="#什么是-restful-api">#</a></h2>
+<p>RESTful API 是一套规范，它可以规范我们如何对服务器上的资源进行操作。在了解 RESTful API 之前，先学习一下 HTTP Method，因为 RESTful API 和它是密不可分的。</p>
+<p>说起 HTTP Method，最常见的就是POST和GET，最早在 HTTP 0.9 版本中，只有一个GET方法，该方法是一个幂等方法，用于<strong>获取服务器上的资源</strong>，也就是我们在浏览器中直接输入网址回车请求的方法。</p>
+<p>在 HTTP 1.0 版本中又增加了HEAD和POST方法，其中常用的是 POST 方法，一般用于给服务端提交一个资源，<strong>导致服务器的资源发生变化</strong>。</p>
+<p>随着网络越来越复杂，发现这两个方法是不够用的，就继续新增了方法。所以在 HTTP1.1 版本的时候，一口气增加到了 9 个，新增的方法有 HEAD、OPTIONS、PUT、DELETE、TRACE、PATCH 和 CONNECT。</p>
+<ol>
+<li>GET 方法可请求一个指定资源的表示形式，使用 GET 的请求应该只被用于获取数据。</li>
+<li>HEAD 方法用于请求一个与 GET 请求的响应相同的响应，但没有响应体。</li>
+<li>POST 方法用于将实体提交到指定的资源，通常导致服务器上的状态变化或副作用。</li>
+<li>PUT 方法用于请求有效载荷替换目标资源的所有当前表示。</li>
+<li>DELETE 方法用于删除指定的资源。</li>
+<li>CONNECT 方法用于建立一个到由目标资源标识的服务器的隧道。</li>
+<li>OPTIONS 方法用于描述目标资源的通信选项。</li>
+<li>TRACE 方法用于沿着到目标资源的路径执行一个消息环回测试。</li>
+<li>PATCH 方法用于对资源应用部分修改。</li>
+</ol>
+<p>在 RESTful API 中，使用的主要是以下五种 HTTP 方法：</p>
+<ol>
+<li>GET，表示读取服务器上的资源；</li>
+<li>POST，表示在服务器上创建资源；</li>
+<li>PUT，表示更新或者替换服务器上的资源；</li>
+<li>DELETE，表示删除服务器上的资源；</li>
+<li>PATCH，表示更新 / 修改资源的一部分。</li>
+</ol>
+<p>以上 HTTP 方法在 RESTful API 规范中是一个操作，操作的就是服务器的资源，服务器的资源通过特定的 URL 表示。</p>
+<p>现在通过一些示例更好地理解 RESTful API，如下所示：</p>
+<pre tabindex="0"><code>HTTP GET https://www.flysnow.org/users
+HTTP GET https://www.flysnow.org/users/123
+</code></pre><p>以上是两个 GET 方法的示例：</p>
+<p>第一个表示获取所有用户的信息；</p>
+<p>第二个表示获取 ID 为 123 用户的信息。</p>
+<p>下面再看一个 POST 方法的示例，如下所示：</p>
+<pre tabindex="0"><code>HTTP POST https://www.flysnow.org/users
+</code></pre><p>这个示例表示创建一个用户，通过 POST 方法给服务器提供创建这个用户所需的全部信息。
+现在已经知道了如何创建一个用户，那么如果要更新某个特定的用户怎么做呢？其实也非常简单，示例代码如下所示：</p>
+<pre tabindex="0"><code>HTTP PUT https://www.flysnow.org/users/123
+</code></pre><p>这表示要更新 / 替换 ID 为 123 的这个用户，在更新的时候，会通过 PUT 方法提供更新这个用户需要的全部用户信息。这里 PUT 方法和 POST 方法不太一样的是，从 URL 上看，PUT 方法操作的是单个资源，比如这里 ID 为 123 的用户。</p>
+<blockquote>
+<p>小提示：如果要更新一个用户的部分信息，使用 PATCH 方法更恰当。</p>
+</blockquote>
+<p>看到这里，相信你已经知道了如何删除一个用户，示例代码如下所示：</p>
+<pre tabindex="0"><code>HTTP DELETE https://www.flysnow.org/users/123
+</code></pre><p>DELETE 方法的使用和 PUT 方法一样，也是操作单个资源，这里是删除 ID 为 123 的这个用户。</p>
+<h3 id="一个简单的-restful-api">一个简单的 RESTful API<a hidden class="anchor" aria-hidden="true" href="#一个简单的-restful-api">#</a></h3>
+<p>现在通过一个使用 Golang 实现 RESTful API 风格的示例，加深 RESTful API 的理解。
+Go 语言的一个很大的优势，就是可以很容易地开发出网络后台服务，而且性能快、效率高。在开发后端 HTTP 网络应用服务的时候，我们需要处理很多 HTTP 的请求访问，比如常见的RESTful API 服务，就要处理很多 HTTP 请求，然后把处理的信息返回给使用者。对于这类需求，Golang 提供了内置的 net/http 包帮我们处理这些 HTTP 请求，让我们可以比较方便地开发一个 HTTP 服务。</p>
+<p>下面我们来看一个简单的 HTTP 服务的 Go 语言实现，代码如下所示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/users&#34;</span>,<span style="color:#a6e22e">handleUsers</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ListenAndServe</span>(<span style="color:#e6db74">&#34;:8080&#34;</span>, <span style="color:#66d9ef">nil</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handleUsers</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>){
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">w</span>,<span style="color:#e6db74">&#34;ID:1,Name:张三&#34;</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">w</span>,<span style="color:#e6db74">&#34;ID:2,Name:李四&#34;</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">w</span>,<span style="color:#e6db74">&#34;ID:3,Name:王五&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>运行程序后在终端输入下面命令
+<code>curl http://localhost:8080/users</code>
+得到如下结果</p>
+<pre tabindex="0"><code>ID:1,Name:张三
+ID:2,Name:李四
+ID:3,Name:王五
+</code></pre><p>也就是获取所有的用户信息，但是这并不是一个 RESTful API，因为使用者不仅可以通过 HTTP GET 方法获得所有的用户信息，还可以通过 POST、DELETE、PUT 等 HTTP 方法获得所有的用户信息，这显然不符合 RESTful API 的规范。
+现在对以上示例进行修改，使它符合 RESTful API 的规范，修改后的示例代码如下所示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handleUsers</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>){
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Method</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;GET&#34;</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">w</span>,<span style="color:#e6db74">&#34;ID:1,Name:张三&#34;</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">w</span>,<span style="color:#e6db74">&#34;ID:2,Name:李四&#34;</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">w</span>,<span style="color:#e6db74">&#34;ID:3,Name:王五&#34;</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">default</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusNotFound</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">w</span>,<span style="color:#e6db74">&#34;not found&#34;</span>)
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这里我只修改了 handleUsers 函数，在该函数中增加了只在使用 GET 方法时，才获得所有用户的信息，其他情况返回 not found。</p>
+<p>现在再运行这个示例，会发现只能通过 HTTP GET 方法进行访问了，使用其他方法会提示 not found。</p>
+<pre tabindex="0"><code>➜  awesomeProject curl -X POST http://localhost:8080/users
+ID:1,Name:张三
+ID:2,Name:李四
+ID:3,Name:王五
+➜  awesomeProject curl -X POST http://localhost:8080/users
+not found
+➜  awesomeProject 
+</code></pre><h3 id="restful-json-api">RESTful JSON API<a hidden class="anchor" aria-hidden="true" href="#restful-json-api">#</a></h3>
+<p>在项目中最常见的是使用 JSON 格式传输信息，也就是我们提供的 RESTful API 要返回 JSON 内容给使用者。</p>
+<p>同样用上面的示例，我把它改造成可以返回 JSON 内容的方式，示例代码如下所示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">//数据源，类似MySQL中的数据</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">users</span> = []<span style="color:#a6e22e">User</span>{
+</span></span><span style="display:flex;"><span>   {<span style="color:#a6e22e">ID</span>: <span style="color:#ae81ff">1</span>,<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;张三&#34;</span>},
+</span></span><span style="display:flex;"><span>   {<span style="color:#a6e22e">ID</span>: <span style="color:#ae81ff">2</span>,<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;李四&#34;</span>},
+</span></span><span style="display:flex;"><span>   {<span style="color:#a6e22e">ID</span>: <span style="color:#ae81ff">3</span>,<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;王五&#34;</span>},
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handleUsers</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>){
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Method</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;GET&#34;</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">users</span>,<span style="color:#a6e22e">err</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">users</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span><span style="color:#f92672">!=</span><span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusInternalServerError</span>)
+</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprint</span>(<span style="color:#a6e22e">w</span>,<span style="color:#e6db74">&#34;{\&#34;message\&#34;: \&#34;&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>()<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\&#34;}&#34;</span>)
+</span></span><span style="display:flex;"><span>      }<span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>)
+</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">users</span>)
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">default</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusNotFound</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprint</span>(<span style="color:#a6e22e">w</span>,<span style="color:#e6db74">&#34;{\&#34;message\&#34;: \&#34;not found\&#34;}&#34;</span>)
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//用户</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">User</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">ID</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>从以上代码可以看到，这次的改造主要是新建了一个 User 结构体，并且使用 users 这个切片存储所有的用户，然后在 handleUsers 函数中把它转化为一个 JSON 数组返回。这样，就实现了基于 JSON 数据格式的 RESTful API。</p>
+<pre tabindex="0"><code>curl http://localhost:8080/users
+
+[{&#34;ID&#34;:1,&#34;Name&#34;:&#34;张三&#34;},{&#34;ID&#34;:2,&#34;Name&#34;:&#34;李四&#34;},{&#34;ID&#34;:3,&#34;Name&#34;:&#34;王五&#34;}]
+
+
+curl -X POST http://localhost:8080/users
+
+{&#34;message&#34;: &#34;not found&#34;}  
+</code></pre><h2 id="gin-框架">Gin 框架<a hidden class="anchor" aria-hidden="true" href="#gin-框架">#</a></h2>
+<p>虽然 Go 语言自带的 net/http 包，可以比较容易地创建 HTTP 服务，但是它也有很多不足：</p>
+<ul>
+<li>
+<p>不能单独地对请求方法（POST、GET 等）注册特定的处理函数；</p>
+</li>
+<li>
+<p>不支持 Path 变量参数；</p>
+</li>
+<li>
+<p>不能自动对 Path 进行校准；</p>
+</li>
+<li>
+<p>性能一般；</p>
+</li>
+<li>
+<p>扩展性不足；</p>
+</li>
+<li>
+<p>&hellip;</p>
+</li>
+</ul>
+<p>基于以上这些不足，出现了很多 Golang Web 框架，如 Mux，Gin、Fiber 等，今天学习的就是这款使用最多的 Gin 框架。</p>
+<h3 id="引入-gin-框架">引入 Gin 框架<a hidden class="anchor" aria-hidden="true" href="#引入-gin-框架">#</a></h3>
+<p>Gin 框架是一个在 Github 上开源的 Web 框架，封装了很多 Web 开发需要的通用功能，并且性能也非常高，可以让我们很容易地写出 RESTful API。</p>
+<p>Gin 框架其实是一个模块，也就是 Go Mod，所以采用 Go Mod 的方法引入即可。</p>
+<p>首先需要下载安装 Gin 框架，安装代码如下：</p>
+<pre tabindex="0"><code>go get -u github.com/gin-gonic/gin
+</code></pre><p>然后就可以在 Go 语言代码中导入使用了，导入代码如下：</p>
+<pre tabindex="0"><code>import &#34;github.com/gin-gonic/gin&#34;
+</code></pre><p>通过以上安装和导入这两个步骤，就可以在你的 Go 语言项目中使用 Gin 框架了。</p>
+<h3 id="使用-gin-框架">使用 Gin 框架<a hidden class="anchor" aria-hidden="true" href="#使用-gin-框架">#</a></h3>
+<p>现在，已经引入了 Gin 框架，下面我就是用 Gin 框架重写上面的示例，修改的代码如下所示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">r</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Default</span>()
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/users&#34;</span>, <span style="color:#a6e22e">listUser</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Run</span>(<span style="color:#e6db74">&#34;:8080&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">listUser</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>)  {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#ae81ff">200</span>,<span style="color:#a6e22e">users</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>相比 net/http 包，Gin 框架的代码非常简单，通过它的 GET 方法就可以创建一个只处理 HTTP GET 方法的服务，而且输出 JSON 格式的数据也非常简单，使用 c.JSON 方法即可。</p>
+<p>最后通过 Run 方法启动 HTTP 服务，监听在 8080 端口。现在运行这个 Gin 示例，在浏览器中输入 <code>http://localhost:8080/users</code>，看到的信息和通过 net/http 包实现的效果是一样的。</p>
+<h3 id="获取特定的用户">获取特定的用户<a hidden class="anchor" aria-hidden="true" href="#获取特定的用户">#</a></h3>
+<p>现在你已经掌握了如何使用 Gin 框架创建一个简单的 RESTful API，并且可以返回所有的用户信息，那么如何获取特定用户的信息呢？</p>
+<p>我们知道，如果要获得特定用户的信息，需要使用的是 GET 方法，并且 URL 格式如下所示：</p>
+<p><code>http://localhost:8080/users/2</code></p>
+<p>以上示例中的 2 是用户的 ID，也就是通过 ID 来获取特定的用户。</p>
+<p>下面通过 Gin 框架 Path 路径参数来实现这个功能，示例代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">//省略没有改动的代码</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/users/:id&#34;</span>, <span style="color:#a6e22e">getUser</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">getUser</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">id</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Param</span>(<span style="color:#e6db74">&#34;id&#34;</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">user</span> <span style="color:#a6e22e">User</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">found</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">//类似于数据库的SQL查询</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">u</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">users</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">EqualFold</span>(<span style="color:#a6e22e">id</span>, <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Itoa</span>(<span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">ID</span>)) {
+</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">user</span> = <span style="color:#a6e22e">u</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">found</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">found</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#ae81ff">200</span>, <span style="color:#a6e22e">user</span>)
+</span></span><span style="display:flex;"><span>   } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#ae81ff">404</span>, <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">H</span>{
+</span></span><span style="display:flex;"><span>         <span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;用户不存在&#34;</span>,
+</span></span><span style="display:flex;"><span>      })
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在 Gin 框架中，路径中使用冒号表示 Path 路径参数，比如示例中的 :id，然后在 getUser 函数中可以通过 c.Param(&ldquo;id&rdquo;) 获取需要查询用户的 ID 值。</p>
+<blockquote>
+<p>小提示：Param 方法的参数要和 Path 路径参数中的一致，比如示例中都是 ID。</p>
+</blockquote>
+<p>现在运行这个示例，通过浏览器访问 http://localhost:8080/users/2，就可以获得 ID 为 2 的用户，输出信息如下所示：</p>
+<pre tabindex="0"><code>{&#34;ID&#34;:2,&#34;Name&#34;:&#34;李四&#34;}
+</code></pre><p>可以看到，已经正确的获取到了 ID 为 2 的用户，他的名字叫李四。</p>
+<p>假如我们访问一个不存在的 ID，会得到什么结果呢？比如 99，示例如下所示：</p>
+<pre tabindex="0"><code>curl http://localhost:8080/users/99
+{&#34;message&#34;:&#34;用户不存在&#34;}
+</code></pre><p>从以上示例输出可以看到，返回了『用户不存在』的信息，和我们代码中处理的逻辑一样。</p>
+<h3 id="新增一个用户">新增一个用户<a hidden class="anchor" aria-hidden="true" href="#新增一个用户">#</a></h3>
+<p>现在已经可以使用 Gin 获取所有用户，还可以获取特定的用户，那么你也应该知道如何新增一个用户了，现在我通过 Gin 实现如何新增一个用户，看和你想的方案是否相似。</p>
+<p>根据 RESTful API 规范，实现新增使用的是 POST 方法，并且 URL 的格式为 http://localhost:8080/users ，向这个 URL 发送数据，就可以新增一个用户，然后返回创建的用户信息。</p>
+<p>现在使用 Gin 框架实现新增一个用户，示例代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">//省略没有改动的代码</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/users&#34;</span>, <span style="color:#a6e22e">createUser</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">createUser</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">name</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">DefaultPostForm</span>(<span style="color:#e6db74">&#34;name&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">name</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">u</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">User</span>{<span style="color:#a6e22e">ID</span>: len(<span style="color:#a6e22e">users</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">Name</span>: <span style="color:#a6e22e">name</span>}
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">users</span> = append(<span style="color:#a6e22e">users</span>, <span style="color:#a6e22e">u</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusCreated</span>,<span style="color:#a6e22e">u</span>)
+</span></span><span style="display:flex;"><span>   } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>, <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">H</span>{
+</span></span><span style="display:flex;"><span>         <span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;请输入用户名称&#34;</span>,
+</span></span><span style="display:flex;"><span>      })
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>以上新增用户的主要逻辑是获取客户端上传的 name 值，然后生成一个 User 用户，最后把它存储到 users 集合中，达到新增用户的目的。</p>
+<p>在这个示例中，使用 POST 方法来新增用户，所以只能通过 POST 方法才能新增用户成功。</p>
+<p>现在运行这个示例，然后通过如下命令发送一个新增用户的请求，查看结果：</p>
+<pre tabindex="0"><code>curl -X POST -d &#39;name=golang&#39; http://localhost:8080/users
+{&#34;ID&#34;:4,&#34;Name&#34;:&#34;golang&#34;}
+</code></pre><p>可以看到新增用户成功，并且返回了新增的用户，还有分配的 ID。</p>
+<h2 id="总结">总结<a hidden class="anchor" aria-hidden="true" href="#总结">#</a></h2>
+<p>Go 语言已经给我们提供了比较强大的 SDK，让我们可以很容易地开发网络服务的应用，而借助第三方的 Web 框架，可以让这件事情更容易、更高效。比如这篇文章介绍的 Gin 框架，就可以很容易让我们开发出 RESTful API，更多关于 Gin 框架的使用可以参考 Golang Gin 实战系列文章。</p>
+<p>在我们做项目开发的时候，要善于借助已经有的轮子，让自己的开发更有效率，也更容易实现。</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/go/">Go</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">青丝蘸白雪i</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

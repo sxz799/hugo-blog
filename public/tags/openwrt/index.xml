@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Openwrt on 青丝蘸白雪i</title>
+    <link>http://localhost:1313/tags/openwrt/</link>
+    <description>Recent content in Openwrt on 青丝蘸白雪i</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 21 Oct 2025 11:40:23 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/openwrt/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>IStoreOS做旁路由配置</title>
+      <link>http://localhost:1313/posts/%E6%8A%80%E5%B7%A7/2025-10-21-istoreos%E5%81%9A%E6%97%81%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Tue, 21 Oct 2025 11:40:23 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E6%8A%80%E5%B7%A7/2025-10-21-istoreos%E5%81%9A%E6%97%81%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE/</guid>
+      <description>&lt;p&gt;选择无线信号强的硬路由进行拨号&lt;/p&gt;
+&lt;p&gt;软路由做旁路由 负责指定设备的科学上网&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

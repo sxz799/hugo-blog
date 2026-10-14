@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Hackintosh on 青丝蘸白雪i</title>
+    <link>http://localhost:1313/tags/hackintosh/</link>
+    <description>Recent content in Hackintosh on 青丝蘸白雪i</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 19 Oct 2019 01:10:02 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/hackintosh/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>华硕ZX50JX4200黑苹果DSDT/SSDT修补总结(持续更新)</title>
+      <link>http://localhost:1313/posts/hackintosh/2019-10-19-%E9%BB%91%E8%8B%B9%E6%9E%9C%E4%B9%8B%E5%8D%8E%E7%A1%95zx50jx4200%E9%BB%91%E8%8B%B9%E6%9E%9Cdsdt-ssdt%E4%BF%AE%E8%A1%A5%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Sat, 19 Oct 2019 01:10:02 +0000</pubDate>
+      <guid>http://localhost:1313/posts/hackintosh/2019-10-19-%E9%BB%91%E8%8B%B9%E6%9E%9C%E4%B9%8B%E5%8D%8E%E7%A1%95zx50jx4200%E9%BB%91%E8%8B%B9%E6%9E%9Cdsdt-ssdt%E4%BF%AE%E8%A1%A5%E6%80%BB%E7%BB%93/</guid>
+      <description>&lt;h1 id=&#34;提取&#34;&gt;提取&lt;/h1&gt;
+&lt;p&gt;建议制作Ubuntu的U盘启动提取&lt;/p&gt;
+&lt;h1 id=&#34;反编译&#34;&gt;反编译&lt;/h1&gt;
+&lt;p&gt;使用iasl 联合反编译
+将提取的原始 dsdt和ssdt文件重命名为xxx.aml（xxx为原始文件名）&lt;/p&gt;
+&lt;h2 id=&#34;一键改名命令&#34;&gt;一键改名命令&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;for i in *;do mv &amp;quot;$i&amp;quot; &amp;quot;$i.aml&amp;quot;;done&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;反编译命令&#34;&gt;反编译命令&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;iasl -da -dl *.aml&lt;/code&gt;
+删除所有aml文件，只保留dsl文件
+&lt;code&gt;rm *.aml&lt;/code&gt;&lt;/p&gt;
+&lt;h1 id=&#34;改错&#34;&gt;改错&lt;/h1&gt;
+&lt;p&gt;不同设备或不同版本的bios可能提取的到文件反编译后错误不同，这里只总结了我遇到的错误&lt;/p&gt;
+&lt;h2 id=&#34;dsdt文件错误修复&#34;&gt;dsdt文件错误修复&lt;/h2&gt;
+&lt;p&gt;1.PARSEOP_ZERO错误 使用Rehubman补丁源的“Fix PARSEOP_ZERO Error”
+2.提示‘}&amp;lsquo;错误 删除对应行的行Arg0
+然后就没有错误了 但提示警告，不用理会&lt;/p&gt;
+&lt;h2 id=&#34;ssdt2错误修复&#34;&gt;SSDT2错误修复&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package (0x06)
+        {
+            0x80000000, 
+            0x80000000, 
+            0x80000000, 
+            0x80000000, 
+            0x80000000, 
+            0x80000000
+        }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这种错误使用派奇的补丁源的”SSDT_Package(){0x80000000}_Eror_Fix“修复
+补丁地址&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;派奇 http://raw.github.com/Yuki-Judai/dxxs-DSDT-Patch/master
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;ssdt3错误修复&#34;&gt;SSDT3错误修复&lt;/h2&gt;
+&lt;p&gt;cpupm变频文件 删除该dsl 使用脚本生成并代替该文件
+脚本GitHub地址
+&lt;a href=&#34;https://github.com/Piker-Alpha/ssdtPRGen.sh&#34;&gt;https://github.com/Piker-Alpha/ssdtPRGen.sh&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;ssdt9错误修复&#34;&gt;SSDT9错误修复&lt;/h2&gt;
+&lt;p&gt;PARSEOP_NAMESEG错误 使用[gfx0]Cleanup/Fix Errors(SSDT)修复&lt;/p&gt;
+&lt;h1 id=&#34;打补丁&#34;&gt;打补丁&lt;/h1&gt;
+&lt;p&gt;除补充说明外，默认补丁源在RehubMan的笔记本补丁源&lt;/p&gt;
+&lt;h2 id=&#34;改名补丁理论上需要所有的文件都要改名&#34;&gt;改名补丁(理论上需要所有的文件都要改名)&lt;/h2&gt;
+&lt;p&gt;1.GFX0-&amp;gt;IGPU 需要的文件（DSDT、SSDT5、SSDT6、SSDT9）
+2.B0D3-&amp;gt;HDAU 需要的文件（SSDT、SSDT5)
+3._DSM-&amp;gt;XDSM&lt;/p&gt;
+&lt;h2 id=&#34;显卡补丁&#34;&gt;显卡补丁&lt;/h2&gt;
+&lt;p&gt;位于ssdt5
+“[igpu]Haswell HD4400/HD4600/HD5000“&lt;/p&gt;
+&lt;h2 id=&#34;dsdt通用补丁&#34;&gt;DSDT通用补丁&lt;/h2&gt;
+&lt;h3 id=&#34;1屏蔽独显&#34;&gt;1.屏蔽独显&lt;/h3&gt;
+&lt;p&gt;Disable fromm _REG(DSDT)
+Disable/Enable on _WAK/_PTS(DSDT)&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>黑苹果之华硕笔记本键盘灯和Fn快捷键</title>
+      <link>http://localhost:1313/posts/hackintosh/2019-10-18-%E9%BB%91%E8%8B%B9%E6%9E%9C%E4%B9%8B%E5%8D%8E%E7%A1%95%E7%AC%94%E8%AE%B0%E6%9C%AC%E9%94%AE%E7%9B%98%E7%81%AF%E5%92%8Cfn%E5%BF%AB%E6%8D%B7%E9%94%AE/</link>
+      <pubDate>Fri, 18 Oct 2019 21:27:32 +0000</pubDate>
+      <guid>http://localhost:1313/posts/hackintosh/2019-10-18-%E9%BB%91%E8%8B%B9%E6%9E%9C%E4%B9%8B%E5%8D%8E%E7%A1%95%E7%AC%94%E8%AE%B0%E6%9C%AC%E9%94%AE%E7%9B%98%E7%81%AF%E5%92%8Cfn%E5%BF%AB%E6%8D%B7%E9%94%AE/</guid>
+      <description>&lt;p&gt;驱动华硕笔记本的键盘灯和快捷键需要两步&lt;/p&gt;
+&lt;h2 id=&#34;第一步修改dsdt&#34;&gt;第一步：修改DSDT&lt;/h2&gt;
+&lt;h3 id=&#34;haswell机型&#34;&gt;Haswell机型&lt;/h3&gt;
+&lt;p&gt;打开反编译好的DSDT,搜索“Device (ATKD)”，在其定义下加入以下代码（包含关系）：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Name (BOFF, Zero)
+            Method (SKBL, 1, NotSerialized)
+            {
+                If (Or (LEqual (Arg0, 0xED), LEqual (Arg0, 0xFD)))
+                {
+                    If (And (LEqual (Arg0, 0xED), LEqual (BOFF, 0xEA)))
+                    {
+                        Store (Zero, Local0)
+                        Store (Arg0, BOFF)
+                    }
+                    Else
+                    {
+                        If (And (LEqual (Arg0, 0xFD), LEqual (BOFF, 0xFA)))
+                        {
+                            Store (Zero, Local0)
+                            Store (Arg0, BOFF)
+                        }
+                        Else
+                        {
+                            Return (BOFF)
+                        }
+                    }
+                }
+                Else
+                {
+                    If (Or (LEqual (Arg0, 0xEA), LEqual (Arg0, 0xFA)))
+                    {
+                        Store (KBLV, Local0)
+                        Store (Arg0, BOFF)
+                    }
+                    Else
+                    {
+                        Store (Arg0, Local0)
+                        Store (Arg0, KBLV)
+                    }
+                }
+ 
+                Store (DerefOf (Index (PWKB, Local0)), Local1)
+                ^^PCI0.LPCB.EC0.WRAM (0x04B1, Local1) // Haswell/Ivy
+                ^^PCI0.LPCB.EC0.WRAM (0x044B, Local1) // Sandy/Ivy
+                Return (Local0)
+            }
+ 
+            Method (GKBL, 1, NotSerialized)
+            {
+                If (LEqual (Arg0, 0xFF))
+                {
+                    Return (BOFF)
+                }
+ 
+                Return (KBLV)
+            }
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;skylake机型&#34;&gt;Skylake机型&lt;/h3&gt;
+&lt;p&gt;打开反编译好的DSDT,搜索“Method (SCDG, 1, NotSerialized)”，在这个method下方加入以下代码（注并列关系）：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>黑苹果之仿冒白苹果鼠标</title>
+      <link>http://localhost:1313/posts/hackintosh/2019-10-17-%E9%BB%91%E8%8B%B9%E6%9E%9C%E4%B9%8B%E4%BB%BF%E5%86%92%E7%99%BD%E8%8B%B9%E6%9E%9C%E9%BC%A0%E6%A0%87/</link>
+      <pubDate>Thu, 17 Oct 2019 17:11:09 +0000</pubDate>
+      <guid>http://localhost:1313/posts/hackintosh/2019-10-17-%E9%BB%91%E8%8B%B9%E6%9E%9C%E4%B9%8B%E4%BB%BF%E5%86%92%E7%99%BD%E8%8B%B9%E6%9E%9C%E9%BC%A0%E6%A0%87/</guid>
+      <description>&lt;h2 id=&#34;仿冒好处&#34;&gt;仿冒好处&lt;/h2&gt;
+&lt;p&gt;如果你的鼠标有侧键，可以启用部分侧键的功能&lt;/p&gt;
+&lt;h2 id=&#34;需要工具&#34;&gt;需要工具&lt;/h2&gt;
+&lt;p&gt;1.PlistEdit
+2.Clover Configurator&lt;/p&gt;
+&lt;h2 id=&#34;正式过程&#34;&gt;正式过程&lt;/h2&gt;
+&lt;h3 id=&#34;1查看关于本机-硬件-usb-查找鼠标对应的产品ididproduct和厂商ididvendor记录下来并转为10进制&#34;&gt;1.查看关于本机-硬件-USB 查找鼠标对应的产品ID(idProduct)和厂商ID(idVendor),记录下来并转为10进制&lt;/h3&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;h3 id=&#34;2新建一个1plist&#34;&gt;2.新建一个1.plist。&lt;/h3&gt;
+&lt;h3 id=&#34;3将下面内容复制到1plist并修改记录的10进制填入下面文本对应的地方每个值对应2个地方第2224行和239241行保存后鼠标右键点击1plist打开方式选择plistedit&#34;&gt;3.将下面内容复制到1.plist。并修改记录的10进制填入下面文本对应的地方（每个值对应2个地方,第22、24行和239、241行）。保存后鼠标右键点击1.plist，打开方式选择PlistEdit&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;plist&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;version=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1.0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;IOKitPersonalities&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;WiredMouse-1&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleIdentifier&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;com.apple.driver.AppleUSBHIDMouse&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDDefaultBehavior&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;Mouse&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;IOClass&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;AppleHIDMouse&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;IOProviderClass&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;IOUSBInterface&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;bConfigurationValue&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;bInterfaceNumber&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;idProduct&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;100&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;idVendor&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;7847&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;WiredMouseAccel-1&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;AppleHIDMouseVersion&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;256&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleIdentifier&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;com.apple.iokit.IOHIDFamily&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelCurves&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;array&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;65536&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelIndex&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;524288&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainCubic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;5243&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;70124&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainParabolic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;26214&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelIndex&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;8192&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;537395&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedParabolicRoot&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;1245184&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainCubic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;6554&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;74711&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainParabolic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;36045&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelIndex&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;32768&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;543949&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedParabolicRoot&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;1179648&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainCubic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;7864&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;79299&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainParabolic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;46531&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelIndex&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;45056&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;550502&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedParabolicRoot&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;1114112&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainCubic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;9830&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;83886&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainParabolic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;57672&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelIndex&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;57344&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;557056&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedParabolicRoot&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;1048576&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainCubic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;11796&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;88474&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainParabolic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;69468&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelIndex&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;65536&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;563610&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedParabolicRoot&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;983040&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainCubic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;14418&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;93061&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainParabolic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;81920&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelIndex&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;98304&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;570163&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedParabolicRoot&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;917504&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainCubic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;17695&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;97649&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainParabolic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;95027&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelIndex&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;131072&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;576717&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedParabolicRoot&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;851968&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainCubic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;21627&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;102236&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainParabolic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;108790&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelIndex&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;163840&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;583270&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedParabolicRoot&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;786432&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainCubic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;26214&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;104858&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelGainParabolic&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;123208&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelIndex&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;196608&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedLinear&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;589824&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDAccelTangentSpeedParabolicRoot&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;					&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;786432&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/array&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDDisallowRemappingOfPrimaryClick&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;true/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDScrollAccelerationTable&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;data&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			AACAAFVTQioACAAAAAAAAQABAAAAAKAAAAAgAAARAACAAAABITgA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			APd3AAMEhQABkREABbM1AAIzMwAIjM8AAxmaAA0+ggAECIkAExyh
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			AAT3dwAZ0VcABiIiACKz/AAHm7kAL60rAAkL5ABAlHUACubxAFm3
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			6AAMzfUAcQCiAA8nmwCKvFgAEdQ+AKNZoQAUyDoAwOAEABfUJwDY
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			opEAG0+XAPCMwAAAUAAAEQAAgAAAAkgLAADu7wAFB4kAAWZmAAg2
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			+QACGZoADROXAALERAARml4AA5ERABciqAAEqqsAH4SMAAXVVQAp
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			EtwAB1gvADlNsAAI+gEASsYnAArm8QBkfA4ADM31AH6QEgAPJ5sA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			m2JOABHUPgC2878AFQGcANyUtgAYFoAA+RU7ABtPlwENanAAAIAA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			ABEAAHd3AAP8iwAA5mYAB2dLAAFMzQALY9UAAczNAA+pRQACgAAA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			Fez7AANVVQAceZUABMzNACjcjQAGREQANfVWAAd3dwBC3IcACPd3
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			AFP6RgAK5vEAcIrxAAzN9QCNwBQADyebAK4HtAAR1D4AzOgJABUO
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			wgD2msAAGCOmARWVwAAbT5cBLb7kAACwAAARAACIiQAHrbYAAPd3
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			AA0+ggABd3cAExyhAAIIiQAZUJYAAszNACGyegADzM0AKxXgAATu
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			7wA1pbIABhERAEDhMAAHme8AUcnXAAkQqwBjyIMACs/hAIEhmgAM
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			zfUAnsKmAA8nmwDC6egAEgcEAOyw1QAVDsIBExtGABg8dQE2zfoA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			GwY+AUv0OgAA4AAAEQAAgAAACyXBAAD6sQAXwo4AAXgJACAlVgAC
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			HyoAKTsFAALwEwAztn8AA/ixAD+XxgAFAVAAShNBAAYztgBV9IgA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			B1gvAGM7mgAI3d4AdvcJAAqzMwCV8gkADOQyALnh/gAPJ5sA2k2o
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			ABHUPgEBCNoAFP1bASmGugAYJnkBUgSeABrppwFjp94AAQAAABEA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			ACqrAA2aKgAAbu8AG1SSAADd3gApDvoAAYiJADUF/QAClmEAQF4p
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			AAOLXgBMUmQABKSmAFkyBgAF0BUAZSZBAAcx9AB2nuYACK+5AIkC
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			8QAKszMAp/BcAAzkMgDQMFAADyebAPR/7wAR1D4BH+D0ABT9WwFN
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			OrwAGCZ5AXqUiAAa6acBjlWcAAGzMwARAAAqqwAPPAYAAG7vAB6c
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			KQAA3d4ALfxLAAGIiQA7Yt4AApZhAEgXigADi14AVXsAAASkpgBj
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			5hsABdAVAHFJkQAHMfQAhNrtAAivuQCZc+8ACrMzALwXcQAM5DIA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			6SvfAA8nmwER1vgAEdQ+AUJslgAU/VsBdTeKABgmeQGoAoQAGumn
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			Ab4icg==
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/data&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDScrollAccelerationTableX&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;data&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			AACAAFVTQioACAAAAAAAAQABAAAAAQAAAAAgAAARAACAAAACGcMA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			AQAAAAQq2wABd3cAB4BXAAIzMwAPfbMAAyqrABki6QAEEREAIeel
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			AAUZmgAqYY4ABmZmADX7bgAHzM0AQ3pJAAlVVQBUNk8ACwAAAGel
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			TQAM3d4AfcwjAA8zMwCaeMkAEd3eALqW3AAU5mYA23dyABfd3gD5
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			ZcEAGyIiARiOHAAAUAAADwAAgAAABDOHAAEAAAAKdCgAAgAAABkc
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			CQADREQAKISDAASiIgA1EogABhERAER7AgAHzM0AVivaAAkZmgBm
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			JmwACqIiAHqxuQAMZmYAkYVkAA73dwCw6G8AEZERANDdkgAVCIkA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			+D3nABgREQEXoPIAGxmaATakNgAAgAAADwAAgAAACBo6AAEIiQAU
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			eswAAfd3ACNrCwADEREAM3TgAARMzQBC06EABcREAFQznQAHZmYA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			Zj6tAAk7vAB8TDEACxERAJRa8AANGZoArxX9AA87vADKfB4AEhER
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			AO/oZAAVGZoBFVSqABgiIgE1aFIAGxmaAVS6UAAAsAAADwAAgAAA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			EDR1AAEIiQAeVxsAAczNAC2CqQAC1VUAPvS/AAP3dwBRKQMABYAA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			AGZl/AAHVVUAfel+AAk7vACW8VsACvd3AKzwggAM93cAyD7nAA9E
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			RADl09UAEgiJAQyC5AAVEREBMzH0ABgIiQFTDWoAGxmaAXLQagAA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			4AAADwAAgAAAGAHcAAEIiQAoNlEAAaqrADghJgACmZoAS9nEAAOz
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			MwBhFr4ABTMzAHlcbQAG5mYAkyZ4AAiZmgCsLlQACoiJAMd8ugAM
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			oiIA5RGoAA8REQEEKvAAEgAAASxeWgAVEREBUYkQABgzMwF0bTwA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			GxERAZDmhAABAAAADwAAgAAAIBwXAAEAAAA0Nz8AAZmaAEVwCwAC
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			d3cAWkTbAAN3dwBvGasABPd3AIxrGwAGmZoAqPcIAAhu7wDHDfwA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			CkREAOLUZwAMZmYBAzviAA8ZmgEqlPoAEgiJAVUEHAAVGZoBfSK2
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			ABg7vAGke84AGwAAAcKK/AABszMAEAAAgAAAKB1XAAEAAABALvIA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			AXd3AFK8yQACEREAZBh0AAMZmgB/3fAABHd3AJ0zfQAFmZoAtISe
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			AAbERADMlkwACCIiAObpowAJ1VUBBD8wAAwiIgErW+wADqqrAU92
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			cgARszMBfJeaABT3eAGpuMAAF+7vAdDVfAAbAAAB9C90
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/data&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDScrollResolution&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;2818048&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;HIDScrollResolutionX&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;2818048&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;IOClass&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;IOHIDEventDriver&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;IOHIDScrollReportRate&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;8192000&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;IOProviderClass&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;IOHIDInterface&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;ProductID&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;100&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;VendorID&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;integer&amp;gt;&lt;/span&gt;7847&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/integer&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/plist&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;4如下图所示复制wiredmouse-1和wiredmouseaccel-1&#34;&gt;4.如下图所示，复制WiredMouse-1和WiredMouseAccel-1&lt;/h3&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;h3 id=&#34;5如下图所示用plistedit打开fakesmckext找到iokitpersonalities然后看下图提示&#34;&gt;5.如下图所示，用PlistEdit打开FakeSMC.kext，找到IOKitPersonalities，然后看下图提示&lt;/h3&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;h3 id=&#34;6插入后应该是下图的样子&#34;&gt;6.插入后应该是下图的样子&lt;/h3&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;h3 id=&#34;7保存放入cloverkextsother替换-重建缓存-重启即可&#34;&gt;7.保存放入clover/kexts/other替换-重建缓存-重启即可&lt;/h3&gt;
+&lt;h2 id=&#34;成功效果图&#34;&gt;成功效果图&lt;/h2&gt;
+&lt;!-- raw HTML omitted --&gt;</description>
+    </item>
+  </channel>
+</rss>

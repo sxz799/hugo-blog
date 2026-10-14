@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Golang on 青丝蘸白雪i</title>
+    <link>http://localhost:1313/tags/golang/</link>
+    <description>Recent content in Golang on 青丝蘸白雪i</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 15 Mar 2024 21:47:01 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>golang解决雪花ID传前端精度丢失问题</title>
+      <link>http://localhost:1313/posts/%E6%8A%80%E5%B7%A7/2024-03-15-golang%E8%A7%A3%E5%86%B3%E9%9B%AA%E8%8A%B1id%E4%BC%A0%E5%89%8D%E7%AB%AF%E7%B2%BE%E5%BA%A6%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Fri, 15 Mar 2024 21:47:01 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E6%8A%80%E5%B7%A7/2024-03-15-golang%E8%A7%A3%E5%86%B3%E9%9B%AA%E8%8A%B1id%E4%BC%A0%E5%89%8D%E7%AB%AF%E7%B2%BE%E5%BA%A6%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;使用雪花算法生成ID做主键时，前端接收时会出现精度丢失的问题
+这是因为JS是弱语言，前端接收数字类型参数为number
+最大接收长度为16位，超出长度则会丢失精度
+而JAVA的Long类型长度为19位，所以传输到前端的后三位精度丢失&lt;/p&gt;
+&lt;h3 id=&#34;java解决方案&#34;&gt;JAVA解决方案&lt;/h3&gt;
+&lt;p&gt;可以通过添加&lt;code&gt;@JsonSerialize(using = ToStringSerializer.class)&lt;/code&gt;注解来解决此问题&lt;/p&gt;
+&lt;h3 id=&#34;golang解决方案&#34;&gt;Golang解决方案&lt;/h3&gt;
+&lt;p&gt;只需要在tag的json后添加string类型即可&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;Id&lt;/span&gt;               &lt;span style=&#34;color:#66d9ef&#34;&gt;int64&lt;/span&gt;     &lt;span style=&#34;color:#e6db74&#34;&gt;`json:&amp;#34;id,string&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;Name&lt;/span&gt;             &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;    &lt;span style=&#34;color:#e6db74&#34;&gt;`json:&amp;#34;name&amp;#34; form:&amp;#34;name&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;Email&lt;/span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;    &lt;span style=&#34;color:#e6db74&#34;&gt;`json:&amp;#34;email&amp;#34; form:&amp;#34;email&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>Golang运行命令行程序及输入输出</title>
+      <link>http://localhost:1313/posts/%E6%8A%80%E5%B7%A7/2023-12-11-golang%E8%BF%90%E8%A1%8C%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F%E5%8F%8A%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA/</link>
+      <pubDate>Mon, 11 Dec 2023 09:03:48 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E6%8A%80%E5%B7%A7/2023-12-11-golang%E8%BF%90%E8%A1%8C%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F%E5%8F%8A%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA/</guid>
+      <description>&lt;p&gt;记录一下！&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang实现Set集合</title>
+      <link>http://localhost:1313/posts/golang/2023-08-14-golang%E5%AE%9E%E7%8E%B0set%E9%9B%86%E5%90%88/</link>
+      <pubDate>Mon, 14 Aug 2023 10:17:14 +0800</pubDate>
+      <guid>http://localhost:1313/posts/golang/2023-08-14-golang%E5%AE%9E%E7%8E%B0set%E9%9B%86%E5%90%88/</guid>
+      <description>&lt;p&gt;代码:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Map底层原理学习笔记</title>
+      <link>http://localhost:1313/posts/golang/2023-03-01-goang-map%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Wed, 01 Mar 2023 16:01:19 +0800</pubDate>
+      <guid>http://localhost:1313/posts/golang/2023-03-01-goang-map%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>&lt;p&gt;golang Map底层原理学习笔记&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/WuPeiqi/go_course/blob/master/day06%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9A%E6%8C%87%E9%92%88%E3%80%81%E5%88%87%E7%89%87%E3%80%81%E5%AD%97%E5%85%B8/%E7%AC%94%E8%AE%B0/day06%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.md&#34;&gt;课程来源&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang切片扩容学习笔记</title>
+      <link>http://localhost:1313/posts/golang/2023-02-28-golang%E5%88%87%E7%89%87%E6%89%A9%E5%AE%B9%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 28 Feb 2023 14:04:04 +0800</pubDate>
+      <guid>http://localhost:1313/posts/golang/2023-02-28-golang%E5%88%87%E7%89%87%E6%89%A9%E5%AE%B9%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>&lt;p&gt;在学习golang切片时看到说golang的扩容机制是小于1024时进行double,超过1024后每次增加1/4，但是自己尝试后并非如此，于是扒了下golang的源码研究一番。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang逃逸分析</title>
+      <link>http://localhost:1313/posts/golang/2023-02-09-golang%E9%80%83%E9%80%B8%E5%88%86%E6%9E%90/</link>
+      <pubDate>Thu, 09 Feb 2023 15:29:08 +0800</pubDate>
+      <guid>http://localhost:1313/posts/golang/2023-02-09-golang%E9%80%83%E9%80%B8%E5%88%86%E6%9E%90/</guid>
+      <description>&lt;h2 id=&#34;案例&#34;&gt;案例&lt;/h2&gt;
+&lt;p&gt;先看一段C语言代码&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang Select</title>
+      <link>http://localhost:1313/posts/golang/2023-02-09-golang-select/</link>
+      <pubDate>Thu, 09 Feb 2023 11:29:08 +0800</pubDate>
+      <guid>http://localhost:1313/posts/golang/2023-02-09-golang-select/</guid>
+      <description>&lt;h2 id=&#34;go-select用处&#34;&gt;go select用处&lt;/h2&gt;
+&lt;p&gt;select是一种go可以处理多个通道之间的机制，看起来和switch语句很相似，但是select其实和IO机制中的select一样，多路复用通道，随机选取一个进行执行，如果说通道(channel)实现了多个goroutine之前的同步或者通信，那么select则实现了多个通道(channel)的同步或者通信，并且select具有阻塞的特性。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>GMP模型</title>
+      <link>http://localhost:1313/posts/golang/2023-02-08-gmp%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Wed, 08 Feb 2023 16:29:08 +0800</pubDate>
+      <guid>http://localhost:1313/posts/golang/2023-02-08-gmp%E6%A8%A1%E5%9E%8B/</guid>
+      <description>&lt;h2 id=&#34;什么是gmp模型&#34;&gt;什么是GMP模型？&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;G：gorotine（协程）&lt;/li&gt;
+&lt;li&gt;M：machine（内核线程）&lt;/li&gt;
+&lt;li&gt;P：processor(调度器)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Go语言运行时，通过核心元素G，M，P 和 自己的调度器，实现了自己的并发线程模型。调度器通过对G，M，P的调度实现了两级线程模型中操作系统内核之外的调度任务。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang面试题整理(一)</title>
+      <link>http://localhost:1313/posts/golang/2023-02-06-golang%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E4%B8%80/</link>
+      <pubDate>Mon, 06 Feb 2023 16:29:08 +0800</pubDate>
+      <guid>http://localhost:1313/posts/golang/2023-02-06-golang%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E4%B8%80/</guid>
+      <description>&lt;p&gt;Golang面试题整理(一)&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang面试题整理(二)</title>
+      <link>http://localhost:1313/posts/golang/2023-02-06-golang%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E4%BA%8C/</link>
+      <pubDate>Mon, 06 Feb 2023 16:29:08 +0800</pubDate>
+      <guid>http://localhost:1313/posts/golang/2023-02-06-golang%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E4%BA%8C/</guid>
+      <description>&lt;p&gt;Golang面试题整理(二)&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Posts | 青丝蘸白雪i</title>
+<meta name="keywords" content="">
+<meta name="description" content="Posts - 青丝蘸白雪i">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/posts/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body class="list" id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="青丝蘸白雪i (Alt + H)">青丝蘸白雪i</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    Posts
+  </h1>
+</header>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">GithubAction自动编译项目学习笔记
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>最近项目上线要将旧系统的数据导入新系统，旧系统的数据导出到excel文件，然后将文件整理后导入新系统。但是整理文件的时候总是会出现一些简单的错误，每次都有人工校对或者导入时提示太麻烦，于是写了一个小工具让整理数据的门店人员整理数据后自行检测一次。由于数据库使用的是sqlite，我本地的开发环境又是mac，这就导致golang交叉编译时要配置gcc,试了一下，感觉太麻烦了。也尝试过开个虚拟机进行编译，发现效果也不满意。后来发现github action可以在推送项目后自动构建项目，于是实现了项目推到github后,由Github自动编译并打包项目。
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2023-05-09 14:32:21 +0800 CST'>May 9, 2023</span></footer>
+  <a class="entry-link" aria-label="post link to GithubAction自动编译项目学习笔记" href="http://localhost:1313/posts/%E6%8A%80%E5%B7%A7/2023-05-09-githubaction%E8%87%AA%E5%8A%A8%E7%BC%96%E8%AF%91%E9%A1%B9%E7%9B%AE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">使用Vercel部署托管在github上的前端项目
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>之前写了一个便携剪切板小工具，部署在家里的群晖上面，方便工作时随时写日报。前段时间发现可以用Vercel部署前端项目，还可以自定义域名，这样就不用每次都输入端口信息了。
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2023-04-06 16:40:53 +0800 CST'>April 6, 2023</span></footer>
+  <a class="entry-link" aria-label="post link to 使用Vercel部署托管在github上的前端项目" href="http://localhost:1313/posts/%E6%8A%80%E5%B7%A7/2023-04-06-%E4%BD%BF%E7%94%A8vercel%E9%83%A8%E7%BD%B2%E6%89%98%E7%AE%A1%E5%9C%A8github%E4%B8%8A%E7%9A%84%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Openwrt去除小米电视广告
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>小米电视去除开机广告及视频开头广告
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2023-03-24 23:42:39 +0800 CST'>March 24, 2023</span></footer>
+  <a class="entry-link" aria-label="post link to Openwrt去除小米电视广告" href="http://localhost:1313/posts/%E6%8A%80%E5%B7%A7/2023-03-24-openwrt%E5%8E%BB%E9%99%A4%E5%B0%8F%E7%B1%B3%E7%94%B5%E8%A7%86%E5%B9%BF%E5%91%8A/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Map底层原理学习笔记
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>golang Map底层原理学习笔记
+课程来源
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2023-03-01 16:01:19 +0800 CST'>March 1, 2023</span></footer>
+  <a class="entry-link" aria-label="post link to Map底层原理学习笔记" href="http://localhost:1313/posts/golang/2023-03-01-goang-map%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Golang切片扩容学习笔记
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>在学习golang切片时看到说golang的扩容机制是小于1024时进行double,超过1024后每次增加1/4，但是自己尝试后并非如此，于是扒了下golang的源码研究一番。
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2023-02-28 14:04:04 +0800 CST'>February 28, 2023</span></footer>
+  <a class="entry-link" aria-label="post link to Golang切片扩容学习笔记" href="http://localhost:1313/posts/golang/2023-02-28-golang%E5%88%87%E7%89%87%E6%89%A9%E5%AE%B9%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">使用hugo和next主题搭建静态博客
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>前两年一直在用hexo写博客，hexo构建需要node环境，且文章数量多了以后构建速度慢了许多，且部署起来比较复杂，所以改用hugo。
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2023-02-20 10:54:53 +0800 CST'>February 20, 2023</span></footer>
+  <a class="entry-link" aria-label="post link to 使用hugo和next主题搭建静态博客" href="http://localhost:1313/posts/blog/2023-02-20-%E4%BD%BF%E7%94%A8hugo%E5%92%8Cnext%E4%B8%BB%E9%A2%98%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Redis基础
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Redis是什么？ Redis是一个使用 C 语言编写的，高性能非关系型的键值对数据库。与传统数据库不同的是，Redis 的数据是存在内存中的，所以读写速度非常快，被广泛应用于缓存方向。Redis可以将数据写入磁盘中，保证了数据的安全不丢失，而且Redis的操作是原子性的。
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2023-02-19 10:50:23 +0800 CST'>February 19, 2023</span></footer>
+  <a class="entry-link" aria-label="post link to Redis基础" href="http://localhost:1313/posts/redis/redis%E5%9F%BA%E7%A1%80/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Redis进阶
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Redis是什么？ Redis是一个使用 C 语言编写的，高性能非关系型的键值对数据库。与传统数据库不同的是，Redis 的数据是存在内存中的，所以读写速度非常快，被广泛应用于缓存方向。Redis可以将数据写入磁盘中，保证了数据的安全不丢失，而且Redis的操作是原子性的。
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2023-02-19 10:50:23 +0800 CST'>February 19, 2023</span></footer>
+  <a class="entry-link" aria-label="post link to Redis进阶" href="http://localhost:1313/posts/redis/redis%E8%BF%9B%E9%98%B6/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Golang逃逸分析
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>案例 先看一段C语言代码
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2023-02-09 15:29:08 +0800 CST'>February 9, 2023</span></footer>
+  <a class="entry-link" aria-label="post link to Golang逃逸分析" href="http://localhost:1313/posts/golang/2023-02-09-golang%E9%80%83%E9%80%B8%E5%88%86%E6%9E%90/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Golang Select
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>go select用处 select是一种go可以处理多个通道之间的机制，看起来和switch语句很相似，但是select其实和IO机制中的select一样，多路复用通道，随机选取一个进行执行，如果说通道(channel)实现了多个goroutine之前的同步或者通信，那么select则实现了多个通道(channel)的同步或者通信，并且select具有阻塞的特性。
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2023-02-09 11:29:08 +0800 CST'>February 9, 2023</span></footer>
+  <a class="entry-link" aria-label="post link to Golang Select" href="http://localhost:1313/posts/golang/2023-02-09-golang-select/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://localhost:1313/posts/page/2/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://localhost:1313/posts/page/4/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">青丝蘸白雪i</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

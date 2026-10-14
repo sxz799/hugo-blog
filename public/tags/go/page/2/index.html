@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Go | 青丝蘸白雪i</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/tags/go/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/tags/go/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/tags/go/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body class="list" id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="青丝蘸白雪i (Alt + H)">青丝蘸白雪i</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    Go
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Go语言字符串和结构体之间转换
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>在web应用调用 API 的时候，需要把 API 返回的 JSON 字符串转换为 struct 结构体，便于操作。那么一个 JSON 字符串是如何转换为 struct 结构体的呢？这就需要用到反射的知识，今天学习基于字符串和结构体之间的转换，一步步地揭开 Go 语言运行时反射的面纱。
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2022-08-27 22:58:07 +0000 UTC'>August 27, 2022</span></footer>
+  <a class="entry-link" aria-label="post link to Go语言字符串和结构体之间转换" href="http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-27-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93%E4%B9%8B%E9%97%B4%E8%BD%AC%E6%8D%A2/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Go语言中make和new的区别
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>程序的运行都需要内存，比如像变量的创建、函数的调用、数据的计算等。所以在需要内存的时候就要申请内存，进行内存分配。在 C/C&#43;&#43; 这类语言中，内存是由开发者自己管理的，需要主动申请和释放，而在 Go 语言中则是由该语言自己管理的，开发者不用做太多干涉，只需要声明变量，Go 语言就会根据变量的类型自动分配相应的内存。
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2022-08-26 13:55:59 +0000 UTC'>August 26, 2022</span></footer>
+  <a class="entry-link" aria-label="post link to Go语言中make和new的区别" href="http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-26-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E4%B8%ADmake%E5%92%8Cnew%E7%9A%84%E5%8C%BA%E5%88%AB/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Go语言值,引用,指针之间的区别
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>前言 先看一段代码
+type address struct { province string city string } func (addr address) String() string { return fmt.Sprintf(&#34;the addr is %s%s&#34;, addr.province, addr.city) } func main() { add := address{province: &#34;山东省&#34;, city: &#34;济南市&#34;} printString(add) printString(&amp;add) } func printString(s fmt.Stringer) { fmt.Println(s.String()) } 运行结果： the addr is 山东省济南市 the addr is 山东省济南市 ...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2022-08-25 21:45:06 +0000 UTC'>August 25, 2022</span></footer>
+  <a class="entry-link" aria-label="post link to Go语言值,引用,指针之间的区别" href="http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-25-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%80%BC%E5%BC%95%E7%94%A8%E6%8C%87%E9%92%88%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Go语言指针学习
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>什么是指针 程序运行时的数据是存放在内存中的，而内存会被抽象为一系列具有连续编号的存储空间，那么每一个存储在内存中的数据都会有一个编号，这个编号就是内存地址。有了这个内存地址就可以找到这个内存中存储的数据，而内存地址可以被赋值给一个指针。
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2022-08-24 21:28:24 +0000 UTC'>August 24, 2022</span></footer>
+  <a class="entry-link" aria-label="post link to Go语言指针学习" href="http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-24-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E6%8C%87%E9%92%88%E5%AD%A6%E4%B9%A0/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Go语言常见的高效并发模式
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>如何用 goroutine、channel、sync包 这些基础元素组成并发模式，更好地编写并发程序。
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2022-08-18 10:16:25 +0000 UTC'>August 18, 2022</span></footer>
+  <a class="entry-link" aria-label="post link to Go语言常见的高效并发模式" href="http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-18-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%B8%B8%E8%A7%81%E7%9A%84%E9%AB%98%E6%95%88%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%BC%8F/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Go语言Context学习笔记
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>前言 之前学习了怎么在所有的协程运行结束后让程序停止。这次学一下怎么让运行中的协程停止。比如我们开了1个协程去监控一个程序，如果我们手动取消监控就要让协程主动停止任务，该怎么实现呢？用 select&#43;channel 做检测！
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2022-08-16 16:16:07 +0000 UTC'>August 16, 2022</span></footer>
+  <a class="entry-link" aria-label="post link to Go语言Context学习笔记" href="http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-16-%E8%BD%ACgo%E8%AF%AD%E8%A8%80context%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Go语言中使用sync包控制并发
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>sync.Mutex 和 sync.RWMutex 如果同一块内存被多个 goroutine 同时访问，就会产生不知道谁先访问也无法预料最后结果的情况。这就是资源竞争，这块内存可以称为共享的资源。例如下面的代码
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2022-08-15 20:41:12 +0000 UTC'>August 15, 2022</span></footer>
+  <a class="entry-link" aria-label="post link to Go语言中使用sync包控制并发" href="http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-15-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E4%B8%AD%E4%BD%BF%E7%94%A8sync%E5%8C%85%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Go语言使用channel进行goroutine通信
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>声明channel channel是go语言中的一种数据类型，也叫通道 声明方式
+ch:=make(chan string, n) ch : channel的变量名 chan : 声明channel的关键字 string : channel中存储额数据类型 n: 缓冲长度(不填时代表无缓冲) ...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2022-08-15 10:38:35 +0000 UTC'>August 15, 2022</span></footer>
+  <a class="entry-link" aria-label="post link to Go语言使用channel进行goroutine通信" href="http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-15-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E4%BD%BF%E7%94%A8channel%E8%BF%9B%E8%A1%8Cgoroutine%E9%80%9A%E4%BF%A1/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Go语言错误处理笔记
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>type error interface { Error() string } ...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2022-08-14 21:54:46 +0000 UTC'>August 14, 2022</span></footer>
+  <a class="entry-link" aria-label="post link to Go语言错误处理笔记" href="http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-14-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Go语言接口学习笔记
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一、接口的定义 接口是和调用方的一种约定 是一个高度抽象的类型 不同和具体的实现细节绑定在一起
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2022-08-14 19:32:34 +0000 UTC'>August 14, 2022</span></footer>
+  <a class="entry-link" aria-label="post link to Go语言接口学习笔记" href="http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-14-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E6%8E%A5%E5%8F%A3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://localhost:1313/tags/go/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://localhost:1313/tags/go/page/3/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">青丝蘸白雪i</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

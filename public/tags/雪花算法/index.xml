@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>雪花算法 on 青丝蘸白雪i</title>
+    <link>http://localhost:1313/tags/%E9%9B%AA%E8%8A%B1%E7%AE%97%E6%B3%95/</link>
+    <description>Recent content in 雪花算法 on 青丝蘸白雪i</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 15 Mar 2024 21:47:01 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E9%9B%AA%E8%8A%B1%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>golang解决雪花ID传前端精度丢失问题</title>
+      <link>http://localhost:1313/posts/%E6%8A%80%E5%B7%A7/2024-03-15-golang%E8%A7%A3%E5%86%B3%E9%9B%AA%E8%8A%B1id%E4%BC%A0%E5%89%8D%E7%AB%AF%E7%B2%BE%E5%BA%A6%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Fri, 15 Mar 2024 21:47:01 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E6%8A%80%E5%B7%A7/2024-03-15-golang%E8%A7%A3%E5%86%B3%E9%9B%AA%E8%8A%B1id%E4%BC%A0%E5%89%8D%E7%AB%AF%E7%B2%BE%E5%BA%A6%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;使用雪花算法生成ID做主键时，前端接收时会出现精度丢失的问题
+这是因为JS是弱语言，前端接收数字类型参数为number
+最大接收长度为16位，超出长度则会丢失精度
+而JAVA的Long类型长度为19位，所以传输到前端的后三位精度丢失&lt;/p&gt;
+&lt;h3 id=&#34;java解决方案&#34;&gt;JAVA解决方案&lt;/h3&gt;
+&lt;p&gt;可以通过添加&lt;code&gt;@JsonSerialize(using = ToStringSerializer.class)&lt;/code&gt;注解来解决此问题&lt;/p&gt;
+&lt;h3 id=&#34;golang解决方案&#34;&gt;Golang解决方案&lt;/h3&gt;
+&lt;p&gt;只需要在tag的json后添加string类型即可&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;Id&lt;/span&gt;               &lt;span style=&#34;color:#66d9ef&#34;&gt;int64&lt;/span&gt;     &lt;span style=&#34;color:#e6db74&#34;&gt;`json:&amp;#34;id,string&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;Name&lt;/span&gt;             &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;    &lt;span style=&#34;color:#e6db74&#34;&gt;`json:&amp;#34;name&amp;#34; form:&amp;#34;name&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;Email&lt;/span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;    &lt;span style=&#34;color:#e6db74&#34;&gt;`json:&amp;#34;email&amp;#34; form:&amp;#34;email&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+  </channel>
+</rss>

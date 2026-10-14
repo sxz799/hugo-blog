@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>记录一下ruoyi框架前端子表时删除按钮不生效的bug | 青丝蘸白雪i</title>
+<meta name="keywords" content="vue, ruoyi">
+<meta name="description" content="遇到一个奇怪的bug,ruoyi框架前端使用el-table做子表时删除按钮不生效,但是删除后再保存,删除掉的记录并不会存入数据库,所以分析应该是页面渲染的问题。而且只有在新建表单时才会这样。">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/%E6%8A%80%E5%B7%A7/2023-10-12-%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8Bruoyi%E6%A1%86%E6%9E%B6%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8el-table%E5%81%9A%E5%AD%90%E8%A1%A8%E6%97%B6%E5%88%A0%E9%99%A4%E6%8C%89%E9%92%AE%E4%B8%8D%E7%94%9F%E6%95%88%E7%9A%84bug/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/%E6%8A%80%E5%B7%A7/2023-10-12-%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8Bruoyi%E6%A1%86%E6%9E%B6%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8el-table%E5%81%9A%E5%AD%90%E8%A1%A8%E6%97%B6%E5%88%A0%E9%99%A4%E6%8C%89%E9%92%AE%E4%B8%8D%E7%94%9F%E6%95%88%E7%9A%84bug/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="青丝蘸白雪i (Alt + H)">青丝蘸白雪i</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      记录一下ruoyi框架前端子表时删除按钮不生效的bug
+    </h1>
+    <div class="post-meta">
+
+<span title='2023-10-12 22:00:07 +0800 CST'>October 12, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><p>遇到一个奇怪的bug,ruoyi框架前端使用el-table做子表时删除按钮不生效,但是删除后再保存,删除掉的记录并不会存入数据库,所以分析应该是页面渲染的问题。而且只有在新建表单时才会这样。</p>
+<p>全部代码</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app-container&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">el-row</span> <span style="color:#a6e22e">:gutter</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;10&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;mb8&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">el-col</span> <span style="color:#a6e22e">:span</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1.5&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">el-button</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;primary&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">plain</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">icon</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;el-icon-plus&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">size</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;mini&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleAdd&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">v-hasPermi</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;[&#39;admin:student:add&#39;]&#34;</span>
+</span></span><span style="display:flex;"><span>        &gt;新增&lt;/<span style="color:#f92672">el-button</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#f92672">el-col</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">el-col</span> <span style="color:#a6e22e">:span</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1.5&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">el-button</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;success&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">plain</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">icon</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;el-icon-edit&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">size</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;mini&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">:disabled</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;single&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleUpdate&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">v-hasPermi</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;[&#39;admin:student:edit&#39;]&#34;</span>
+</span></span><span style="display:flex;"><span>        &gt;修改&lt;/<span style="color:#f92672">el-button</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#f92672">el-col</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">el-col</span> <span style="color:#a6e22e">:span</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1.5&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">el-button</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;danger&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">plain</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">icon</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;el-icon-delete&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">size</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;mini&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">:disabled</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;multiple&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleDelete&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">v-hasPermi</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;[&#39;admin:student:remove&#39;]&#34;</span>
+</span></span><span style="display:flex;"><span>        &gt;删除&lt;/<span style="color:#f92672">el-button</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#f92672">el-col</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">el-col</span> <span style="color:#a6e22e">:span</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1.5&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">el-button</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;warning&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">plain</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">icon</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;el-icon-download&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">size</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;mini&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleExport&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">v-hasPermi</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;[&#39;admin:student:export&#39;]&#34;</span>
+</span></span><span style="display:flex;"><span>        &gt;导出&lt;/<span style="color:#f92672">el-button</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#f92672">el-col</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">right-toolbar</span> <span style="color:#a6e22e">:showSearch</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#a6e22e">sync</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;showSearch&#34;</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">queryTable</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;getList&#34;</span>&gt;&lt;/<span style="color:#f92672">right-toolbar</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">el-row</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">el-table</span> <span style="color:#a6e22e">v-loading</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;loading&#34;</span> <span style="color:#a6e22e">:data</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;studentList&#34;</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">selection-change</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleSelectionChange&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;selection&#34;</span> <span style="color:#a6e22e">width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;55&#34;</span> <span style="color:#a6e22e">align</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;center&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;主键&#34;</span> <span style="color:#a6e22e">align</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;center&#34;</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;id&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;姓名&#34;</span> <span style="color:#a6e22e">align</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;center&#34;</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;name&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;年龄&#34;</span> <span style="color:#a6e22e">align</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;center&#34;</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;age&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;性别&#34;</span> <span style="color:#a6e22e">align</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;center&#34;</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;sex&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">template</span> <span style="color:#a6e22e">slot-scope</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scope&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">dict-tag</span> <span style="color:#a6e22e">:options</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dict.type.sys_user_sex&#34;</span> <span style="color:#a6e22e">:value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scope.row.sex&#34;</span>/&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#f92672">el-table-column</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;操作&#34;</span> <span style="color:#a6e22e">align</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;center&#34;</span> <span style="color:#a6e22e">class-name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;small-padding fixed-width&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">template</span> <span style="color:#a6e22e">slot-scope</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scope&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">el-button</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">size</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;mini&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">icon</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;el-icon-edit&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleUpdate(scope.row)&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">v-hasPermi</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;[&#39;admin:student:edit&#39;]&#34;</span>
+</span></span><span style="display:flex;"><span>          &gt;修改&lt;/<span style="color:#f92672">el-button</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">el-button</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">size</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;mini&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">icon</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;el-icon-delete&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleDelete(scope.row)&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">v-hasPermi</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;[&#39;admin:student:remove&#39;]&#34;</span>
+</span></span><span style="display:flex;"><span>          &gt;删除&lt;/<span style="color:#f92672">el-button</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#f92672">el-table-column</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">el-table</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">pagination</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">v-show</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;total&gt;0&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">:total</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;total&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">:page</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#a6e22e">sync</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;queryParams.pageNum&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">:limit</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#a6e22e">sync</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;queryParams.pageSize&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">pagination</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;getList&#34;</span>
+</span></span><span style="display:flex;"><span>    /&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&lt;!-- 添加或修改学生对话框 --&gt;</span>
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">el-dialog</span> <span style="color:#a6e22e">:title</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;title&#34;</span> <span style="color:#a6e22e">:visible</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#a6e22e">sync</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;open&#34;</span> <span style="color:#a6e22e">width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;500px&#34;</span> <span style="color:#a6e22e">append-to-body</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">el-form</span> <span style="color:#a6e22e">ref</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form&#34;</span> <span style="color:#a6e22e">:model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form&#34;</span> <span style="color:#a6e22e">:rules</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;rules&#34;</span> <span style="color:#a6e22e">label-width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;80px&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">el-form-item</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;姓名&#34;</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;name&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">el-input</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form.name&#34;</span> <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;请输入姓名&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">el-form-item</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">el-form-item</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;年龄&#34;</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;age&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">el-input</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form.age&#34;</span> <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;请输入年龄&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">el-form-item</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">el-form-item</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;性别&#34;</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;sex&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">el-select</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form.sex&#34;</span> <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;请选择性别&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">el-option</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dict in dict.type.sys_user_sex&#34;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#a6e22e">:key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dict.value&#34;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#a6e22e">:label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dict.label&#34;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#a6e22e">:value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dict.value&#34;</span>
+</span></span><span style="display:flex;"><span>            &gt;&lt;/<span style="color:#f92672">el-option</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;/<span style="color:#f92672">el-select</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">el-form-item</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">el-divider</span> <span style="color:#a6e22e">content-position</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;center&#34;</span>&gt;书信息&lt;/<span style="color:#f92672">el-divider</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">el-row</span> <span style="color:#a6e22e">:gutter</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;10&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;mb8&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">el-col</span> <span style="color:#a6e22e">:span</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1.5&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">el-button</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;primary&#34;</span> <span style="color:#a6e22e">icon</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;el-icon-plus&#34;</span> <span style="color:#a6e22e">size</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;mini&#34;</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleAddBook&#34;</span>&gt;添加&lt;/<span style="color:#f92672">el-button</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;/<span style="color:#f92672">el-col</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">el-col</span> <span style="color:#a6e22e">:span</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1.5&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">el-button</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;danger&#34;</span> <span style="color:#a6e22e">icon</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;el-icon-delete&#34;</span> <span style="color:#a6e22e">size</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;mini&#34;</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleDeleteBook&#34;</span>&gt;删除&lt;/<span style="color:#f92672">el-button</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;/<span style="color:#f92672">el-col</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">el-row</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">el-table</span> <span style="color:#a6e22e">:data</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form.bookList&#34;</span> <span style="color:#a6e22e">:row-class-name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;rowBookIndex&#34;</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">selection-change</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleBookSelectionChange&#34;</span> <span style="color:#a6e22e">ref</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;book&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;selection&#34;</span> <span style="color:#a6e22e">width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;50&#34;</span> <span style="color:#a6e22e">align</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;center&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;序号&#34;</span> <span style="color:#a6e22e">align</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;center&#34;</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;index&#34;</span> <span style="color:#a6e22e">width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;50&#34;</span>/&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;书名&#34;</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;name&#34;</span> <span style="color:#a6e22e">width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;150&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">template</span> <span style="color:#a6e22e">slot-scope</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scope&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>              &lt;<span style="color:#f92672">el-input</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scope.row.name&#34;</span> <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;请输入书名&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>            &lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;/<span style="color:#f92672">el-table-column</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;页码&#34;</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;pageSize&#34;</span> <span style="color:#a6e22e">width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;150&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">template</span> <span style="color:#a6e22e">slot-scope</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scope&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>              &lt;<span style="color:#f92672">el-input</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scope.row.pageSize&#34;</span> <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;请输入页码&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>            &lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;/<span style="color:#f92672">el-table-column</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">el-table</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#f92672">el-form</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">slot</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;footer&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dialog-footer&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">el-button</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;primary&#34;</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submitForm&#34;</span>&gt;确 定&lt;/<span style="color:#f92672">el-button</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">el-button</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cancel&#34;</span>&gt;取 消&lt;/<span style="color:#f92672">el-button</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">el-dialog</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">listStudent</span>, <span style="color:#a6e22e">getStudent</span>, <span style="color:#a6e22e">delStudent</span>, <span style="color:#a6e22e">addStudent</span>, <span style="color:#a6e22e">updateStudent</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;@/api/admin/student&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Student&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">dicts</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;sys_user_sex&#39;</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">data</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 遮罩层
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">loading</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 选中数组
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">ids</span><span style="color:#f92672">:</span> [],
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 子表选中数据
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">checkedBook</span><span style="color:#f92672">:</span> [],
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 非单个禁用
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">single</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 非多个禁用
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">multiple</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 显示搜索条件
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">showSearch</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 总条数
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">total</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 学生表格数据
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">studentList</span><span style="color:#f92672">:</span> [],
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 书表格数据
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 弹出层标题
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 是否显示弹出层
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">open</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 查询参数
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">queryParams</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">pageNum</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">pageSize</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">age</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sex</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 表单参数
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">form</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">bookList</span><span style="color:#f92672">:</span> [],
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 表单校验
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">rules</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">created</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">getList</span>();
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** 查询学生列表 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">getList</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">loading</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">listStudent</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">queryParams</span>).<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">response</span> =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">studentList</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">rows</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">total</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">total</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">loading</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>      });
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 取消按钮
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cancel</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">open</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">reset</span>();
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 表单重置
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">reset</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">age</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sex</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>      };
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span>.<span style="color:#a6e22e">bookList</span><span style="color:#f92672">=</span>[];
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">resetForm</span>(<span style="color:#e6db74">&#34;form&#34;</span>);
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** 搜索按钮操作 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handleQuery</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">queryParams</span>.<span style="color:#a6e22e">pageNum</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">getList</span>();
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** 重置按钮操作 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resetQuery</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">resetForm</span>(<span style="color:#e6db74">&#34;queryForm&#34;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">handleQuery</span>();
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 多选框选中数据
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handleSelectionChange</span>(<span style="color:#a6e22e">selection</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ids</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">selection</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">item</span> =&gt; <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">id</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">single</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">selection</span>.<span style="color:#a6e22e">length</span><span style="color:#f92672">!==</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">multiple</span> <span style="color:#f92672">=</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">selection</span>.<span style="color:#a6e22e">length</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** 新增按钮操作 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handleAdd</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">reset</span>();
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">open</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">title</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;添加学生&#34;</span>;
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** 修改按钮操作 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handleUpdate</span>(<span style="color:#a6e22e">row</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">reset</span>();
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">id</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">row</span>.<span style="color:#a6e22e">id</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ids</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">getStudent</span>(<span style="color:#a6e22e">id</span>).<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">response</span> =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">data</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span>.<span style="color:#a6e22e">bookList</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// this.bookList = response.data.bookList;
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">open</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">title</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;修改学生&#34;</span>;
+</span></span><span style="display:flex;"><span>      });
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** 提交按钮 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">submitForm</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$refs</span>[<span style="color:#e6db74">&#34;form&#34;</span>].<span style="color:#a6e22e">validate</span>(<span style="color:#a6e22e">valid</span> =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">valid</span>) {
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e">// this.form.bookList = this.bookList;
+</span></span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span>.<span style="color:#a6e22e">id</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">updateStudent</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span>).<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">response</span> =&gt; {
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$modal</span>.<span style="color:#a6e22e">msgSuccess</span>(<span style="color:#e6db74">&#34;修改成功&#34;</span>);
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">open</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">getList</span>();
+</span></span><span style="display:flex;"><span>            });
+</span></span><span style="display:flex;"><span>          } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">addStudent</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span>).<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">response</span> =&gt; {
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$modal</span>.<span style="color:#a6e22e">msgSuccess</span>(<span style="color:#e6db74">&#34;新增成功&#34;</span>);
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">open</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">getList</span>();
+</span></span><span style="display:flex;"><span>            });
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      });
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** 删除按钮操作 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handleDelete</span>(<span style="color:#a6e22e">row</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ids</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">row</span>.<span style="color:#a6e22e">id</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ids</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$modal</span>.<span style="color:#a6e22e">confirm</span>(<span style="color:#e6db74">&#39;是否确认删除学生编号为&#34;&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">ids</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&#34;的数据项？&#39;</span>).<span style="color:#a6e22e">then</span>(<span style="color:#66d9ef">function</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">delStudent</span>(<span style="color:#a6e22e">ids</span>);
+</span></span><span style="display:flex;"><span>      }).<span style="color:#a6e22e">then</span>(() =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">getList</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$modal</span>.<span style="color:#a6e22e">msgSuccess</span>(<span style="color:#e6db74">&#34;删除成功&#34;</span>);
+</span></span><span style="display:flex;"><span>      }).<span style="color:#66d9ef">catch</span>(() =&gt; {});
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/** 书序号 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">rowBookIndex</span>({ <span style="color:#a6e22e">row</span>, <span style="color:#a6e22e">rowIndex</span> }) {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">row</span>.<span style="color:#a6e22e">index</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">rowIndex</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** 书添加按钮操作 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handleAddBook</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">obj</span> <span style="color:#f92672">=</span> {};
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;123&#34;</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">pageSize</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;345&#34;</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span>.<span style="color:#a6e22e">bookList</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">obj</span>);
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** 书删除按钮操作 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handleDeleteBook</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">checkedBook</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$modal</span>.<span style="color:#a6e22e">msgError</span>(<span style="color:#e6db74">&#34;请先选择要删除的书数据&#34;</span>);
+</span></span><span style="display:flex;"><span>      } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">bookList</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span>.<span style="color:#a6e22e">bookList</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">checkedBook</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">checkedBook</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span>.<span style="color:#a6e22e">bookList</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">bookList</span>.<span style="color:#a6e22e">filter</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">item</span>) {
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">checkedBook</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">index</span>) <span style="color:#f92672">===</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** 复选框选中数据 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handleBookSelectionChange</span>(<span style="color:#a6e22e">selection</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">checkedBook</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">selection</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">item</span> =&gt; <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">index</span>)
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** 导出按钮操作 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handleExport</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">download</span>(<span style="color:#e6db74">&#39;admin/student/export&#39;</span>, {
+</span></span><span style="display:flex;"><span>        ...<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">queryParams</span>
+</span></span><span style="display:flex;"><span>      }, <span style="color:#e6db74">`student_</span><span style="color:#e6db74">${</span><span style="color:#66d9ef">new</span> Date().<span style="color:#a6e22e">getTime</span>()<span style="color:#e6db74">}</span><span style="color:#e6db74">.xlsx`</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><p>User: 我会给你两份代码 帮我解释这两个代码的不同之处 如果你明白了 就回复请发送第一份代码</p>
+<p>GPT: 当然，我可以帮你解释两份代码的不同之处。请发送第一份代码，然后我会分析并解释其不同之处。</p>
+<p>User:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">reset</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span>.<span style="color:#a6e22e">bookList</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">age</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sex</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">bookList</span> <span style="color:#f92672">:</span> []
+</span></span><span style="display:flex;"><span>      };
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span>.<span style="color:#a6e22e">bookList</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">resetForm</span>(<span style="color:#e6db74">&#34;form&#34;</span>);
+</span></span><span style="display:flex;"><span>    },
+</span></span></code></pre></div><p>GPT: 这段代码看起来是一个重置表单的函数。它做了以下几件事情：</p>
+<p>使用 console.log 打印出 this.form.bookList 的值。
+将 this.form 对象的属性重置为默认值，包括 id、name、age、sex，以及将 bookList 设置为空数组。
+再次使用 console.log 打印出 this.form.bookList 的值。
+调用 this.resetForm(&ldquo;form&rdquo;) 函数，可能是为了进一步重置表单的某些方面。
+这段代码的主要目的是将表单的内容重置为初始状态，包括清空 bookList 数组。不过，需要注意的是，这段代码中的 this.resetForm(&ldquo;form&rdquo;) 函数调用可能会对整个重置过程产生影响，具体效果取决于 resetForm 函数的实现细节。如果你想了解两份代码的不同之处，请继续提供第二份代码。</p>
+<p>User:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">reset</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span>.<span style="color:#a6e22e">bookList</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">age</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sex</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>      };
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span>.<span style="color:#a6e22e">bookList</span><span style="color:#f92672">=</span>[];
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">form</span>.<span style="color:#a6e22e">bookList</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">resetForm</span>(<span style="color:#e6db74">&#34;form&#34;</span>);
+</span></span><span style="display:flex;"><span>    },
+</span></span></code></pre></div><p>GPT: 这是第二份代码，与第一份代码相比，有以下不同之处：</p>
+<p>第一份代码在重置 this.form 对象的同时，将 bookList 设置为空数组。而第二份代码分两步进行，首先重置了 this.form 对象的属性（id、name、age、sex），然后单独将 this.form.bookList 设置为空数组。</p>
+<p>第一份代码使用了两次 console.log 分别在重置前后输出 this.form.bookList 的值，而第二份代码只在重置前后各输出了一次 this.form.bookList 的值。</p>
+<p>总的来说，这两份代码都达到了相同的目标，即重置表单对象 this.form，但是它们的实现方式略有不同。第一份代码在一个语句中同时重置了整个 this.form 对象和 bookList 数组，而第二份代码分两步进行，先重置对象的属性，然后再清空数组。这两种方式在功能上应该是等效的，但第二份代码更明确地分开了这两个步骤。</p>
+<p>User: 代码定义是这样的</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">form</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">bookList</span><span style="color:#f92672">:</span> [],
+</span></span><span style="display:flex;"><span>      },
+</span></span></code></pre></div><p>GPT: 理解了，你的代码中定义了一个 form 对象，其中包含一个名为 bookList 的空数组。然后，你之前提供的两份代码都是用于重置这个 form 对象的一部分。在这种情况下，第一份和第二份代码都是等效的，因为它们都将 bookList 数组重置为空数组，只是实现方式略有不同。你可以选择使用其中任何一份代码来完成这个任务，取决于你的代码风格和偏好。</p>
+<p>User: 为什么第二种代码会导致数组缺失 <code>__ob__: Observer</code> 属性</p>
+<p>GPT:</p>
+<p><code>__ob__</code> 属性通常与使用 Vue.js 这样的响应式框架时相关。Vue.js使用 <code>__ob__</code> 来追踪和管理响应式数据对象。它是Vue的内部属性，通常不应该直接访问或修改。</p>
+<p>在第二份代码中，当你单独对 this.form.bookList 赋值一个新空数组时，这可能会破坏Vue的响应式系统对原始数组的追踪。Vue使用 <code>__ob__</code> 来实现响应式数据变化的侦听和更新。</p>
+<p>如果你需要重置 bookList 数组，而不想破坏Vue的响应性，你可以使用 splice 方法或 Vue.set 方法来修改数组，以确保Vue能够正确追踪这些更改，而不会导致 <code>__ob__</code> 丢失。</p>
+<p>例如：</p>
+<p>// 使用 splice 方法<br>
+<code>this.form.bookList.splice(0, this.form.bookList.length);</code></p>
+<p>// 或者使用 Vue.set 方法<br>
+<code>this.$set(this.form, 'bookList', []);</code><br>
+这样做将确保 bookList 数组的变化会被Vue正常追踪，而不会导致 <code>__ob__</code>丢失。</p>
+<p>User: 为什么第一种方式不会导致 <code>__ob__</code> 丢失</p>
+<p>GPT: 第一种方式不会导致 <code>__ob__</code> 丢失，因为它在重置 this.form 对象时，同时也将 bookList 属性重新赋值为空数组。这个操作保持了 bookList 属性在 this.form 对象内的引用不变，因此 Vue.js 的响应式系统能够继续追踪 bookList 属性的变化。</p>
+<p>在第一种方式中，重置代码如下：</p>
+<pre tabindex="0"><code>this.form = {
+  id: null,
+  name: null,
+  age: null,
+  sex: null,
+  bookList: [] // 在这里重新赋值为空数组，但保持了属性引用
+};
+</code></pre><p>由于 bookList 属性的引用没有改变，Vue.js 的响应式系统能够正常追踪该属性的变化，不会导致 <code>__ob__</code>丢失。</p>
+<p>相比之下，第二种方式中的单独对 this.form.bookList 赋值一个新的空数组，这可能会破坏了Vue的响应性，因为这实际上是改变了 bookList 属性的引用，导致 Vue.js 无法正确追踪属性的变化，从而可能导致 <code>__ob__</code> 丢失。</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/vue/">Vue</a></li>
+      <li><a href="http://localhost:1313/tags/ruoyi/">Ruoyi</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">青丝蘸白雪i</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

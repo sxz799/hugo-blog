@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>ruoyi集成minio后的踩坑记录 | 青丝蘸白雪i</title>
+<meta name="keywords" content="minio, ruoyi">
+<meta name="description" content="上篇文章记录了ruoyi集成minio,今天继续记录一下后续的踩坑及问题处理">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/%E6%8A%80%E5%B7%A7/2023-10-14-ruoyi%E9%9B%86%E6%88%90minio%E5%90%8E%E7%9A%84%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/%E6%8A%80%E5%B7%A7/2023-10-14-ruoyi%E9%9B%86%E6%88%90minio%E5%90%8E%E7%9A%84%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="青丝蘸白雪i (Alt + H)">青丝蘸白雪i</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      ruoyi集成minio后的踩坑记录
+    </h1>
+    <div class="post-meta">
+
+<span title='2023-10-14 16:43:25 +0800 CST'>October 14, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><p>上篇文章记录了ruoyi集成minio,今天继续记录一下后续的踩坑及问题处理</p>
+<h2 id="1form表单上传图片后不显示">1.form表单上传图片后不显示<a hidden class="anchor" aria-hidden="true" href="#1form表单上传图片后不显示">#</a></h2>
+<p>上传图片后文件确实存到了minio里但是预览界面不显示图片，保存表单后在el-table中却能正常显示。</p>
+<h3 id="问题分析">问题分析<a hidden class="anchor" aria-hidden="true" href="#问题分析">#</a></h3>
+<p>上传图片后数据库里存放的是文件的url 如<code>http://localhost:9000/ruoyi/2023/10/14/4343_2023/1014003014A006.png</code></p>
+<p>在ruoyi生成的代码中 el-table中图片用的是封装好的 <code>image-preview</code>组件</p>
+<pre tabindex="0"><code>&lt;image-preview :src=&#34;scope.row.pic&#34; :width=&#34;50&#34; :height=&#34;50&#34;/&gt;
+</code></pre><p>scope.row.pic的内容就是数据库里存的<code>http://localhost:9000/ruoyi/2023/10/14/4343_2023/1014003014A006.png</code>所以可以正常显示</p>
+<p>但是在表单中上传文件用的组件是封装好的<code>image-upload</code></p>
+<pre tabindex="0"><code>&lt;image-upload v-model=&#34;form.pic&#34;/&gt;
+</code></pre><p>下面是image-upload组件源码</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;component-upload-image&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">el-upload</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">multiple</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">:action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;uploadImgUrl&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">list-type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;picture-card&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">:on-success</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleUploadSuccess&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">:before-upload</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleBeforeUpload&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">:limit</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;limit&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">:on-error</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleUploadError&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">:on-exceed</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleExceed&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">ref</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;imageUpload&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">:on-remove</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleDelete&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">:show-file-list</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">:headers</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;headers&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">:file-list</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;fileList&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">:on-preview</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handlePictureCardPreview&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">:class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{hide: this.fileList.length &gt;= this.limit}&#34;</span>
+</span></span><span style="display:flex;"><span>    &gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">i</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;el-icon-plus&#34;</span>&gt;&lt;/<span style="color:#f92672">i</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">el-upload</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&lt;!-- 上传提示 --&gt;</span>
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;el-upload__tip&#34;</span> <span style="color:#a6e22e">slot</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tip&#34;</span> <span style="color:#a6e22e">v-if</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;showTip&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>      请上传
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">template</span> <span style="color:#a6e22e">v-if</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;fileSize&#34;</span>&gt; 大小不超过 &lt;<span style="color:#f92672">b</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;color: #f56c6c&#34;</span>&gt;{{ fileSize }}MB&lt;/<span style="color:#f92672">b</span>&gt; &lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">template</span> <span style="color:#a6e22e">v-if</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;fileType&#34;</span>&gt; 格式为 &lt;<span style="color:#f92672">b</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;color: #f56c6c&#34;</span>&gt;{{ fileType.join(&#34;/&#34;) }}&lt;/<span style="color:#f92672">b</span>&gt; &lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>      的文件
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">el-dialog</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">:visible</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#a6e22e">sync</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dialogVisible&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">title</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;预览&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;800&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">append-to-body</span>
+</span></span><span style="display:flex;"><span>    &gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">img</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">:src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dialogImageUrl&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;display: block; max-width: 100%; margin: 0 auto&#34;</span>
+</span></span><span style="display:flex;"><span>      /&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">el-dialog</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">getToken</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;@/utils/auth&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">props</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">value</span><span style="color:#f92672">:</span> [String, Object, Array],
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 图片数量限制
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">limit</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> Number,
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">5</span>,
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 大小限制(MB)
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fileSize</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>       <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> Number,
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">5</span>,
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 文件类型, 例如[&#39;png&#39;, &#39;jpg&#39;, &#39;jpeg&#39;]
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fileType</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> Array,
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span> () =&gt; [<span style="color:#e6db74">&#34;png&#34;</span>, <span style="color:#e6db74">&#34;jpg&#34;</span>, <span style="color:#e6db74">&#34;jpeg&#34;</span>],
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 是否显示提示
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">isShowTip</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> Boolean,
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">data</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">number</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">uploadList</span><span style="color:#f92672">:</span> [],
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">dialogImageUrl</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">dialogVisible</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">hideUpload</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">baseUrl</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">VUE_APP_BASE_API</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">uploadImgUrl</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">VUE_APP_BASE_API</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/common/uploadMinio&#34;</span>, <span style="color:#75715e">// 上传的图片服务器地址
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Authorization</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Bearer &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">getToken</span>(),
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">fileList</span><span style="color:#f92672">:</span> []
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">watch</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">value</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">handler</span>(<span style="color:#a6e22e">val</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">val</span>) {
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e">// 首先将值转为数组
+</span></span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">list</span> <span style="color:#f92672">=</span> Array.<span style="color:#a6e22e">isArray</span>(<span style="color:#a6e22e">val</span>) <span style="color:#f92672">?</span> <span style="color:#a6e22e">val</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;,&#39;</span>);
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e">// 然后将数组转为对象数组
+</span></span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileList</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">item</span> =&gt; {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">item</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;string&#34;</span>) {
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">baseUrl</span>) <span style="color:#f92672">===</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>                  <span style="color:#a6e22e">item</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">baseUrl</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">item</span>, <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">baseUrl</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">item</span> };
+</span></span><span style="display:flex;"><span>              } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                  <span style="color:#a6e22e">item</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">item</span>, <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">item</span> };
+</span></span><span style="display:flex;"><span>              }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">item</span>;
+</span></span><span style="display:flex;"><span>          });
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileList</span> <span style="color:#f92672">=</span> [];
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">return</span> [];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">deep</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">immediate</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">computed</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 是否显示提示
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">showTip</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">isShowTip</span> <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileType</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileSize</span>);
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 上传前loading加载
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handleBeforeUpload</span>(<span style="color:#a6e22e">file</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">isImg</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileType</span>.<span style="color:#a6e22e">length</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">fileExtension</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">name</span>.<span style="color:#a6e22e">lastIndexOf</span>(<span style="color:#e6db74">&#34;.&#34;</span>) <span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">fileExtension</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">name</span>.<span style="color:#a6e22e">slice</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">name</span>.<span style="color:#a6e22e">lastIndexOf</span>(<span style="color:#e6db74">&#34;.&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">isImg</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileType</span>.<span style="color:#a6e22e">some</span>(<span style="color:#a6e22e">type</span> =&gt; {
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">type</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#a6e22e">type</span>) <span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">fileExtension</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">fileExtension</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#a6e22e">type</span>) <span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>      } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">isImg</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">type</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#e6db74">&#34;image&#34;</span>) <span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">isImg</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$modal</span>.<span style="color:#a6e22e">msgError</span>(<span style="color:#e6db74">`文件格式不正确, 请上传</span><span style="color:#e6db74">${</span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileType</span>.<span style="color:#a6e22e">join</span>(<span style="color:#e6db74">&#34;/&#34;</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">图片格式文件!`</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileSize</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isLt</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">size</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileSize</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">isLt</span>) {
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$modal</span>.<span style="color:#a6e22e">msgError</span>(<span style="color:#e6db74">`上传头像图片大小不能超过 </span><span style="color:#e6db74">${</span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileSize</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> MB!`</span>);
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$modal</span>.<span style="color:#a6e22e">loading</span>(<span style="color:#e6db74">&#34;正在上传图片，请稍候...&#34;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">number</span><span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 文件个数超出
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handleExceed</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$modal</span>.<span style="color:#a6e22e">msgError</span>(<span style="color:#e6db74">`上传文件数量不能超过 </span><span style="color:#e6db74">${</span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">limit</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> 个!`</span>);
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 上传成功回调
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handleUploadSuccess</span>(<span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">file</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">code</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">200</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">uploadList</span>.<span style="color:#a6e22e">push</span>({ <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">fileName</span>, <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">fileName</span> });
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">uploadedSuccessfully</span>();
+</span></span><span style="display:flex;"><span>      } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">number</span><span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$modal</span>.<span style="color:#a6e22e">closeLoading</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$modal</span>.<span style="color:#a6e22e">msgError</span>(<span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">msg</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$refs</span>.<span style="color:#a6e22e">imageUpload</span>.<span style="color:#a6e22e">handleRemove</span>(<span style="color:#a6e22e">file</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">uploadedSuccessfully</span>();
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 删除图片
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handleDelete</span>(<span style="color:#a6e22e">file</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">findex</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileList</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">f</span> =&gt; <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">name</span>).<span style="color:#a6e22e">indexOf</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">name</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">findex</span> <span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileList</span>.<span style="color:#a6e22e">splice</span>(<span style="color:#a6e22e">findex</span>, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$emit</span>(<span style="color:#e6db74">&#34;input&#34;</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">listToString</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileList</span>));
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 上传失败
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handleUploadError</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$modal</span>.<span style="color:#a6e22e">msgError</span>(<span style="color:#e6db74">&#34;上传图片失败，请重试&#34;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$modal</span>.<span style="color:#a6e22e">closeLoading</span>();
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 上传结束处理
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">uploadedSuccessfully</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">number</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">uploadList</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">number</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileList</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileList</span>.<span style="color:#a6e22e">concat</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">uploadList</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">uploadList</span> <span style="color:#f92672">=</span> [];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">number</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$emit</span>(<span style="color:#e6db74">&#34;input&#34;</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">listToString</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileList</span>));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$modal</span>.<span style="color:#a6e22e">closeLoading</span>();
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 预览
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handlePictureCardPreview</span>(<span style="color:#a6e22e">file</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">dialogImageUrl</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">url</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">dialogVisible</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 对象转成指定字符串分隔
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">listToString</span>(<span style="color:#a6e22e">list</span>, <span style="color:#a6e22e">separator</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">strs</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">separator</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">separator</span> <span style="color:#f92672">||</span> <span style="color:#e6db74">&#34;,&#34;</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#66d9ef">in</span> <span style="color:#a6e22e">list</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">list</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">url</span>) {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">strs</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">list</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">replace</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">baseUrl</span>, <span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">separator</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">strs</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;&#39;</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">strs</span>.<span style="color:#a6e22e">substr</span>(<span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">strs</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">style</span> <span style="color:#a6e22e">scoped</span> <span style="color:#a6e22e">lang</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scss&#34;</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">//</span> .<span style="color:#a6e22e">el-upload--picture-card</span> <span style="color:#f92672">控制加号部分</span>
+</span></span><span style="display:flex;"><span>::<span style="color:#a6e22e">v-deep</span>.<span style="color:#a6e22e">hide</span> .<span style="color:#a6e22e">el-upload--picture-card</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">display</span>: <span style="color:#66d9ef">none</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#f92672">//</span> <span style="color:#f92672">去掉动画效果</span>
+</span></span><span style="display:flex;"><span>::<span style="color:#a6e22e">v-deep</span> .<span style="color:#a6e22e">el-list-enter-active</span><span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>::<span style="color:#a6e22e">v-deep</span> .<span style="color:#a6e22e">el-list-leave-active</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">transition</span>: <span style="color:#66d9ef">all</span> <span style="color:#ae81ff">0</span><span style="color:#66d9ef">s</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>::<span style="color:#a6e22e">v-deep</span> .<span style="color:#a6e22e">el-list-enter</span><span style="color:#f92672">,</span> .<span style="color:#a6e22e">el-list-leave-active</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">opacity</span>: <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">transform</span>: translateY(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">style</span>&gt;
+</span></span></code></pre></div><p>重点在下面这部分代码</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">el</span><span style="color:#f92672">-</span><span style="color:#a6e22e">upload</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">&lt;!--</span> <span style="color:#a6e22e">无关紧要的代码</span>  <span style="color:#f92672">--&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">:</span><span style="color:#a6e22e">file</span><span style="color:#f92672">-</span><span style="color:#a6e22e">list</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;fileList&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">&lt;!--</span> <span style="color:#a6e22e">无关紧要的代码</span>  <span style="color:#f92672">--&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!--</span> <span style="color:#a6e22e">无关紧要的代码</span>  <span style="color:#f92672">--&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">watch</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">value</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">handler</span>(<span style="color:#a6e22e">val</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">val</span>) {
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e">// 首先将值转为数组
+</span></span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">list</span> <span style="color:#f92672">=</span> Array.<span style="color:#a6e22e">isArray</span>(<span style="color:#a6e22e">val</span>) <span style="color:#f92672">?</span> <span style="color:#a6e22e">val</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;,&#39;</span>);
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e">// 然后将数组转为对象数组
+</span></span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileList</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">item</span> =&gt; {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">item</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;string&#34;</span>) {
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">baseUrl</span>) <span style="color:#f92672">===</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>                  <span style="color:#a6e22e">item</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">baseUrl</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">item</span>, <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">baseUrl</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">item</span> };
+</span></span><span style="display:flex;"><span>              } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                  <span style="color:#a6e22e">item</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">item</span>, <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">item</span> };
+</span></span><span style="display:flex;"><span>              }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">item</span>;
+</span></span><span style="display:flex;"><span>          });
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fileList</span> <span style="color:#f92672">=</span> [];
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">return</span> [];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">deep</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">immediate</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span></code></pre></div><p>我们看一下elementui的文档
+<img loading="lazy" src="https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/10/202310140052839.png"></p>
+<p>这个file-list存的应该是图片的实际url,而这个组件默认是存储在服务器本地所以封装后给我们拼接了baseUrl
+而这个baseUrl</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">data</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">//省略部分代码
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">baseUrl</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">VUE_APP_BASE_API</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">//省略部分代码
+</span></span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>  },
+</span></span></code></pre></div><p>通过开发者工具我们也能看到图片的请求地址如下</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/10/202310140056386.png"></p>
+<p>这样我们就只需要去掉前面拼接的url地址即可</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">data</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">//省略部分代码
+</span></span></span><span style="display:flex;"><span>      <span style="color:#75715e">//baseUrl: process.env.VUE_APP_BASE_API, //文件存储在本地
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">baseUrl</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#75715e">//文件存储在OSS
+</span></span></span><span style="display:flex;"><span>      <span style="color:#75715e">//省略部分代码
+</span></span></span><span style="display:flex;"><span>    };
+</span></span></code></pre></div><p>修改后我们再看下效果</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/sxz799/tuchuang-blog/main/img/2023/10/202310140100621.png"></p>
+<p>而且预览也是没问题的,问题完美解决!</p>
+<p>当然除了图片上传 ruoyi封装的其他组件(文件上传、富文本等)也有同样的问题,解决方案也都差不多,去掉process.env.VUE_APP_BASE_API即可！</p>
+<h2 id="2文件上传组件file-upload">2.文件上传组件<code>file-upload</code><a hidden class="anchor" aria-hidden="true" href="#2文件上传组件file-upload">#</a></h2>
+<p>和图片上传组件修改方式相同!</p>
+<h2 id="3富文本编辑器editor">3.富文本编辑器<code>editor</code><a hidden class="anchor" aria-hidden="true" href="#3富文本编辑器editor">#</a></h2>
+<p>原理是相同的，但是改的地方不一样</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">handleUploadSuccess</span>(<span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">file</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 如果上传成功
+</span></span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">code</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">200</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 获取富文本组件实例
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">quill</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">Quill</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 获取光标所在位置
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">quill</span>.<span style="color:#a6e22e">getSelection</span>().<span style="color:#a6e22e">index</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 插入图片  res.url为服务器返回的图片地址
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">//quill.insertEmbed(length, &#34;image&#34;, process.env.VUE_APP_BASE_API + res.fileName);
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 插入图片  res.url为服务器返回的图片地址 存储在OSS中
+</span></span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">quill</span>.<span style="color:#a6e22e">insertEmbed</span>(<span style="color:#a6e22e">length</span>, <span style="color:#e6db74">&#34;image&#34;</span>, <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">fileName</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 调整光标到最后
+</span></span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">quill</span>.<span style="color:#a6e22e">setSelection</span>(<span style="color:#a6e22e">length</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>      } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$message</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#34;图片插入失败&#34;</span>);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    },
+</span></span></code></pre></div><h2 id="4修改头像">4.修改头像<a hidden class="anchor" aria-hidden="true" href="#4修改头像">#</a></h2>
+<h3 id="后端部分">后端部分<a hidden class="anchor" aria-hidden="true" href="#后端部分">#</a></h3>
+<p>在更换了接口后发现上传头像后,头像文件仍然存在本地,查看请求接口后发现上传头像并没有走上传图片的接口,而是一个单独的接口
+接口位置
+<code>com/ruoyi/web/controller/system/SysProfileController.java</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 头像上传
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Log</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;用户头像&#34;</span>, businessType <span style="color:#f92672">=</span> BusinessType.<span style="color:#a6e22e">UPDATE</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@PostMapping</span>(<span style="color:#e6db74">&#34;/avatar&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> AjaxResult <span style="color:#a6e22e">avatar</span>(<span style="color:#a6e22e">@RequestParam</span>(<span style="color:#e6db74">&#34;avatarfile&#34;</span>) MultipartFile file) <span style="color:#66d9ef">throws</span> Exception
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>file.<span style="color:#a6e22e">isEmpty</span>())
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            LoginUser loginUser <span style="color:#f92672">=</span> getLoginUser();
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// String avatar = FileUploadUtils.upload(RuoYiConfig.getAvatarPath(), file, MimeTypeUtils.IMAGE_EXTENSION);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//使用OSS</span>
+</span></span><span style="display:flex;"><span>            String avatar <span style="color:#f92672">=</span> FileUploadUtils.<span style="color:#a6e22e">uploadMinio</span>(file);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (userService.<span style="color:#a6e22e">updateUserAvatar</span>(loginUser.<span style="color:#a6e22e">getUsername</span>(), avatar))
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                AjaxResult ajax <span style="color:#f92672">=</span> AjaxResult.<span style="color:#a6e22e">success</span>();
+</span></span><span style="display:flex;"><span>                ajax.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">&#34;imgUrl&#34;</span>, avatar);
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 更新缓存用户头像</span>
+</span></span><span style="display:flex;"><span>                loginUser.<span style="color:#a6e22e">getUser</span>().<span style="color:#a6e22e">setAvatar</span>(avatar);
+</span></span><span style="display:flex;"><span>                tokenService.<span style="color:#a6e22e">setLoginUser</span>(loginUser);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> ajax;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> error(<span style="color:#e6db74">&#34;上传图片异常，请联系管理员&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><h3 id="前端部分">前端部分<a hidden class="anchor" aria-hidden="true" href="#前端部分">#</a></h3>
+<p>后端在修改完成后提示上传成功,数据库里也变成了minio的url,但是前端页面却不显示头像了,打开调试工具后发现还是VUE_APP_BASE_API的原因</p>
+<p>文件位置
+<code>/ruoyi-ui/src/views/system/user/profile/userAvatar.vue</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">uploadImg</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$refs</span>.<span style="color:#a6e22e">cropper</span>.<span style="color:#a6e22e">getCropBlob</span>(<span style="color:#a6e22e">data</span> =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">formData</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">FormData</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">formData</span>.<span style="color:#a6e22e">append</span>(<span style="color:#e6db74">&#34;avatarfile&#34;</span>, <span style="color:#a6e22e">data</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">uploadAvatar</span>(<span style="color:#a6e22e">formData</span>).<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">response</span> =&gt; {
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">open</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e">// this.options.img = process.env.VUE_APP_BASE_API + response.imgUrl;
+</span></span></span><span style="display:flex;"><span>          <span style="color:#75715e">// 使用OSS
+</span></span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">img</span> <span style="color:#f92672">=</span>  <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">imgUrl</span>;
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#39;SET_AVATAR&#39;</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">img</span>);
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$modal</span>.<span style="color:#a6e22e">msgSuccess</span>(<span style="color:#e6db74">&#34;修改成功&#34;</span>);
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">visible</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>      });
+</span></span><span style="display:flex;"><span>    },
+</span></span></code></pre></div><p>修改完代码后发现图片上传确实成功了，也显示了上传的新头像,但是页面刷新后却不显示了</p>
+<p><code>src/store/modules/user.js</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#75715e">// 获取用户信息
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">GetInfo</span>({ <span style="color:#a6e22e">commit</span>, <span style="color:#a6e22e">state</span> }) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>, <span style="color:#a6e22e">reject</span>) =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">getInfo</span>().<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">res</span> =&gt; {
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">user</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e">//const avatar = (user.avatar == &#34;&#34; || user.avatar == null) ? require(&#34;@/assets/images/profile.jpg&#34;) : process.env.VUE_APP_BASE_API + user.avatar;
+</span></span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">avatar</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">avatar</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">avatar</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>) <span style="color:#f92672">?</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;@/assets/images/profile.jpg&#34;</span>) <span style="color:#f92672">:</span> <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">avatar</span>;
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">roles</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">roles</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) { <span style="color:#75715e">// 验证返回的roles是否是一个非空数组
+</span></span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#39;SET_ROLES&#39;</span>, <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">roles</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#39;SET_PERMISSIONS&#39;</span>, <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">permissions</span>)
+</span></span><span style="display:flex;"><span>          } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#39;SET_ROLES&#39;</span>, [<span style="color:#e6db74">&#39;ROLE_DEFAULT&#39;</span>])
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#39;SET_ID&#39;</span>, <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">userId</span>)
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#39;SET_NAME&#39;</span>, <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">userName</span>)
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#39;SET_AVATAR&#39;</span>, <span style="color:#a6e22e">avatar</span>)
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">res</span>)
+</span></span><span style="display:flex;"><span>        }).<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">error</span> =&gt; {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">reject</span>(<span style="color:#a6e22e">error</span>)
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>      })
+</span></span><span style="display:flex;"><span>    },
+</span></span></code></pre></div><p>通过上面的代码我们发现在获取用户信息的头像时,还是拼接了VUE_APP_BASE_API,去掉之后就正常了！</p>
+<h2 id="再次优化">再次优化<a hidden class="anchor" aria-hidden="true" href="#再次优化">#</a></h2>
+<p>我们按照上面的修改方式，数据库里会存储minio文件服务器的地址，这样如果文件服务器的IP发生了变化，就要修改数据库。过程就会很繁琐，所以可以优化一下，让数据库里只存文件名</p>
+<h3 id="后端部分-1">后端部分<a hidden class="anchor" aria-hidden="true" href="#后端部分-1">#</a></h3>
+<p>文件位置：<code>com/ruoyi/common/utils/file/FileUploadUtils.java</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String <span style="color:#a6e22e">uploadMinino</span>(String bucketName, MultipartFile file, String<span style="color:#f92672">[]</span> allowedExtension)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throws</span> FileSizeLimitExceededException, IOException, FileNameLengthLimitExceededException,
+</span></span><span style="display:flex;"><span>            InvalidExtensionException
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> fileNamelength <span style="color:#f92672">=</span> file.<span style="color:#a6e22e">getOriginalFilename</span>().<span style="color:#a6e22e">length</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (fileNamelength <span style="color:#f92672">&gt;</span> FileUploadUtils.<span style="color:#a6e22e">DEFAULT_FILE_NAME_LENGTH</span>)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> FileNameLengthLimitExceededException(FileUploadUtils.<span style="color:#a6e22e">DEFAULT_FILE_NAME_LENGTH</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        assertAllowed(file, allowedExtension);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            String fileName <span style="color:#f92672">=</span> extractFilename(file);
+</span></span><span style="display:flex;"><span>            String pathFileName <span style="color:#f92672">=</span> MinioUtil.<span style="color:#a6e22e">uploadFile</span>(bucketName, fileName, file);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//          return pathFileName; //注释这里</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> fileName; <span style="color:#75715e">//直接返回文件名,这样数据库里就只存文件名</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">catch</span> (Exception e)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IOException(e.<span style="color:#a6e22e">getMessage</span>(), e);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><h3 id="前端部分-1">前端部分<a hidden class="anchor" aria-hidden="true" href="#前端部分-1">#</a></h3>
+<p>文件位置：<code>.env</code></p>
+<pre tabindex="0"><code>VUE_APP_MINIO_URL = &#39;http://127.0.0.1:9000/ruoyi/&#39;  //添加文件服务器地址及桶名称
+</code></pre><p>其他要改的地方<br>
+之前url将baseUrl从<code>process.env.VUE_APP_BASE_API</code>修改为<code>&quot;&quot;</code><br>
+现在需要将<code>process.env.VUE_APP_BASE_API</code>修改为<code>process.env.VUE_APP_MINIO_URL</code></p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/minio/">Minio</a></li>
+      <li><a href="http://localhost:1313/tags/ruoyi/">Ruoyi</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">青丝蘸白雪i</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

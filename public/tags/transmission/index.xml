@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Transmission on 青丝蘸白雪i</title>
+    <link>http://localhost:1313/tags/transmission/</link>
+    <description>Recent content in Transmission on 青丝蘸白雪i</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 03 Sep 2019 16:50:52 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/transmission/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>修改transmission配置，实现远程访问transmission</title>
+      <link>http://localhost:1313/posts/%E7%BE%A4%E6%99%96/2019-09-03-%E4%BF%AE%E6%94%B9transmission%E9%85%8D%E7%BD%AE%E5%AE%9E%E7%8E%B0%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AE/</link>
+      <pubDate>Tue, 03 Sep 2019 16:50:52 +0000</pubDate>
+      <guid>http://localhost:1313/posts/%E7%BE%A4%E6%99%96/2019-09-03-%E4%BF%AE%E6%94%B9transmission%E9%85%8D%E7%BD%AE%E5%AE%9E%E7%8E%B0%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AE/</guid>
+      <description>&lt;h1 id=&#34;前言&#34;&gt;前言&lt;/h1&gt;
+&lt;p&gt;如果没有修改下面设置也是能打开transmission的web界面，但是你会发现一片空白，提示正在连接服务器。
+transmission实现远程访问要开启rpc-authentication-required&lt;/p&gt;
+&lt;h1 id=&#34;设置方法&#34;&gt;设置方法&lt;/h1&gt;
+&lt;p&gt;找到transmission安装目录内的settings.json文件
+使用notepad++或者sublime等文本编辑软件打开
+修改以下地方：（大约在第43行开始）
+1.将rpc-authentication-required和rpc-enabled修改为true，启用认证功能
+2.rpc-username后设置为你的登录用户名
+3.rpc-password后设置为你的密码
+4.其他的就按下面的配置修改即可&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;    &amp;#34;rpc-authentication-required&amp;#34;: true,
+    &amp;#34;rpc-bind-address&amp;#34;: &amp;#34;0.0.0.0&amp;#34;,
+    &amp;#34;rpc-enabled&amp;#34;: true,
+    &amp;#34;rpc-host-whitelist&amp;#34;: &amp;#34;&amp;#34;,
+    &amp;#34;rpc-host-whitelist-enabled&amp;#34;: true,
+    &amp;#34;rpc-password&amp;#34;: &amp;#34;123456&amp;#34;,
+    &amp;#34;rpc-port&amp;#34;: 9091,
+    &amp;#34;rpc-url&amp;#34;: &amp;#34;/transmission/&amp;#34;,
+    &amp;#34;rpc-username&amp;#34;: &amp;#34;admin&amp;#34;,
+    &amp;#34;rpc-whitelist&amp;#34;: &amp;#34;&amp;#34;,
+    &amp;#34;rpc-whitelist-enabled&amp;#34;: false,
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这个配置的用户名为admin 密码为123456
+注：密码修改后重启transmission，然后打开settings.json文件，rpc-password会变成了一串加密密钥。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

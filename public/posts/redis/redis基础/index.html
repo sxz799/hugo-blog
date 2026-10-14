@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Redis基础 | 青丝蘸白雪i</title>
+<meta name="keywords" content="redis">
+<meta name="description" content="Redis是什么？
+Redis是一个使用 C 语言编写的，高性能非关系型的键值对数据库。与传统数据库不同的是，Redis 的数据是存在内存中的，所以读写速度非常快，被广泛应用于缓存方向。Redis可以将数据写入磁盘中，保证了数据的安全不丢失，而且Redis的操作是原子性的。">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/redis/redis%E5%9F%BA%E7%A1%80/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/redis/redis%E5%9F%BA%E7%A1%80/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="青丝蘸白雪i (Alt + H)">青丝蘸白雪i</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Redis基础
+    </h1>
+    <div class="post-meta">
+
+<span title='2023-02-19 10:50:23 +0800 CST'>February 19, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><h3 id="redis是什么">Redis是什么？<a hidden class="anchor" aria-hidden="true" href="#redis是什么">#</a></h3>
+<p>Redis是一个使用 C 语言编写的，高性能<strong>非关系型的键值对数据库</strong>。与传统数据库不同的是，Redis 的数据是存在<strong>内存</strong>中的，所以读写速度非常快，被广泛应用于<strong>缓存</strong>方向。Redis可以将数据写入磁盘中，保证了数据的安全不丢失，而且Redis的操作是<strong>原子性</strong>的。</p>
+<h3 id="redis常用数据结构">Redis常用数据结构<a hidden class="anchor" aria-hidden="true" href="#redis常用数据结构">#</a></h3>
+<h4 id="基本数据类型">基本数据类型<a hidden class="anchor" aria-hidden="true" href="#基本数据类型">#</a></h4>
+<ol>
+<li>字符串（String）</li>
+<li>哈希(Hash)</li>
+<li>列表（list）</li>
+<li>集合（set）</li>
+<li>有序集合（ZSET）。</li>
+</ol>
+<h4 id="特殊的数据类型">特殊的数据类型：<a hidden class="anchor" aria-hidden="true" href="#特殊的数据类型">#</a></h4>
+<ol>
+<li>
+<p>Bitmap：位图，可以认为是一个以位为单位数组，数组中的每个单元只能存0或者1，数组的下标在 Bitmap 中叫做偏移量。Bitmap的长度与集合中元素个数无关，而是与基数的上限有关。</p>
+</li>
+<li>
+<p>Hyperloglog。HyperLogLog 是用来做基数统计的算法，其优点是，在输入元素的数量或者体积非常非常大时，计算基数所需的空间总是固定的、并且是很小的。典型的使用场景是统计独立访客。</p>
+</li>
+<li>
+<p>Geospatial ：主要用于存储地理位置信息，并对存储的信息进行操作，适用场景如定位、附近的人等。</p>
+</li>
+</ol>
+<h3 id="redis常用命令">Redis常用命令<a hidden class="anchor" aria-hidden="true" href="#redis常用命令">#</a></h3>
+<h4 id="set">SET<a hidden class="anchor" aria-hidden="true" href="#set">#</a></h4>
+<p>set key value  <code>set abc 123</code></p>
+<p>常用参数
+<code>set key value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL]</code></p>
+<blockquote>
+<p>NX : 键不存在才可以设置成功<br>
+XX : 键存在才可以设置成功<br>
+EX|PX|EXAT|PXAT : 设置过期时间 秒 毫秒 秒时间戳 毫秒时间戳<br>
+KEEPTTL：保留设置前指定键的生存时间 (6.0版本添加的可选参数)
+GET：返回指定键原本的值，若键不存在时返回nil</p>
+</blockquote>
+<h4 id="get">GET<a hidden class="anchor" aria-hidden="true" href="#get">#</a></h4>
+<p>get key <code>get abc</code></p>
+<h4 id="getset">GETSET<a hidden class="anchor" aria-hidden="true" href="#getset">#</a></h4>
+<p>GETSET命令用于设置键值对的值并返回旧值，若键值对不存在则返回nil。若键存在但不为字符串类型，则返回错误。</p>
+<p>getset key value <code>getset abc 123</code></p>
+<p>DEL命令被用于删除指定的一个或多个键值对，当其中某个键值对不存在时将被忽略。DEL命令可被用于所有数据类型，不仅限于字符串。</p>
+<h4 id="expire--pexpire">EXPIRE / PEXPIRE<a hidden class="anchor" aria-hidden="true" href="#expire--pexpire">#</a></h4>
+<p>EXPIRE key seconds [NX|XX|GT|LT]</p>
+<pre tabindex="0"><code>NX：只有当key没有设置过期时间，才会执行命令（已经设置过的，不能再设置）
+XX ：只有当key有过期时间，才会执行命令设置（没有设置过的，不能设置）
+GT ：只有当新的过期时间大于当前过期时间时，才会设置（只会增加过期时间）
+LT ：只有当新的过期时间小于当前过期时间时，才会设置（只会减少过期时间）
+</code></pre><p>EXPIRE/PEXPIRE命令被用于设置某个键的过期时间，其值以秒作为单位。当设置过期时间后使用SET（不使用KEEPTTL参数）、GETSET等命令，所设置的过期时间将被覆盖。EXPIRE可被用于所有数据类型，不仅限于字符串。</p>
+<h4 id="ttl--pttl">TTL / PTTL<a hidden class="anchor" aria-hidden="true" href="#ttl--pttl">#</a></h4>
+<p>TTL命令用于获取指定键的剩余生存时间（time to live, TTL），其值以秒作为生存时间的单位。TTL命令可被用于所有数据类型，不仅限于字符串。</p>
+<p>TTL key</p>
+<p>PTTL命令同样用于获取指定键的剩余生存时间，与TTL区别为其以毫秒作为单位。</p>
+<p>PTTL key</p>
+<h4 id="mset">MSET<a hidden class="anchor" aria-hidden="true" href="#mset">#</a></h4>
+<p>mset key value [key value &hellip;]</p>
+<p>MSET命令用于设置一个或多个键值对，该命令永远返回OK。MSET与SET命令相同，都会替代存在的键的值。</p>
+<h4 id="mget">MGET<a hidden class="anchor" aria-hidden="true" href="#mget">#</a></h4>
+<p>mget key [key &hellip;]</p>
+<p>MGET用于获取所有指定的键值。当某个键不存在时，将返回一个特殊的值nil。</p>
+<h4 id="msetnx">MSETNX<a hidden class="anchor" aria-hidden="true" href="#msetnx">#</a></h4>
+<p>MSETNX key value [key value &hellip;]</p>
+<p>MSETNX命令用于设置一个或多个键值对，仅当所有键都不存在时才会执行。同样，MSETNX也具备原子性，所有的键会被一起被设置。</p>
+<p>当所有的键被设置，则返回1<br>
+当所有的键都没有被设置，即至少一个键已存在的情况，则返回0</p>
+<h4 id="getdel">GETDEL<a hidden class="anchor" aria-hidden="true" href="#getdel">#</a></h4>
+<p>GETDEL key</p>
+<p>GETDEL命令是Redis 6.2.0中新增的命令，它用于获取指定键值对的值，并在获取后将其删除（仅限于该键值对类型为字符串时）。</p>
+<h4 id="getex">GETEX<a hidden class="anchor" aria-hidden="true" href="#getex">#</a></h4>
+<p>GETEX key [EX seconds|PX milliseconds|EXAT timestamp|PXAT milliseconds-timestamp|PERSIST]</p>
+<p>GETEX命令支持EX、PX、EXAT、PXAT以及PERSIST，分别为：</p>
+<pre tabindex="0"><code>EX：设置以秒为单位的过期时间
+PX：设置以毫秒为单位的过期时间
+EXAT：设置以秒为单位的UNIX时间戳所对应的时间为过期时间
+PXAT：设置以毫秒为单位的UNIX时间戳所对应的时间为过期时间
+PERSIST：移除键值对关联的过期时间
+</code></pre><h4 id="incr">INCR<a hidden class="anchor" aria-hidden="true" href="#incr">#</a></h4>
+<p>incr命令用于对值做自增操作,返回结果分为三种情况：</p>
+<p>值不是整数,返回错误。</p>
+<p>值是整数，返回自增后的结果。</p>
+<p>键不存在，按照值为0自增,返回结果为1。（会设置键）</p>
+<p>除了incr命令，Redis提供了decr(自减)、 incrby(自增指定数字)、decrby(自减指定数字)、incrbyfloat（自增浮点数)</p>
+<h4 id="append">append<a hidden class="anchor" aria-hidden="true" href="#append">#</a></h4>
+<p>追加</p>
+<pre tabindex="0"><code>127.0.0.1:6379&gt; set a aa
+OK
+127.0.0.1:6379&gt; append a bb
+(integer) 4
+127.0.0.1:6379&gt; get a
+&#34;aabb&#34;
+</code></pre><h4 id="strlen">strlen<a hidden class="anchor" aria-hidden="true" href="#strlen">#</a></h4>
+<pre tabindex="0"><code>127.0.0.1:6379&gt; strlen a
+(integer) 4
+</code></pre><h4 id="setrange">setrange<a hidden class="anchor" aria-hidden="true" href="#setrange">#</a></h4>
+<p>设置指定位置的字符</p>
+<pre tabindex="0"><code>127.0.0.1:6379&gt; get a
+&#34;aabb&#34;
+127.0.0.1:6379&gt; setrange a 2 c
+(integer) 4
+127.0.0.1:6379&gt; set a
+(error) ERR wrong number of arguments for &#39;set&#39; command
+127.0.0.1:6379&gt; get a
+&#34;aacb&#34;
+</code></pre><h4 id="getrange">getrange<a hidden class="anchor" aria-hidden="true" href="#getrange">#</a></h4>
+<p>截取字符串</p>
+<pre tabindex="0"><code>127.0.0.1:6379&gt; get a
+&#34;aacb&#34;
+127.0.0.1:6379&gt; getrange a 2 3
+&#34;cb&#34;
+</code></pre><h3 id="redis为什么快">Redis为什么快?<a hidden class="anchor" aria-hidden="true" href="#redis为什么快">#</a></h3>
+<ol>
+<li><strong>数据存在内存中</strong>：Redis的数据存在内存中，读写速度非常快，而且Redis的操作是原子性的。</li>
+<li><strong>数据结构简单</strong>：Redis支持的数据结构简单，对数据操作也简单，操作的时间复杂度低。</li>
+<li><strong>单线程</strong>：Redis是单线程的，避免了线程切换的开销。</li>
+<li><strong>非阻塞IO</strong>：Redis使用epoll作为IO多路复用技术，非阻塞IO。</li>
+<li><strong>持久化</strong>：Redis支持数据持久化，可以将数据写入磁盘中，保证了数据的安全不丢失。</li>
+</ol>
+<h3 id="redis的为什么不能做主数据库">Redis的为什么不能做主数据库?<a hidden class="anchor" aria-hidden="true" href="#redis的为什么不能做主数据库">#</a></h3>
+<ol>
+<li><strong>数据存储在内存中</strong>：Redis的数据存储在内存中，内存的容量有限，无法存储大量数据。</li>
+<li><strong>单线程</strong>：Redis是单线程的，无法充分利用多核CPU的优势。</li>
+<li><strong>持久化</strong>：Redis的持久化机制不够完善，无法保证数据的安全不丢失。</li>
+<li><strong>数据结构简单</strong>：Redis支持的数据结构简单，无法支持复杂的查询操作。</li>
+<li><strong>非关系型数据库</strong>：Redis是非关系型数据库，不支持SQL查询。</li>
+</ol>
+<h3 id="redis的线程模型">Redis的线程模型？<a hidden class="anchor" aria-hidden="true" href="#redis的线程模型">#</a></h3>
+<p>Redis基于Reactor模式开发了网络事件处理器，这个处理器被称为文件事件处理器。它的组成结构为4部分：<code>多个套接字</code>、<code>IO多路复用程序</code>、<code>文件事件分派器</code>、<code>事件处理器</code>。
+因为文件事件分派器队列的消费是单线程的，所以Redis才叫单线程模型。</p>
+<ul>
+<li>文件事件处理器使用I/O多路复用（multiplexing）程序来同时监听多个套接字， 并根据套接字目前执行的任务来为套接字关联不同的事件处理器。</li>
+<li>当被监听的套接字准备好执行连接accept、read、write、close等操作时， 与操作相对应的文件事件就会产生， 这时文件事件处理器就会调用套接字之前关联好的事件处理器来处理这些事件。</li>
+</ul>
+<p>虽然文件事件处理器以单线程方式运行， 但通过使用 I/O 多路复用程序来监听多个套接字， 文件事件处理器既实现了高性能的网络通信模型， 又可以很好地与 redis 服务器中其他同样以单线程方式运行的模块进行对接， 这保持了 Redis 内部单线程设计的简单性</p>
+<h3 id="redis应用场景有哪些">Redis应用场景有哪些？<a hidden class="anchor" aria-hidden="true" href="#redis应用场景有哪些">#</a></h3>
+<ol>
+<li>缓存热点数据，缓解数据库的压力。</li>
+<li>利用 Redis 原子性的自增操作，可以实现计数器的功能，比如统计用户点赞数、用户访问数等。</li>
+<li>分布式锁。在分布式场景下，无法使用单机环境下的锁来对多个节点上的进程进行同步。可以使用 Redis 自带的 SETNX 命令实现分布式锁，除此之外，还可以使用官方提供的 RedLock 分布式锁实现。</li>
+<li>简单的消息队列，可以使用Redis自身的发布/订阅模式或者List来实现简单的消息队列，实现异步操作。</li>
+<li>限速器，可用于限制某个用户访问某个接口的频率，比如秒杀场景用于防止用户快速点击带来不必要的压力。</li>
+<li>好友关系，利用集合的一些命令，比如交集、并集、差集等，实现共同好友、共同爱好之类的功能。</li>
+</ol>
+<h3 id="memcached和redis的区别">Memcached和Redis的区别？<a hidden class="anchor" aria-hidden="true" href="#memcached和redis的区别">#</a></h3>
+<ol>
+<li>MemCached 数据结构单一，仅用来缓存数据，而 Redis 支持多种数据类型。</li>
+<li>MemCached 不支持数据持久化，重启后数据会消失。Redis 支持数据持久化。</li>
+<li>Redis 提供主从同步机制和 cluster 集群部署能力，能够提供高可用服务。Memcached 没有提供原生的集群模式，需要依靠客户端实现往集群中分片写入数据。</li>
+<li>Redis 的速度比 Memcached 快很多。</li>
+<li>Redis 使用单线程的多路 IO 复用模型，Memcached使用多线程的非阻塞 IO 模型。（Redis6.0引入了多线程IO，用来处理网络数据的读写和协议解析，但是命令的执行仍然是单线程）</li>
+<li>value 值大小不同：Redis 最大可以达到 512M；memcache 只有 1mb。</li>
+</ol>
+<h3 id="为什么要用-redis-而不用-mapguava-做缓存">为什么要用 Redis 而不用 map/guava 做缓存?<a hidden class="anchor" aria-hidden="true" href="#为什么要用-redis-而不用-mapguava-做缓存">#</a></h3>
+<p>使用自带的 map 或者 guava 实现的是本地缓存，最主要的特点是轻量以及快速，生命周期随着 jvm 的销毁而结束，并且在多实例的情况下，每个实例都需要各自保存一份缓存，缓存不具有一致性。</p>
+<p>使用 redis 或 memcached 之类的称为分布式缓存，在多实例的情况下，各实例共用一份缓存数据，缓存具有一致性。</p>
+<h3 id="redis的内存用完了会怎样">Redis的内存用完了会怎样？<a hidden class="anchor" aria-hidden="true" href="#redis的内存用完了会怎样">#</a></h3>
+<p>如果达到设置的上限，Redis的写命令会返回错误信息（但是读命令还可以正常返回）。</p>
+<p>也可以配置内存淘汰机制，当Redis达到内存上限时会冲刷掉旧的内容。</p>
+<h3 id="redis如何做内存优化">Redis如何做内存优化？<a hidden class="anchor" aria-hidden="true" href="#redis如何做内存优化">#</a></h3>
+<p>可以好好利用Hash,list,sorted set,set等集合类型数据，因为通常情况下很多小的Key-Value可以用更紧凑的方式存放到一起。尽可能使用散列表（hashes），散列表（是说散列表里面存储的数少）使用的内存非常小，所以你应该尽可能的将你的数据模型抽象到一个散列表里面。比如你的web系统中有一个用户对象，不要为这个用户的名称，姓氏，邮箱，密码设置单独的key，而是应该把这个用户的所有信息存储到一张散列表里面。</p>
+<h3 id="keys命令存在的问题">keys命令存在的问题？<a hidden class="anchor" aria-hidden="true" href="#keys命令存在的问题">#</a></h3>
+<p>redis的单线程的。keys指令会导致线程阻塞一段时间，直到执行完毕，服务才能恢复。scan采用渐进式遍历的方式来解决keys命令可能带来的阻塞问题，每次scan命令的时间复杂度是，但是要真正实现keys的功能，需要执行多次scan。</p>
+<p>scan的缺点：在scan的过程中如果有键的变化（增加、删除、修改），遍历过程可能会有以下问题：新增的键可能没有遍历到，遍历出了重复的键等情况，也就是说scan并不能保证完整的遍历出来所有的键。</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/redis/">Redis</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">青丝蘸白雪i</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

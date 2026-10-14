@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Samba on 青丝蘸白雪i</title>
+    <link>http://localhost:1313/tags/samba/</link>
+    <description>Recent content in Samba on 青丝蘸白雪i</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 29 Mar 2019 23:15:56 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/samba/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>软路由LEDE系统之samba局域网共享</title>
+      <link>http://localhost:1313/posts/%E8%BD%AF%E8%B7%AF%E7%94%B1/2019-03-29-%E8%BD%AF%E8%B7%AF%E7%94%B1lede%E7%B3%BB%E7%BB%9F%E4%B9%8Bsamba%E5%B1%80%E5%9F%9F%E7%BD%91%E5%85%B1%E4%BA%AB/</link>
+      <pubDate>Fri, 29 Mar 2019 23:15:56 +0000</pubDate>
+      <guid>http://localhost:1313/posts/%E8%BD%AF%E8%B7%AF%E7%94%B1/2019-03-29-%E8%BD%AF%E8%B7%AF%E7%94%B1lede%E7%B3%BB%E7%BB%9F%E4%B9%8Bsamba%E5%B1%80%E5%9F%9F%E7%BD%91%E5%85%B1%E4%BA%AB/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;上周末看油管的时候发现了一款极具性价比的NAS-蜗牛星际。矿渣nas，三月初就开卖了，当时好像200包邮。我入手有点晚所以价格也高一些。290包邮。不过卖家给改好了双千兆网络。虽然是矿渣，但我这台内部没有多少灰尘。只有风扇上有灰。应该没运行多久。到手后由于没4有显示器和电源线。就去楼下电脑维修店买了根电源线，顺便借老板显示器装了系统。
+很久之前就想入手软路由了，但是动不动就上千的售价实在是难以接受。看到这个性价比还不错的就入手了。之前用的是k2p。没有usb接口，局域网共享就很难实现，而且就算有U盘，24小时工作也承受不了。现在终于可以好好享受一下samba带来的便携了。后期应该还会安装黑群辉实现更多的功能。
+如果你的软路由主板usb借了移动硬盘或者sata口连接了机械硬盘，这一步是不需要做的。
+蜗牛星际主板上带了一个16G的固态硬盘。性能极差。和3.0的U盘速度差不多。装lede还勉强可以接受。现在没有硬盘也只能用这个来代替了。
+我安装的是&lt;a href=&#34;http://koolshare.cn/portal.php&#34;&gt;koolshare论坛&lt;/a&gt;的lede系统，酷软中心很多插件，还是挺好用的。
+&lt;!-- raw HTML omitted --&gt;
+注：本文借鉴了koolshare论坛的两个帖子 这里简单做了一些总结，和一些自己的经验&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://koolshare.cn/thread-154153-1-1.html&#34;&gt;http://koolshare.cn/thread-154153-1-1.html&lt;/a&gt;
+&lt;a href=&#34;http://koolshare.cn/forum.php?mod=viewthread&amp;amp;tid=110543&amp;amp;highlight=samba&#34;&gt;http://koolshare.cn/forum.php?mod=viewthread&amp;amp;tid=110543&amp;amp;highlight=samba&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;一为安装盘剩余的空间创建新分区&#34;&gt;一、为安装盘剩余的空间创建新分区&lt;/h2&gt;
+&lt;p&gt;如果你的软路由主板usb借了移动硬盘或者sata口连接了机械硬盘，这一步是不需要做的。&lt;/p&gt;
+&lt;h3 id=&#34;先运行分区工具&#34;&gt;先运行分区工具&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;fdisk /dev/sda&lt;/code&gt;
+&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;h3 id=&#34;输入p查看当前分区&#34;&gt;输入p查看当前分区&lt;/h3&gt;
+&lt;!-- raw HTML omitted --&gt;</description>
+    </item>
+  </channel>
+</rss>

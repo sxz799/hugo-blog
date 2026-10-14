@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Go基础 on 青丝蘸白雪i</title>
+    <link>http://localhost:1313/categories/go%E5%9F%BA%E7%A1%80/</link>
+    <description>Recent content in Go基础 on 青丝蘸白雪i</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 03 Sep 2022 20:08:11 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/go%E5%9F%BA%E7%A1%80/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go语言实现RPC跨平台服务</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-09-03-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0rpc%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%9C%8D%E5%8A%A1/</link>
+      <pubDate>Sat, 03 Sep 2022 20:08:11 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-09-03-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0rpc%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%9C%8D%E5%8A%A1/</guid>
+      <description>&lt;h3 id=&#34;什么是rpc-服务&#34;&gt;什么是RPC 服务&lt;/h3&gt;
+&lt;p&gt;RPC，也就是&lt;strong&gt;远程过程调用&lt;/strong&gt;，是分布式系统中不同节点调用的方式（进程间通信），属于 C/S 模式。RPC 由客户端发起，调用服务端的方法进行通信，然后服务端把结果返回给客户端。&lt;/p&gt;
+&lt;p&gt;RPC的核心有两个：&lt;strong&gt;通信协议&lt;/strong&gt;和&lt;strong&gt;序列化&lt;/strong&gt;。在 HTTP 2 之前，一般采用自定义 TCP 协议的方式进行通信，HTTP 2 出来后，也有采用该协议的，比如流行的gRPC。&lt;/p&gt;
+&lt;p&gt;序列化和反序列化是&lt;strong&gt;一种把传输内容编码和解码&lt;/strong&gt;的方式，常见的编解码方式有 JSON、Protobuf 等。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go语言RESTfulAPI服务</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-09-03-%E8%BD%ACgo%E8%AF%AD%E8%A8%80restful-api-%E6%9C%8D%E5%8A%A1/</link>
+      <pubDate>Sat, 03 Sep 2022 15:28:43 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-09-03-%E8%BD%ACgo%E8%AF%AD%E8%A8%80restful-api-%E6%9C%8D%E5%8A%A1/</guid>
+      <description>&lt;p&gt;使用G语言编写 RESTful API 和 RPC 服务。在实际开发项目中，编写的这些服务可以被其他服务使用，这样就组成了微服务的架构；也可以被前端调用，这样就可以前后端分离。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go语言模块化管理与协作开发</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-09-01-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9D%97%E5%8C%96%E7%AE%A1%E7%90%86%E4%B8%8E%E5%8D%8F%E4%BD%9C%E5%BC%80%E5%8F%91/</link>
+      <pubDate>Thu, 01 Sep 2022 21:55:07 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-09-01-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9D%97%E5%8C%96%E7%AE%A1%E7%90%86%E4%B8%8E%E5%8D%8F%E4%BD%9C%E5%BC%80%E5%8F%91/</guid>
+      <description>&lt;p&gt;任何业务，都是从简单向复杂演进的。而在业务演进的过程中，技术是从单体向多模块、多服务演进的。技术的这种演进方式的核心目的是复用代码、提高效率。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go语言代码检查和优化</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-30-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E4%BB%A3%E7%A0%81%E6%A3%80%E6%9F%A5%E5%92%8C%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Tue, 30 Aug 2022 20:40:16 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-30-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E4%BB%A3%E7%A0%81%E6%A3%80%E6%9F%A5%E5%92%8C%E4%BC%98%E5%8C%96/</guid>
+      <description>&lt;h2 id=&#34;代码规范检查&#34;&gt;代码规范检查&lt;/h2&gt;
+&lt;h3 id=&#34;什么是代码规范检查&#34;&gt;什么是代码规范检查&lt;/h3&gt;
+&lt;p&gt;代码规范检查，顾名思义，是从 Go 语言层面出发，依据 Go 语言的规范，对你写的代码进行的&lt;strong&gt;静态扫描检查&lt;/strong&gt;，这种检查和你的业务无关。&lt;/p&gt;
+&lt;p&gt;比如你定义了个常量，从未使用过，虽然对代码运行并没有造成什么影响，但是这个常量是可以删除的，代码如下所示：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Golang&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>Go语言单元测试</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-29-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</link>
+      <pubDate>Mon, 29 Aug 2022 20:56:10 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-29-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</guid>
+      <description>&lt;h2 id=&#34;单元测试&#34;&gt;单元测试&lt;/h2&gt;
+&lt;h3 id=&#34;什么是单元测试&#34;&gt;什么是单元测试&lt;/h3&gt;
+&lt;p&gt;顾名思义，单元测试强调的是对单元进行测试。在开发中，一个单元可以是&lt;strong&gt;一个函数&lt;/strong&gt;、&lt;strong&gt;一个模块&lt;/strong&gt;等。一般情况下，你要测试的单元应该是一个完整的&lt;strong&gt;最小单元&lt;/strong&gt;，比如 Go 语言的函数。这样的话，当每个最小单元都被验证通过，那么整个模块、甚至整个程序就都可以被验证通过。
+单元测试由开发者自己编写，也就是谁改动了代码，谁就要编写相应的单元测试代码以验证本次改动的正确性。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go语言中的Slice</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-29-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84slice/</link>
+      <pubDate>Mon, 29 Aug 2022 09:50:33 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-29-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84slice/</guid>
+      <description>&lt;h3 id=&#34;数组&#34;&gt;数组&lt;/h3&gt;
+&lt;p&gt;几乎所有的编程语言里都存在数组，Go 也不例外。那么为什么 Go 语言除了数组之外又设计了 slice 呢？要想解答这个问题，先来了解数组的局限性。&lt;/p&gt;
+&lt;p&gt;在下面的示例中，a1、a2 是两个定义好的数组，但是它们的类型不一样。变量 a1 的类型是 [1]string，变量 a2 的类型是 [2]string，也就是说数组的大小属于数组类型的一部分，只有数组内部元素类型和大小一致时，这两个数组才是同一类型。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go语言又爱又恨的unsafe</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-28-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%8F%88%E7%88%B1%E5%8F%88%E6%81%A8%E7%9A%84unsafe/</link>
+      <pubDate>Sun, 28 Aug 2022 22:04:55 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-28-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%8F%88%E7%88%B1%E5%8F%88%E6%81%A8%E7%9A%84unsafe/</guid>
+      <description>&lt;p&gt;顾名思义，unsafe 是不安全的。Go 将其定义为这个包名，也是为了让我们尽可能地不使用它。不过虽然不安全，它也有优势，那就是可以绕过 Go 的内存安全机制，直接对内存进行读写。所以有时候出于性能需要，还是会冒险使用它来对内存进行操作。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go语言字符串和结构体之间转换</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-27-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93%E4%B9%8B%E9%97%B4%E8%BD%AC%E6%8D%A2/</link>
+      <pubDate>Sat, 27 Aug 2022 22:58:07 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-27-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93%E4%B9%8B%E9%97%B4%E8%BD%AC%E6%8D%A2/</guid>
+      <description>&lt;p&gt;在web应用调用 API 的时候，需要把 API 返回的 JSON 字符串转换为 struct 结构体，便于操作。那么一个 JSON 字符串是如何转换为 struct 结构体的呢？这就需要用到反射的知识，今天学习基于字符串和结构体之间的转换，一步步地揭开 Go 语言运行时反射的面纱。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go语言中make和new的区别</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-26-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E4%B8%ADmake%E5%92%8Cnew%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
+      <pubDate>Fri, 26 Aug 2022 13:55:59 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-26-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E4%B8%ADmake%E5%92%8Cnew%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
+      <description>&lt;p&gt;程序的运行都需要内存，比如像变量的创建、函数的调用、数据的计算等。所以在需要内存的时候就要申请内存，进行内存分配。在 C/C++ 这类语言中，内存是由开发者自己管理的，需要主动申请和释放，而在 Go 语言中则是由该语言自己管理的，开发者不用做太多干涉，只需要声明变量，Go 语言就会根据变量的类型自动分配相应的内存。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go语言值,引用,指针之间的区别</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-25-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%80%BC%E5%BC%95%E7%94%A8%E6%8C%87%E9%92%88%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
+      <pubDate>Thu, 25 Aug 2022 21:45:06 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-25-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%80%BC%E5%BC%95%E7%94%A8%E6%8C%87%E9%92%88%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;先看一段代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;address&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;province&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;city&lt;/span&gt;     &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;addr&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;address&lt;/span&gt;) &lt;span style=&#34;color:#a6e22e&#34;&gt;String&lt;/span&gt;() &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Sprintf&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;the addr is %s%s&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;addr&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;province&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;addr&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;city&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;add&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;address&lt;/span&gt;{&lt;span style=&#34;color:#a6e22e&#34;&gt;province&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;山东省&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;city&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;济南市&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;printString&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;add&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;printString&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;add&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;printString&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;s&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Stringer&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;s&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;String&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;运行结果&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;：&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;the&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;addr&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;山东省济南市&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;the&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;addr&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;山东省济南市&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>Go语言指针学习</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-24-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E6%8C%87%E9%92%88%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Wed, 24 Aug 2022 21:28:24 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-24-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E6%8C%87%E9%92%88%E5%AD%A6%E4%B9%A0/</guid>
+      <description>&lt;h2 id=&#34;什么是指针&#34;&gt;什么是指针&lt;/h2&gt;
+&lt;p&gt;程序运行时的数据是存放在内存中的，而内存会被抽象为一系列具有连续编号的存储空间，那么每一个存储在内存中的数据都会有一个编号，这个编号就是内存地址。有了这个内存地址就可以找到这个内存中存储的数据，而内存地址可以被赋值给一个指针。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go语言常见的高效并发模式</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-18-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%B8%B8%E8%A7%81%E7%9A%84%E9%AB%98%E6%95%88%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 18 Aug 2022 10:16:25 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-18-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E5%B8%B8%E8%A7%81%E7%9A%84%E9%AB%98%E6%95%88%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;如何用 goroutine、channel、sync包 这些基础元素组成并发模式，更好地编写并发程序。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go语言Context学习笔记</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-16-%E8%BD%ACgo%E8%AF%AD%E8%A8%80context%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 16 Aug 2022 16:16:07 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-16-%E8%BD%ACgo%E8%AF%AD%E8%A8%80context%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>&lt;h3 id=&#34;前言&#34;&gt;前言&lt;/h3&gt;
+&lt;p&gt;之前学习了怎么在所有的协程运行结束后让程序停止。这次学一下怎么让运行中的协程停止。比如我们开了1个协程去监控一个程序，如果我们手动取消监控就要让协程主动停止任务，该怎么实现呢？用 select+channel 做检测！&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go语言中使用sync包控制并发</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-15-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E4%B8%AD%E4%BD%BF%E7%94%A8sync%E5%8C%85%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91/</link>
+      <pubDate>Mon, 15 Aug 2022 20:41:12 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-15-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E4%B8%AD%E4%BD%BF%E7%94%A8sync%E5%8C%85%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91/</guid>
+      <description>&lt;h3 id=&#34;syncmutex-和-syncrwmutex&#34;&gt;sync.Mutex 和 sync.RWMutex&lt;/h3&gt;
+&lt;p&gt;如果同一块内存被多个 goroutine 同时访问，就会产生不知道谁先访问也无法预料最后结果的情况。这就是资源竞争，这块内存可以称为共享的资源。例如下面的代码&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go语言使用channel进行goroutine通信</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-15-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E4%BD%BF%E7%94%A8channel%E8%BF%9B%E8%A1%8Cgoroutine%E9%80%9A%E4%BF%A1/</link>
+      <pubDate>Mon, 15 Aug 2022 10:38:35 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-15-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E4%BD%BF%E7%94%A8channel%E8%BF%9B%E8%A1%8Cgoroutine%E9%80%9A%E4%BF%A1/</guid>
+      <description>&lt;h4 id=&#34;声明channel&#34;&gt;声明channel&lt;/h4&gt;
+&lt;p&gt;channel是go语言中的一种数据类型，也叫通道
+声明方式&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ch&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt;make(&lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;ch : channel的变量名&lt;/li&gt;
+&lt;li&gt;chan : 声明channel的关键字&lt;/li&gt;
+&lt;li&gt;string : channel中存储额数据类型&lt;/li&gt;
+&lt;li&gt;n: 缓冲长度(不填时代表无缓冲)&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>Go语言错误处理笔记</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-14-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sun, 14 Aug 2022 21:54:46 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-14-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0/</guid>
+      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;error&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;interface&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;Error&lt;/span&gt;() &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>Go语言接口学习笔记</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-14-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E6%8E%A5%E5%8F%A3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sun, 14 Aug 2022 19:32:34 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-14-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E6%8E%A5%E5%8F%A3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>&lt;h3 id=&#34;一接口的定义&#34;&gt;一、接口的定义&lt;/h3&gt;
+&lt;p&gt;接口是和调用方的一种约定 是一个高度抽象的类型 不同和具体的实现细节绑定在一起&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go语言中函数和方法的区别</title>
+      <link>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-14-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%87%BD%E6%95%B0%E5%92%8C%E6%96%B9%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
+      <pubDate>Sun, 14 Aug 2022 16:26:28 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang%E5%9F%BA%E7%A1%80/2022-08-14-%E8%BD%ACgo%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%87%BD%E6%95%B0%E5%92%8C%E6%96%B9%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
+      <description>&lt;h2 id=&#34;一函数&#34;&gt;一、函数&lt;/h2&gt;
+&lt;h3 id=&#34;1举个&#34;&gt;1.举个🌰&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sum&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;,&lt;span style=&#34;color:#a6e22e&#34;&gt;b&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;b&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+  </channel>
+</rss>
